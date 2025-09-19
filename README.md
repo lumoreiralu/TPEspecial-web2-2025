@@ -10,8 +10,8 @@ Temática del TPE -> Breve descripción de la temática:
 
 
 El diagrama entidad relación (DER) del modelo de datos planteado (archivo jpeg o pdf):
-<img width="893" height="415" alt="Captura de pantalla 2025-09-18 a la(s) 6 02 20 p  m" src="https://github.com/user-attachments/assets/1ab2aff4-b3c9-44e2-a100-14adbba2d303" />
 
+<img width="636" height="339" alt="Captura de pantalla 2025-09-18 a la(s) 11 41 45 p  m" src="https://github.com/user-attachments/assets/763f5723-74b3-4932-a2af-5a83b9bf06e7" />
 
 El código SQL que genera la base de datos (exportado desde phpMyAdmin)
 
