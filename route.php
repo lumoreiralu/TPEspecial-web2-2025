@@ -1,6 +1,10 @@
 <?php 
-require_once './app/controllers/SellerControler.php';
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once './app/controllers/SaleController.php';
+require_once './app/controllers/SellerControler.php';
 
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']).'/');
 

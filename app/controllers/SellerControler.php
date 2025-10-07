@@ -1,6 +1,6 @@
 <?php
-require_once '../models/SellerModel.php';
-require_once '../views/SellerView.php';
+require_once 'app/models/SellerModel.php';
+require_once 'app/views/SellerView.php';
 
 class SellerControler{
     private $model;

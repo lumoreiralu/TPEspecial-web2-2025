@@ -1,7 +1,7 @@
 <?php
 
-require_once '../models/SaleModel.php';
-require_once '../views/SaleView.php';
+require_once 'app/models/SaleModel.php';
+require_once 'app/views/SaleView.php';
 
 class SaleController{
     private $model;
