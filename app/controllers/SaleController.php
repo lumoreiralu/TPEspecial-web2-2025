@@ -12,7 +12,11 @@ class SaleController{
         $this->view = new SaleView();
     }
 
-    
+    public function showSales(){
+        $sales = $this->model->getAll();
+
+        $this->view->showSales($sales);
+    }
 
 
 }
