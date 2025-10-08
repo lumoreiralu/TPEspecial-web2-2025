@@ -20,6 +20,10 @@ switch($params[0]){
         $controller = new SaleController();
         $controller->showSales();
         break;
+    case 'vendedores':
+        $controller = new SellerControler();
+        $controller->showVendedores();
+        break;
     default:
         echo 'Error!';
         break;

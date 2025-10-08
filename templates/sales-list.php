@@ -1,4 +1,8 @@
 <?php 
 require_once 'templates/layout/header.php';
+    foreach($sales as $sale){
+        echo'Nombre: '. $sale->producto . 
+            "- Precio: " . $sale->precio . "<br>" ;
+    }
 
-echo'entro';
+require_once 'templates/layout/footer.php';

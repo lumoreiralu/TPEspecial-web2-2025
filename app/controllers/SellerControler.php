@@ -11,5 +11,11 @@ class SellerControler{
         $this->view = new SellerView();
     }
 
+    function showVendedores(){
+        $sellers = $this->model->showAll();
+
+        $this->view->showSellers($sellers);
+    }
+
     
 }
