@@ -22,7 +22,16 @@ switch($params[0]){
         break;
     case 'vendedores':
         $controller = new SellerControler();
-        $controller->showVendedores();
+        $controller->showSellers();
+        break;
+    case 'ventas': //por id
+        $controller = new SaleController();
+        if (isset($params[1])) {
+            $id = $params[1];
+            $controller->showSale($id);
+        } else {
+            $controller->showSales();
+        }
         break;
     default:
         echo 'Error!';

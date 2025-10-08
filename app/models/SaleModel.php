@@ -17,4 +17,13 @@ class SaleModel{
 
         return $sales;
     }
+
+    public function showSale($id){
+        $query = $this->db->prepare('SELECT * FROM venta WHERE = ?');
+        $query->execute([$id]);
+
+        $sale = $query->fetch(PDO::FETCH_OBJ);
+
+        return $sale;
+    }
 }

@@ -18,5 +18,11 @@ class SaleController{
         $this->view->showSales($sales);
     }
 
+    public function showSale($id){
+        $sale = $this->model->showSale($id);
+
+        $this->view->showSale($id);
+
+    }
 
 }
