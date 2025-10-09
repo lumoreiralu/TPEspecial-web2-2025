@@ -26,4 +26,11 @@ class SaleModel{
 
         return $sale;
     }
+
+    public function insert($producto, $precio, $vendedor, $fecha){
+        $query = $this->db->prepare('INSERT INTO venta(producto, precio, id_vendedor, fecha) VALUES (?,?,?,?)');
+        $query->execute([$producto, $precio, $vendedor, $fecha]);
+
+        return $this->db->lastInsertId();
+    }
 }

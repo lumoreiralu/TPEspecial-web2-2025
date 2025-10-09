@@ -24,13 +24,21 @@ switch($params[0]){
         $controller = new SellerControler();
         $controller->showSellers();
         break;
-    case 'ventas': //por id
+    case 'venta': //por id
         $controller = new SaleController();
         if (isset($params[1])) {
             $id = $params[1];
             $controller->showSale($id);
         } else {
             $controller->showSales();
+        }
+        break;
+    case 'addVenta':
+        $controller = new SaleController();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->addSale();
+        } else {
+            $controller->showAddSaleForm();
         }
         break;
     default:

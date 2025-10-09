@@ -27,11 +27,12 @@
             <li><a class="dropdown-item" href="home">Home</a></li>
             <li><a class="dropdown-item" href="vendedores">Vendedores</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="ventas">Ventas</a></li>
+            <li><a class="dropdown-item" href="venta">Ventas</a></li>
+            <li><a class="dropdown-item" href="addVenta">Nueva Venta</a></li>
           </ul>
         </li>
       </ul>
-      <form class="d-flex" role="search" action="ventas" method="GET">
+      <form class="d-flex" role="search" action="venta" method="GET">
         <input class="form-control me-2" 
               type="search" 
               name="search" 
