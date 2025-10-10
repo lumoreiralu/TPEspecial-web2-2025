@@ -18,8 +18,18 @@ class SaleModel{
         return $sales;
     }
 
+    // devuelve array de ventas por vendedor
+    public function getSalesById($sellerId){
+        $query = $this->db->prepare('SELECT * FROM `venta` WHERE `id_vendedor` = ? ORDER BY `id_venta` ASC');
+        $query->execute([(int)$sellerId]);
+
+        $sales = $query->fetchAll(PDO::FETCH_OBJ);
+
+        return $sales;
+    }
+
     public function showSale($id){
-        $query = $this->db->prepare('SELECT * FROM venta WHERE = ?');
+        $query = $this->db->prepare('SELECT * FROM venta WHERE = ?'); // ojo, falta 'id_venta' en el WHERE
         $query->execute([$id]);
 
         $sale = $query->fetch(PDO::FETCH_OBJ);

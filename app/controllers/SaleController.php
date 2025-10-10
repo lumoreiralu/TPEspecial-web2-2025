@@ -59,4 +59,9 @@ class SaleController {
         // redirijo al home
         header('Location: ' . BASE_URL);
     }
+
+    public function showSalesByID($sellerId) {
+        $sales = $this->model->getSalesById($sellerId); // pido al modelo todas las ventas por id_vendedor
+        $this->view->showSales($sales); // se reutiliza function showSales()
+    }
 }
