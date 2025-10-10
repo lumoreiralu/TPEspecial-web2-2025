@@ -49,10 +49,10 @@ INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`) VALUES
 --
 
 CREATE TABLE `venta` (
-  `id venta` int(11) NOT NULL,
+  `id_venta` int(11) NOT NULL,
   `producto` varchar(200) NOT NULL,
   `precio` double NOT NULL,
-  `id vendedor` int(11) NOT NULL,
+  `id_vendedor` int(11) NOT NULL,
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -60,7 +60,7 @@ CREATE TABLE `venta` (
 -- Volcado de datos para la tabla `venta`
 --
 
-INSERT INTO `venta` (`id venta`, `producto`, `precio`, `id vendedor`, `fecha`) VALUES
+INSERT INTO `venta` (`id_venta`, `producto`, `precio`, `id_vendedor`, `fecha`) VALUES
 (1, 'mouse', 1500, 1, '2025-09-02'),
 (2, 'teclado con luces', 3000, 2, '2025-08-13');
 
@@ -78,8 +78,8 @@ ALTER TABLE `vendedor`
 -- Indices de la tabla `venta`
 --
 ALTER TABLE `venta`
-  ADD PRIMARY KEY (`id venta`),
-  ADD UNIQUE KEY `id vendedor` (`id vendedor`);
+  ADD PRIMARY KEY (`id_venta`),
+  ADD INDEX `id_vendedor` (`id_vendedor`); -- Estaba como UNIQUE, por lo que no se podian crear nuevas ventas para el mismo vendedor
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -95,7 +95,7 @@ ALTER TABLE `vendedor`
 -- AUTO_INCREMENT de la tabla `venta`
 --
 ALTER TABLE `venta`
-  MODIFY `id venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
@@ -105,7 +105,7 @@ ALTER TABLE `venta`
 -- Filtros para la tabla `venta`
 --
 ALTER TABLE `venta`
-  ADD CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id vendedor`) REFERENCES `vendedor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
