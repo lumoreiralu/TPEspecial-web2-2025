@@ -33,5 +33,8 @@ class SellerController{
         header("Location: " . BASE_URL . "vendedores");
     }
 
-    
+    function deleteSeller($id){
+        $this->model->deleteSeller($id);
+        header("Location: " . BASE_URL . "vendedores");
+    }    
 }

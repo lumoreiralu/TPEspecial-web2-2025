@@ -22,6 +22,7 @@ switch ($params[0]) {
         break;
     case 'vendedores':
         if (!empty($params[1])) { // si me viene un ID de vendedor por GET
+            $id = $params[1];
             $controller = new SaleController();
             $controller->showSalesByID($params[1]); // mando por param el ID de vendedor
             break;
@@ -54,19 +55,20 @@ switch ($params[0]) {
         }
         break;
     case 'updateSeller':
-    if (!empty($params[1])) {
-        $controller = new SellerController();
-        $sellerId = (int)$params[1]; // casteo el id del vendedor
+        if (!empty($params[1])) {
+            $controller = new SellerController();
+            $sellerId = (int)$params[1]; // casteo el id del vendedor
 
-        $controller->updateSeller($sellerId);
-    }
-    break;
-
-
-    /* case 'deleteSeller/:id':
-        $controller = new SellerController();
-        $controller->deleteSeller($params[1]);
-        break; */
+            $controller->updateSeller($sellerId);
+        }
+        break;  
+     case 'deleteSeller':
+        if (!empty($params[1])){
+            $id = (int)$params[1];
+            $controller = new SellerController();
+            $controller->deleteSeller($id);
+            break;
+        }
     default:
         echo 'Error!';
         break;

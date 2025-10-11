@@ -47,7 +47,7 @@ $vendedoresPagina = array_slice($sellers, $inicio, $vendedoresPorPagina);
               <td><?= htmlspecialchars($seller->email) ?></td>
               <td>
                 <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id ?>" class="link-warning text-wrap"> ✏️Editar</a>
-                <a href="<?= BASE_URL ?>vendedores" class="link-danger text-wrap"> ❌Eliminar</a>
+                <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="link-danger text-wrap"> ❌Eliminar</a>
               </td>
             </tr>
           <?php endforeach; ?>
