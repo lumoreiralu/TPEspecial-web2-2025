@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once './app/controllers/SaleController.php';
-require_once './app/controllers/SellerControler.php';
+require_once './app/controllers/SellerController.php';
 
 define('BASE_URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']) . '/');
 
@@ -26,7 +26,7 @@ switch ($params[0]) {
             $controller->showSalesByID($params[1]); // mando por param el ID de vendedor
             break;
         }
-        $controller = new SellerControler();
+        $controller = new SellerController();
         $controller->showSellers();
         break;
     case 'venta': //por id
@@ -46,6 +46,27 @@ switch ($params[0]) {
             $controller->showAddSaleForm();
         }
         break;
+    case 'editarVendedor':
+        if (!empty($params[1])) {
+            $controller = new SellerController();
+            $sellerId = (int)$params[1]; // casteo el id del vendedor
+            $controller->showSellerEditionMenu($sellerId); // le paso el id del vendedor a editar
+        }
+        break;
+    case 'updateSeller':
+    if (!empty($params[1])) {
+        $controller = new SellerController();
+        $sellerId = (int)$params[1]; // casteo el id del vendedor
+
+        $controller->updateSeller($sellerId);
+    }
+    break;
+
+
+    /* case 'deleteSeller/:id':
+        $controller = new SellerController();
+        $controller->deleteSeller($params[1]);
+        break; */
     default:
         echo 'Error!';
         break;
