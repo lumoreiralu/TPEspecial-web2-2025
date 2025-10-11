@@ -25,7 +25,8 @@ $vendedoresPagina = array_slice($sellers, $inicio, $vendedoresPorPagina);
           <th>#</th>
           <th>Nombre</th>
           <th>Teléfono</th>
-          <!-- <th>#</th> -->
+          <th>Correo Electronico</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -43,6 +44,11 @@ $vendedoresPagina = array_slice($sellers, $inicio, $vendedoresPorPagina);
                   </svg><?= htmlspecialchars($seller->nombre) ?></a></td>
 
               <td><?= htmlspecialchars($seller->telefono) ?></td>
+              <td><?= htmlspecialchars($seller->email) ?></td>
+              <td>
+                <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id ?>" class="link-warning text-wrap"> ✏️Editar</a>
+                <a href="<?= BASE_URL ?>vendedores" class="link-danger text-wrap"> ❌Eliminar</a>
+              </td>
             </tr>
           <?php endforeach; ?>
         <?php else: ?>
