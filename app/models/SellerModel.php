@@ -18,4 +18,15 @@ class SellerModel{
 
         return $sellers;
     }
+
+    public function getSellerById($id) {
+        $query  = $this->db->prepare('SELECT * FROM vendedor WHERE id_vendedor = ?');
+        $query->execute([(int)$id]);
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function updateSeller($id, $nombre, $telefono, $email) {
+        $query = $this->db->prepare("UPDATE `vendedor` SET `nombre` = ?, `telefono` = ? , `email` = ? WHERE `vendedor`.`id` = ?");
+        return $query->execute([$nombre, $telefono, $email, $id]);
+    }
 }

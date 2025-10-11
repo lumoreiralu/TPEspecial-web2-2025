@@ -4,4 +4,9 @@ class SellerView{
         $count = count($sellers);
         require_once './templates/sellers-list.php';
     }
+
+    public function showEditMenu($sellerToEdit, $sellers){
+        $count = count($sellers);
+        require_once './templates/sellers-edit-menu.php';
+    }
 }
