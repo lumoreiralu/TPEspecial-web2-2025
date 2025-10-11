@@ -9,4 +9,8 @@ class SellerView{
         $count = count($sellers);
         require_once './templates/sellers-edit-menu.php';
     }
+
+    public function showFormAddSeller(){
+        require_once './templates/form-addSeller.phtml';
+    }
 }

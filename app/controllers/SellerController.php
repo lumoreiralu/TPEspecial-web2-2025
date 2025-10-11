@@ -36,5 +36,14 @@ class SellerController{
     function deleteSeller($id){
         $this->model->delete($id);
         header("Location: " . BASE_URL . "vendedores");
-    }    
+    }
+    
+    function addSeller($seller) {
+        $nombre = $_POST['nombre'];
+        $telefono = $_POST['telefono'];
+        $email = $_POST['email']; 
+
+        $this->model->insert($nombre, $telefono, $email);
+        header("Location: " . BASE_URL . "vendedores");
+    }
 }

@@ -35,5 +35,8 @@ class SellerModel{
         $query->execute([$id]);
     }
 
-
+    public function insert($nombre, $telefono, $email) {
+        $query = $this->db->prepare("INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`) VALUES (NULL, ?, ?, ?)");
+        $query->execute([$nombre, $telefono, $email]);
+    }
 }
