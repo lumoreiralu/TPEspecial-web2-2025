@@ -25,13 +25,15 @@ class SellerModel{
         return $query->fetch(PDO::FETCH_OBJ);
     }
 
-    public function updateSeller($id, $nombre, $telefono, $email) {
+    public function update($id, $nombre, $telefono, $email) {
         $query = $this->db->prepare("UPDATE `vendedor` SET `nombre` = ?, `telefono` = ? , `email` = ? WHERE `vendedor`.`id` = ?");
         return $query->execute([$nombre, $telefono, $email, $id]);
     } 
 
-    public function deleteSeller($id) {
+    public function delete($id) {
         $query = $this->db->prepare("DELETE FROM vendedor WHERE `vendedor`.`id` = ?");
         $query->execute([$id]);
     }
+
+
 }

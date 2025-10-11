@@ -28,13 +28,13 @@ class SellerController{
         $telefono = $_POST['telefono'];
         $email = $_POST['email'];        
         
-        $this->model->updateSeller($id, $nombre, $telefono, $email);
+        $this->model->update($id, $nombre, $telefono, $email);
     
         header("Location: " . BASE_URL . "vendedores");
     }
 
     function deleteSeller($id){
-        $this->model->deleteSeller($id);
+        $this->model->delete($id);
         header("Location: " . BASE_URL . "vendedores");
     }    
 }
