@@ -39,7 +39,7 @@ $vendedoresPagina = array_slice($sellers, $inicio, $vendedoresPorPagina);
                 <tr>
                   <td><?= $inicio + $index + 1 ?></td>
                   <td><input type="text" name="nombre" value="<?= htmlspecialchars($seller->nombre) ?>" required></td>                  
-                  <td><input type="tel" name="telefono" value="<?= htmlspecialchars($seller->telefono) ?>" required></td>
+                  <td><input type="text" name="telefono" value="<?= htmlspecialchars($seller->telefono) ?>" pattern="\d*" required></td>
                   <td><input type="email" name="email" value="<?= htmlspecialchars($seller->email) ?>" required></td>
                   <td><button class="btn btn-outline-success">💾Guardar</button></td>
                 </tr>
