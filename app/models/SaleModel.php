@@ -1,14 +1,6 @@
 <?php
-
-class SaleModel{
-    private $db;
-
-    function __construct(){
-
-        $this->db = new PDO('mysql:host=localhost;dbname=db_tiendaComputacion;charset=utf8', 'root', '');
-   
-    }
-
+require_once 'Model.php';
+class SaleModel extends Model{ 
     public function getAll(){
         $query = $this->db->prepare('SELECT * FROM venta');
         $query->execute();
