@@ -73,12 +73,12 @@ $vendedoresPagina = array_slice($sellers, $inicio, $vendedoresPorPagina);
 
         <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
           <li class="page-item <?= ($paginaActual == $i) ? 'active' : '' ?>">
-            <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+            <a class="page-link" href="vendedores/?page=<?= $i ?>"><?= $i ?></a>
           </li>
         <?php endfor; ?>
 
         <li class="page-item <?= ($paginaActual >= $totalPaginas) ? 'disabled' : '' ?>">
-          <a class="page-link" href="?page=<?= $paginaActual + 1 ?>" aria-label="Siguiente">
+          <a class="page-link" href="vendedores/?page=<?= $paginaActual + 1 ?>" aria-label="Siguiente">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
