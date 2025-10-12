@@ -47,6 +47,14 @@ switch ($params[0]) {
             $controller->showAddSaleForm();
         }
         break;
+    case 'nuevoVendedor':
+        $controller = new SellerController();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+            $controller->addSeller();
+        else 
+            $controller->showNewSellerForm();
+        
+        break;
     case 'editarVendedor':
         if (!empty($params[1])) {
             $controller = new SellerController();
