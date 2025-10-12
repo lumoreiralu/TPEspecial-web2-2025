@@ -66,7 +66,7 @@ $vendedoresPagina = array_slice($sellers, $inicio, $vendedoresPorPagina);
       <ul class="pagination justify-content-center">
 
         <li class="page-item <?= ($paginaActual <= 1) ? 'disabled' : '' ?>">
-          <a class="page-link" href="?page=<?= $paginaActual - 1 ?>" aria-label="Anterior">
+          <a class="page-link" href="vendedores/?page=<?= $paginaActual - 1 ?>" aria-label="Anterior">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
