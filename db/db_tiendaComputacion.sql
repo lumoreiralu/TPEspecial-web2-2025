@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 19-09-2025 a las 04:43:01
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 25-09-2025 a las 00:04:48
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `db_tiendaComputacion`
+-- Base de datos: `tienda`
 --
 
 -- --------------------------------------------------------
@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `vendedor` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(200) NOT NULL,
-  `telefono` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `telefono` varchar(20) NOT NULL,
   `email` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -39,8 +39,8 @@ CREATE TABLE `vendedor` (
 --
 
 INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`) VALUES
-(1, 'lucia', 111511, 'lucia@tienda.com'),
-(2, 'manuel', 24941511, 'manuel@tienda.com');
+(1, 'lucia', '111511', 'lucia@tienda.com'),
+(2, 'manuel', '24941511', 'manuel@tienda.com');
 
 -- --------------------------------------------------------
 
@@ -51,7 +51,7 @@ INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`) VALUES
 CREATE TABLE `venta` (
   `id_venta` int(11) NOT NULL,
   `producto` varchar(200) NOT NULL,
-  `precio` double NOT NULL,
+  `precio` decimal(10,2) NOT NULL,
   `id_vendedor` int(11) NOT NULL,
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -61,8 +61,8 @@ CREATE TABLE `venta` (
 --
 
 INSERT INTO `venta` (`id_venta`, `producto`, `precio`, `id_vendedor`, `fecha`) VALUES
-(1, 'mouse', 1500, 1, '2025-09-02'),
-(2, 'teclado con luces', 3000, 2, '2025-08-13');
+(1, 'mouse', 1499.99, 1, '2025-09-02'),
+(2, 'teclado con luces', 2999.99, 2, '2025-08-13');
 
 --
 -- Índices para tablas volcadas
@@ -79,7 +79,7 @@ ALTER TABLE `vendedor`
 --
 ALTER TABLE `venta`
   ADD PRIMARY KEY (`id_venta`),
-  ADD INDEX `id_vendedor` (`id_vendedor`); -- Estaba como UNIQUE, por lo que no se podian crear nuevas ventas para el mismo vendedor
+  ADD KEY `id_vendedor` (`id_vendedor`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
