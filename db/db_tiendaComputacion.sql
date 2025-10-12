@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-09-2025 a las 00:04:48
+-- Tiempo de generación: 12-10-2025 a las 09:34:41
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `tienda`
+-- Base de datos: `db_tiendacomputacion`
 --
 
 -- --------------------------------------------------------
@@ -40,7 +40,8 @@ CREATE TABLE `vendedor` (
 
 INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`) VALUES
 (1, 'lucia', '111511', 'lucia@tienda.com'),
-(2, 'manuel', '24941511', 'manuel@tienda.com');
+(2, 'manuel', '24941511', 'manuel@tienda.com'),
+(4, 'webadmin', '2494000001', 'web@admin.com');
 
 -- --------------------------------------------------------
 
@@ -62,7 +63,11 @@ CREATE TABLE `venta` (
 
 INSERT INTO `venta` (`id_venta`, `producto`, `precio`, `id_vendedor`, `fecha`) VALUES
 (1, 'mouse', 1499.99, 1, '2025-09-02'),
-(2, 'teclado con luces', 2999.99, 2, '2025-08-13');
+(2, 'teclado con luces', 2999.99, 2, '2025-08-13'),
+(3, 'Notebook', 599999.99, 1, '2025-10-08'),
+(4, 'Monitor', 357499.00, 2, '2025-10-08'),
+(5, 'Webcam', 80000.00, 1, '2025-10-09'),
+(6, 'CPU', 700000.00, 4, '2025-10-11');
 
 --
 -- Índices para tablas volcadas
@@ -89,13 +94,13 @@ ALTER TABLE `venta`
 -- AUTO_INCREMENT de la tabla `vendedor`
 --
 ALTER TABLE `vendedor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `venta`
 --
 ALTER TABLE `venta`
-  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas
