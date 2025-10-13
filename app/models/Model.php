@@ -2,35 +2,50 @@
 require_once __DIR__ . '/../config/config.php';
 class Model
 {
+    // variable de conexion compartida
+    protected static $pdo; 
+
+    // variable usada por las instancias
     protected $db;
 
     public function __construct()
     {
-        try {
-            // Se conecta al server
-            $this->db = new PDO(
-                "mysql:host=" . MYSQL_HOST . ";charset=utf8",
-                MYSQL_USER,
-                MYSQL_PASS
-            );
-            // Si no existe db, inicializa una
-            $this->db->exec("CREATE DATABASE IF NOT EXISTS `" . MYSQL_DB . "` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci");
-            // Se conecta a la nueva db
-            $this->db = new PDO(
-                "mysql:host=" . MYSQL_HOST . ";dbname=" . MYSQL_DB . ";charset=utf8mb4",
-                MYSQL_USER,
-                MYSQL_PASS
-            );
-            $this->deploy();
-        } catch (\PDOException $e) {
-            die("Error en la conexión o creación de DB: " . $e->getMessage());
+        // si no existe una conexion
+        if (!self::$pdo) {
+            try {
+                // Se conecta al server
+                self::$pdo = new PDO(
+                    "mysql:host=" . MYSQL_HOST . ";charset=utf8",
+                    MYSQL_USER,
+                    MYSQL_PASS
+                );
+
+                // Si no existe db, inicializa una
+                self::$pdo->exec("CREATE DATABASE IF NOT EXISTS `" . MYSQL_DB . "` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci");
+
+                // Se conecta a la nueva db
+                self::$pdo = new PDO(
+                    "mysql:host=" . MYSQL_HOST . ";dbname=" . MYSQL_DB . ";charset=utf8mb4",
+                    MYSQL_USER,
+                    MYSQL_PASS
+                );
+                $this->deploy();
+            } catch (\PDOException $e) {
+                die("Error en la conexión o creación de DB: " . $e->getMessage());
+            }
         }
+        // le asigna a la variable de instancia la conexion existente
+        $this->db = self::$pdo;
+
     } 
-    // Nota: cada vez que se instancia un controlador se ejecuta una nueva conexion -> revisar mas adelante este comportamiento
+    // (solucionado) Nota: cada vez que se instancia un controlador se ejecuta una nueva conexion -> revisar mas adelante este comportamiento
+    // update: solucionado con la implementacion de static $pdo
 
 
     private function deploy()
     {
+        $this->db = self::$pdo;
+
         // Verifica si la base de datos tiene tablas
         $query = $this->db->query("SHOW TABLES");
         $tables = $query->fetchAll();
@@ -61,6 +76,7 @@ class Model
                 CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;",
         );
+        // inserta datos a las tablas
         $this->db->exec(
             "INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`) VALUES
             (1, 'lucia', '111511', 'lucia@tienda.com'),
