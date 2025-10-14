@@ -1,6 +1,6 @@
 <?php
-require_once 'app/models/AuthModel.php';
-require_once 'app/views/AuthView.php';
+require_once 'app/models/UserModel.php';
+require_once 'app/views/UserView.php';
 class AuthController{
     private $model;
     private $view;
@@ -14,17 +14,31 @@ class AuthController{
         return $this->view->showLogin();
     }
 
-    public function login(){
-        if((!isset($_POST['user']))||(empty($_POS['user']))){
-            return $this->view->showError('Falta completar el nombre de usuario');
-        }
-        if(!isset($_POST['password'])||(empty($_POST['password']))){
-            return $this->view->showError('Falta completar la contraseña');
-        }
-        $user = $_POST['user'];
-        $password = $_POST['password'];
 
-        $usserFromDB = $this->model->getUser($user);
+    public function login() {
 
+        if (isset($_POST['user']) && isset($_POST['password'])) {
+            $user = $_POST['user'];
+            $password = $_POST['password'];
+    
+
+            $userFromDB = $this->model->getUserByUsername($user); 
+    
+            if ($userFromDB && password_verify($password, $userFromDB->password)) {
+
+                $_SESSION['ID_VENDEDOR'] = $userFromDB->id_vendedor; // ID del vendedor/user
+                $_SESSION['USUARIO_VENDEDOR'] = $userFromDB->usuario; // user del vendedor
+                $_SESSION['ROL_VENDEDOR'] = $userFromDB->rol;  // Guardar el rol del vendedor/user (por ejemplo, 'admin' o 'vendedor')
+                $_SESSION['LAST_ACTIVITY'] = time(); // Tiempo de la última actividad 
+
+
+                header('Location: ' . BASE_URL);
+                exit(); 
+            } else {
+                return $this->view->showLogin('Credenciales incorrectas');
+            }
+        } else {
+            return $this->view->showLogin('Por favor, ingrese sus credenciales.');
+        }
     }
 }
