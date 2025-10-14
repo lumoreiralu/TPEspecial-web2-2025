@@ -12,7 +12,7 @@ class SaleController {
     function __construct() {
         $this->model = new SaleModel();
         $this->view = new SaleView();
-        $this->modelSeller = new SellerModel(); // 🔹 Instanciamos el modelo de vendedores
+        $this->modelSeller = new SellerModel();
     }
 
     public function showSales() {
