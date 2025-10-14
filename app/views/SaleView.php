@@ -2,7 +2,7 @@
 class SaleView{
     public function showSales($sales){
         $count = count($sales);
-        require_once './templates/sales-list.php';
+        require_once './templates/sales-list.phtml';
     }
 
     public function showSale($sale){
@@ -14,7 +14,7 @@ class SaleView{
     }
 
     public function showAddSaleForm($sellers) {
-        require 'templates/form-addSale.php';
+        require 'templates/form-addSale.phtml';
     }
     
 }
