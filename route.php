@@ -5,6 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once './app/controllers/SaleController.php';
 require_once './app/controllers/SellerController.php';
+session_start();
 
 define('BASE_URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']) . '/');
 
@@ -47,7 +48,7 @@ switch ($params[0]) {
             $controller->showAddSaleForm();
         }
         break;
-    case 'updateVenta':
+    case 'updateSale':
         if(!empty($params[1])){
             $id = $params[1];
             $controller = new SaleController();

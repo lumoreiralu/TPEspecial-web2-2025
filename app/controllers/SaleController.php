@@ -64,4 +64,20 @@ class SaleController {
         $sales = $this->model->getSalesById($sellerId); // pido al modelo todas las ventas por id_vendedor
         $this->view->showSales($sales); // se reutiliza function showSales()
     }
+
+    public function updateSale($id){
+        $producto = $_POST['producto'];
+        $precio = $_POST['precio'];
+        $fecha = $_POST['fecha'];        
+        
+        $this->model->updateSale($id, $producto, $precio, $fecha);
+    
+        $this->view->showMessageConfirm("Venta Editada");
+    }
+
+    public function deleteSale($id){
+        $this->model->deleteSale($id);
+        $this->view->showMessageConfirm("Venta Elimina");
+    }
+
 }
