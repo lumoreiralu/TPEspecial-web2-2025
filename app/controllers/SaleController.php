@@ -75,6 +75,12 @@ class SaleController {
         $this->view->showMessageConfirm("Venta Editada");
     }
 
+    public function showFormUpdate($id) {
+        $sale = $this->model->getSalesById($id);
+        $this->view->showEditSaleForm($sale);
+    }
+    
+
     public function deleteSale($id){
         $this->model->deleteSale($id);
         $this->view->showMessageConfirm("Venta Elimina");

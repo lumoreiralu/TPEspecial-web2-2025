@@ -40,4 +40,5 @@ class SaleModel extends Model{
         $query = $this->db->prepare('UPDATE venta SET `producto`= ? ,`precio`= ?, `fecha`=? WHERE `id_venta` = ?');
         return $query->execute([$producto, $precio, $fecha, $id]);
     }
+
 }

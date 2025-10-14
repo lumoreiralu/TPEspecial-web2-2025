@@ -21,6 +21,7 @@ class SellerModel extends Model{
         return $query->execute([$nombre, $telefono, $email, $id]);
     } 
 
+
     public function delete($id) {
         $query = $this->db->prepare("DELETE FROM vendedor WHERE `vendedor`.`id` = ?");
         $query->execute([$id]);

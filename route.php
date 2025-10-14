@@ -48,6 +48,15 @@ switch ($params[0]) {
             $controller->showAddSaleForm();
         }
         break;
+        case 'editarVenta':
+            $controller = new SaleController();
+            if (!empty($params[1])) {
+                $id = $params[1];
+                $controller->showFormUpdate($id);
+            } else {
+                echo "ID no especificado"; //luego borrar
+            }
+            break;
     case 'updateSale':
         if(!empty($params[1])){
             $id = $params[1];

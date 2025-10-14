@@ -50,7 +50,7 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
               <td><?= htmlspecialchars($sale->producto) ?></td>
               <td>$<?= number_format($sale->precio, 2, ',', '.') ?></td>
               <td>
-                <a href="<?= BASE_URL ?>updateSale/<?= $sale->id ?>" class="btn btn-warning btn-sm">Editar</a>
+                <a href="<?= BASE_URL ?>editarVenta/<?= $sale->id ?>" class="btn btn-warning btn-sm">Editar</a>
               </td>
               <td>
                   <form action="deleteSale" method="POST" class="d-inline">

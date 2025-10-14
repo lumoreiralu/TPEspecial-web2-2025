@@ -35,5 +35,9 @@ class SaleView{
     public function showAddSaleForm($sellers) {
         require 'templates/form-addSale.phtml';
     }
+
+    public function showEditSaleForm($sale){
+        require_once 'templates/form-edit-sale.phtml';
+    }
     
 }
