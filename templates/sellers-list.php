@@ -22,6 +22,11 @@ if ($paginaActual > $totalPaginas)
 
 $inicio = ($paginaActual - 1) * $vendedoresPorPagina;
 $vendedoresPagina = array_slice($sellers, $inicio, $vendedoresPorPagina);
+
+if ($paginaActual>1)
+  $pagina = "?page=" . "$paginaActual";
+else 
+  $pagina = "";
 ?>
 
 <div class="container my-5">
@@ -49,7 +54,7 @@ $vendedoresPagina = array_slice($sellers, $inicio, $vendedoresPorPagina);
               <td><?= htmlspecialchars($seller->telefono) ?></td>
               <td><?= htmlspecialchars($seller->email) ?></td>
               <td>
-                <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id ?>" class="link-warning text-wrap"> ✏️Editar</a>
+                <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id . $pagina?>" class="link-warning text-wrap"> ✏️Editar</a>
                 <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="link-danger text-wrap"> ❌Eliminar</a>
               </td>
             </tr>
