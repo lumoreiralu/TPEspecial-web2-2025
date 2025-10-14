@@ -76,7 +76,7 @@ class SaleController {
     }
 
     public function showFormUpdate($id) {
-        $sale = $this->model->getSalesById($id);
+        $sale = $this->model->showSale($id); // ojo que getSalesById() devuelve listado de ventas por vendedor, no una venta por id. Usar showSale();
         $this->view->showEditSaleForm($sale);
     }
     
