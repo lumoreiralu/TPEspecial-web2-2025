@@ -47,6 +47,20 @@ switch ($params[0]) {
             $controller->showAddSaleForm();
         }
         break;
+    case 'updateVenta':
+        if(!empty($params[1])){
+            $id = $params[1];
+            $controller = new SaleController();
+            $controller->updateSale($id);
+        }
+        break;
+    case 'deleteSale':
+        if(!empty($params[1])){
+            $id = $params[1];
+            $controller = new SaleController();
+            $controller->deleteSale($id);
+        }
+        break;
     case 'nuevoVendedor':
         $controller = new SellerController();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') 
