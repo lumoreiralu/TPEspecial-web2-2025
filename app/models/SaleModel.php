@@ -21,7 +21,7 @@ class SaleModel extends Model{
     }
 
     public function showSale($id){
-        $query = $this->db->prepare('SELECT * FROM venta WHERE = ?'); // ojo, falta 'id_venta' en el WHERE
+        $query = $this->db->prepare('SELECT * FROM venta WHERE `id_venta` = ?'); 
         $query->execute([$id]);
 
         $sale = $query->fetch(PDO::FETCH_OBJ);
