@@ -37,8 +37,14 @@ class SaleModel extends Model{
     }
 
     public function updateSale($id, $producto, $precio, $fecha){
-        $query = $this->db->prepare('UPDATE venta SET `producto`= ? ,`precio`= ?, `fecha`=? WHERE `id_venta` = ?');
+        $query = $this->db->prepare('UPDATE `venta` SET `producto`= ? ,`precio`= ?, `fecha`=? WHERE `id_venta` = ?');
         return $query->execute([$producto, $precio, $fecha, $id]);
+    }
+
+    public function deleteSale($id){
+        $query = $this->db->prepare('DELETE FROM `venta` WHERE `id_venta` = ?');
+        $query->execute([$id]);
+
     }
 
 }

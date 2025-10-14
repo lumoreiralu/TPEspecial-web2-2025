@@ -73,17 +73,20 @@ class SaleController {
         $this->model->updateSale($id, $producto, $precio, $fecha);
     
         $this->view->showMessageConfirm("Venta Editada");
+        header('Location: ' . BASE_URL);
+
     }
 
     public function showFormUpdate($id) {
-        $sale = $this->model->showSale($id); // ojo que getSalesById() devuelve listado de ventas por vendedor, no una venta por id. Usar showSale();
+        $sale = $this->model->showSale($id);
         $this->view->showEditSaleForm($sale);
     }
     
 
     public function deleteSale($id){
         $this->model->deleteSale($id);
-        $this->view->showMessageConfirm("Venta Elimina");
+
+        header('Location: ' . BASE_URL);
     }
 
 }
