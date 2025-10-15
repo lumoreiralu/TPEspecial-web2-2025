@@ -40,7 +40,7 @@ switch ($params[0]) {
         $controller = new SaleController();
         if (!empty($params[1])) {
             $id = (int) $params[1];
-            $controller->showSalesById($id);
+            $controller->showSalesById($id, $request);
         } else
             echo '404 not found';
         break;
