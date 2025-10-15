@@ -1,23 +1,25 @@
-<?php 
+<?php
 require_once 'templates/layout/header.php';
 
 // ----- FILTRO DE BÚSQUEDA -----
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 if ($search !== '') {
-    $sales = array_filter($sales, function($sale) use ($search) {
-        return stripos($sale->producto, $search) !== false;
-    });
+  $sales = array_filter($sales, function ($sale) use ($search) {
+    return stripos($sale->producto, $search) !== false;
+  });
 }
 
 // ----- PAGINACIÓN -----
-$ventasPorPagina = 5; 
+$ventasPorPagina = 5;
 $totalVentas = count($sales);
 $totalPaginas = ceil($totalVentas / $ventasPorPagina);
 
-$paginaActual = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-if ($paginaActual < 1) $paginaActual = 1;
-if ($paginaActual > $totalPaginas) $paginaActual = $totalPaginas;
+$paginaActual = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+if ($paginaActual < 1)
+  $paginaActual = 1;
+if ($paginaActual > $totalPaginas)
+  $paginaActual = $totalPaginas;
 
 $inicio = ($paginaActual - 1) * $ventasPorPagina;
 $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
@@ -46,7 +48,7 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
       </thead>
       <tbody>
         <?php if (!empty($ventasPagina)): ?>
-          <?php foreach($ventasPagina as $index => $sale): ?>
+          <?php foreach ($ventasPagina as $index => $sale): ?>
             <tr>
               <td><?= $inicio + $index + 1 ?></td>
               <td><?= htmlspecialchars($sale->producto) ?></td>
@@ -55,14 +57,14 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
                 <a href="<?= BASE_URL ?>editarVenta/<?= $sale->id_venta ?>" class="btn btn-warning btn-sm">Editar</a>
               </td>
               <td>
-                  <form action="deleteSale/<?= $sale->id_venta ?>" method="POST" class="d-inline">
-                    <input type="hidden" name="action" value="eliminar">
-                    <input type="hidden" name="id" value="<?= $sale->id_venta ?>">
-                    <button type="submit" class="btn btn-danger btn-sm"
-                            onclick="return confirm('¿Seguro que querés eliminar esta venta?');">
-                      Eliminar
-                    </button>
-                  </form>
+                <form action="deleteSale/<?= $sale->id_venta ?>" method="POST" class="d-inline">
+                  <input type="hidden" name="action" value="eliminar">
+                  <input type="hidden" name="id" value="<?= $sale->id_venta ?>">
+                  <button type="submit" class="btn btn-danger btn-sm"
+                    onclick="return confirm('¿Seguro que querés eliminar esta venta?');">
+                    Eliminar
+                  </button>
+                </form>
               </td>
 
 
@@ -78,14 +80,21 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
   </div>
 
   <!-- PAGINACIÓN -->
-  <?php if ($totalPaginas > 1): ?>
+  <?php
+  if (isset($id))
+    $url = 'vendedor/' . $id;
+  else
+    $url = "";
+  
+  if ($totalPaginas > 1):
+
+    ?>
     <nav aria-label="Page navigation" class="mt-4">
       <ul class="pagination justify-content-center">
         <!-- Botón Anterior -->
         <li class="page-item <?= ($paginaActual <= 1) ? 'disabled' : '' ?>">
-          <a class="page-link" 
-             href="?page=<?= $paginaActual - 1 ?>&search=<?= urlencode($search) ?>" 
-             aria-label="Anterior">
+          <a class="page-link" href="<?=$url?>?page=<?= $paginaActual - 1 ?>&search=<?= urlencode($search) ?>"
+            aria-label="Anterior">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
@@ -93,18 +102,16 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
         <!-- Números de página -->
         <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
           <li class="page-item <?= ($paginaActual == $i) ? 'active' : '' ?>">
-            <a class="page-link" 
-               href="?page=<?= $i ?>&search=<?= urlencode($search) ?>">
-               <?= $i ?>
+            <a class="page-link" href="<?=$url?>?page=<?= $i ?>&search=<?= urlencode($search) ?>">
+              <?= $i ?>
             </a>
           </li>
         <?php endfor; ?>
 
         <!-- Botón Siguiente -->
         <li class="page-item <?= ($paginaActual >= $totalPaginas) ? 'disabled' : '' ?>">
-          <a class="page-link" 
-             href="?page=<?= $paginaActual + 1 ?>&search=<?= urlencode($search) ?>" 
-             aria-label="Siguiente">
+          <a class="page-link" href="<?=$url?>?page=<?= $paginaActual + 1 ?>&search=<?= urlencode($search) ?>"
+            aria-label="Siguiente">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>

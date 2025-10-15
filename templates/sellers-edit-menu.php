@@ -1,7 +1,8 @@
 <?php
 require_once 'templates/layout/header.php';
 // hace print del icono de empleado para facilitar la legibilidad
-function icon(){
+function icon()
+{
   echo '
   <svg 
   xmlns="http://www.w3.org/2000/svg"
@@ -22,11 +23,13 @@ if ($paginaActual > $totalPaginas)
 
 $inicio = ($paginaActual - 1) * $vendedoresPorPagina;
 $vendedoresPagina = array_slice($sellers, $inicio, $vendedoresPorPagina);
-if ($paginaActual>1)
+
+if ($paginaActual > 1)
   $pagina = "?page=" . "$paginaActual";
-else 
+else
   $pagina = "";
 ?>
+
 <div class="container my-5">
   <h2 class="mb-4 text-center">🧑‍💼 Lista de Vendedores</h2>
 
@@ -47,14 +50,23 @@ else
           foreach ($vendedoresPagina as $index => $seller):
             // SI EL ID DEL VENDEDOR QUE SE VA A MOSTRAR EN LA TABLA ES EL QUE SE ELIGIO PARA EDITAR, MUESTRO INPUTS PARA EDITAR DATOS
             if ($seller->id == $sellerToEdit) { ?>
-            <!-- Genero un form para hacer el update -->
-              <form action="<?= BASE_URL ?>updateSeller/<?=htmlspecialchars($sellerToEdit)?>" method="post">
+              <!-- Genero un form para hacer el update -->
+              <form action="<?= BASE_URL ?>updateSeller/<?= htmlspecialchars($sellerToEdit) ?>" method="post">
                 <tr>
                   <td><?= $inicio + $index + 1 ?></td>
-                  <td><input type="text" name="nombre" value="<?= htmlspecialchars($seller->nombre) ?>" required></td>                  
-                  <td><input type="text" name="telefono" value="<?= htmlspecialchars($seller->telefono) ?>" pattern="\d*" required></td>
+                  <td><input type="text" name="nombre" value="<?= htmlspecialchars($seller->nombre) ?>" required></td>
+                  <td><input type="text" name="telefono" value="<?= htmlspecialchars($seller->telefono) ?>" pattern="\d*"
+                      required></td>
                   <td><input type="email" name="email" value="<?= htmlspecialchars($seller->email) ?>" required></td>
-                  <td><button class="btn btn-outline-success">💾Guardar</button></td>
+                  <td>
+                    <div class="btn-group">
+                      <button style="border:none;" class="btn btn-outline-success">💾Guardar</button>
+                      <button style="border:none;" class="btn btn-outline-danger"
+                        onclick="return confirm('¿Seguro que quiere eliminar a <?= $seller->nombre ?>? Se eliminar consigo todas sus ventas');">
+                        <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="link-danger text-wrap"> ❌Eliminar</a>
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               </form>
 
@@ -63,13 +75,21 @@ else
                 <td><?= $inicio + $index + 1 ?></td>
                 <!-- Link para mostrar items (ventas) por categoria (vendedor) -->
                 <td><a href="<?= BASE_URL ?>vendedores/<?= $seller->id ?>"
-                    class="icon-link icon-link-hover fw-bolder text-capitalize"><?= icon(), htmlspecialchars($seller->nombre) ?></a></td>
+                    class="icon-link icon-link-hover fw-bolder text-capitalize"><?= icon(), htmlspecialchars($seller->nombre) ?></a>
+                </td>
 
                 <td><?= htmlspecialchars($seller->telefono) ?></td>
                 <td><?= htmlspecialchars($seller->email) ?></td>
                 <td>
-                <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id . $pagina?>" class="link-warning text-wrap"> ✏️Editar</a>
-                <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="link-danger text-wrap"> ❌Eliminar</a>
+                  <div class="btn-group">
+                    <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id . $pagina ?>"
+                      class="btn btn-outline-warning text-wrap" style="border:none;">✏️Editar</a>
+                    <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="btn btn-outline-danger text-wrap"
+                      style="border:none;"
+                      onclick="return confirm(¿Seguro que quiere eliminar a <?= $seller->nombre ?>? Se eliminar consigo todas sus ventas');">
+                      ❌Eliminar
+                    </a>
+                  </div>
                 </td>
               </tr>
 

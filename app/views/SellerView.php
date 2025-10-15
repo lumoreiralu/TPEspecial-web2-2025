@@ -13,4 +13,8 @@ class SellerView{
     public function showFormAddSeller(){
         require_once './templates/form-addSeller.phtml';
     }
+
+    public function showSalesBySeller() {
+        
+    }
 }
