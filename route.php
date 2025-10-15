@@ -84,10 +84,11 @@ switch ($params[0]) {
         }
         break;
     case 'deleteSale':
+        $request = (new GuardMiddleware())->run($request);
+        $controller = new SaleController();
         if (!empty($params[1])) {
             $id = $params[1];
-            $controller = new SaleController();
-            $controller->deleteSale($id);
+            $controller->deleteSale($id, $request);
         }
         break;
 

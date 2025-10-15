@@ -8,17 +8,22 @@
     <title>Tienda Computacion</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<?php if (session_status() == PHP_SESSION_NONE) session_start(); ?>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Tienda de Computacion</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand fw-bold" href="#">Tienda de Computación</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="home">Home</a>
         </li>
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Menu
@@ -31,25 +36,35 @@
 
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="venta">Ventas</a></li>
-            <li>  <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
+            <li>
+              <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
                 <a href="<?= BASE_URL ?>addVenta" class="dropdown-item">Nueva venta</a>
-                <?php endif; ?>
-            </li>  
+              <?php endif; ?>
+            </li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="showLogin">Login</a></li>
           </ul>
         </li>
       </ul>
-      <form class="d-flex" role="search" action="venta" method="GET">
-        <input class="form-control me-2" 
-              type="search" 
-              name="search" 
-              placeholder="Buscar venta..." 
-              value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>" 
+
+      <!-- 🔎 Buscador -->
+      <form class="d-flex me-3" role="search" action="venta" method="GET">
+        <input class="form-control me-2"
+              type="search"
+              name="search"
+              placeholder="Buscar venta..."
+              value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
               aria-label="Buscar">
         <button class="btn btn-outline-success" type="submit">Buscar</button>
       </form>
 
+      <!-- 👋 Saludo del usuario -->
+      <?php if (isset($_SESSION['USER_NAME'])): ?>
+        <span class="navbar-text me-3 fw-semibold">
+          👋 Hola, <?= htmlspecialchars($_SESSION['USER_NAME']) ?>!
+        </span>
+        <a href="<?= BASE_URL ?>logout" class="btn btn-outline-danger btn-sm">Cerrar sesión</a>
+      <?php endif; ?>
     </div>
   </div>
 </nav>
