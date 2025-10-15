@@ -5,6 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once './app/controllers/SaleController.php';
 require_once './app/controllers/SellerController.php';
+require_once './app/controllers/AuthController.php';
 session_start();
 
 define('BASE_URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']) . '/');
@@ -94,13 +95,21 @@ switch ($params[0]) {
             $controller->updateSeller($sellerId);
         }
         break;  
-     case 'deleteSeller':
+    case 'deleteSeller':
         if (!empty($params[1])){
             $id = (int)$params[1];
             $controller = new SellerController();
             $controller->deleteSeller($id);
-            break;
         }
+        break;
+    case 'showLogin':
+        $controller = new AuthController();
+        $controller->showLogin();
+        break;
+    case 'login':
+        $controller = new AuthController();
+        $controller->login();
+        break;
     default:
         echo 'Error!';
         break;

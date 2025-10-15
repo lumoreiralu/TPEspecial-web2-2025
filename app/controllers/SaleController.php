@@ -1,7 +1,7 @@
 <?php
 
 require_once 'app/models/SaleModel.php';
-require_once 'app/models/SellerModel.php'; // 🔹 Agregá esto para obtener vendedores
+require_once 'app/models/SellerModel.php'; 
 require_once 'app/views/SaleView.php';
 
 class SaleController {

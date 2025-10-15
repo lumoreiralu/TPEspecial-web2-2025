@@ -1,44 +1,38 @@
 <?php
 require_once 'app/models/UserModel.php';
-require_once 'app/views/UserView.php';
+require_once 'app/views/AuthView.php';
 class AuthController{
     private $model;
     private $view;
 
     public function __construct(){
         $this->model = new UserModel();
-        $this->view = new UserView();
+        $this->view = new AuthView();
     }
 
-    public function showLogin(){
-        return $this->view->showLogin();
+    public function showLogin() {
+        $this->view->showLogin();
     }
 
 
     public function login() {
+        if(empty($_POST['user']) || empty($_POST['password'])) {
+            return $this->view->showError("Faltan datos obligatorios");
+        }
 
-        if (isset($_POST['user']) && isset($_POST['password'])) {
-            $user = $_POST['user'];
-            $password = $_POST['password'];
-    
+        $user = $_POST['user'];
+        $password = $_POST['password'];
 
-            $userFromDB = $this->model->getUserByUsername($user); 
-    
-            if ($userFromDB && password_verify($password, $userFromDB->password)) {
+        $userFromDB = $this->model->getByUser($user);
 
-                $_SESSION['ID_VENDEDOR'] = $userFromDB->id_vendedor; // ID del vendedor/user
-                $_SESSION['USUARIO_VENDEDOR'] = $userFromDB->usuario; // user del vendedor
-                $_SESSION['ROL_VENDEDOR'] = $userFromDB->rol;  // Guardar el rol del vendedor/user (por ejemplo, 'admin' o 'vendedor')
-                $_SESSION['LAST_ACTIVITY'] = time(); // Tiempo de la última actividad 
-
-
-                header('Location: ' . BASE_URL);
-                exit(); 
-            } else {
-                return $this->view->showLogin('Credenciales incorrectas');
-            }
+        if($userFromDB && password_verify($password, $userFromDB->password)) {
+            $_SESSION['USER_ID'] = $userFromDB->id_usuario;
+            $_SESSION['USER_NAME'] = $userFromDB->user;
+            header('Location: ' . BASE_URL);
+            return;
         } else {
-            return $this->view->showLogin('Por favor, ingrese sus credenciales.');
+            return $this->view->showError("Usuario o contraseña incorrecta");
         }
     }
+
 }

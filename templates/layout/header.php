@@ -25,12 +25,16 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="home">Home</a></li>
+            <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="vendedores">Vendedores</a></li>
             <li><a class="dropdown-item" href="nuevoVendedor">Nuevo vendedor</a></li>
 
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="venta">Ventas</a></li>
             <li><a class="dropdown-item" href="addVenta">Nueva Venta</a></li>
+
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="showLogin">Login</a></li>
           </ul>
         </li>
       </ul>
