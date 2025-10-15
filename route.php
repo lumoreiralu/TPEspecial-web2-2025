@@ -66,6 +66,7 @@ switch ($params[0]) {
     case 'editarVenta':
         $request = (new GuardMiddleware())->run($request);
         $controller = new SaleController();
+        
         if (!empty($params[1])) {
             $id = $params[1];
             $controller->showFormUpdate($id, $request);
@@ -73,15 +74,15 @@ switch ($params[0]) {
             echo "ID no especificado";
         }
         break;
-
     case 'updateSale':
+        $request = (new GuardMiddleware())->run($request);
+        $controller = new SaleController();
+        
         if (!empty($params[1])) {
             $id = $params[1];
-            $controller = new SaleController();
             $controller->updateSale($id, $request);
         }
         break;
-
     case 'deleteSale':
         if (!empty($params[1])) {
             $id = $params[1];

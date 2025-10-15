@@ -36,7 +36,7 @@ class SaleView{
         require 'templates/form-addSale.phtml';
     }
 
-    public function showEditSaleForm($venta){ //cambiar $sale por $venta para q lo use el template
+    public function showEditSaleForm($venta){ 
         require_once 'templates/form-edit-sale.phtml';
     }
     

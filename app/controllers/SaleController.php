@@ -64,22 +64,46 @@ class SaleController {
         $this->view->showSales($sales, $sellerId); // se reutiliza function showSales()
     }
 
-    public function updateSale($id, $request){
+    public function updateSale($id, $request) {
+        // Solo admin puede actualizar
+        if (!$request->user || $request->user->rol !== 'administrador') {
+            return $this->view->showError('Acceso denegado. Solo los administradores pueden editar ventas.');
+        }
+    
+        if (empty($_POST['producto']) || empty($_POST['precio']) || empty($_POST['fecha'])) {
+            return $this->view->showError('Faltan datos obligatorios para editar la venta.');
+        }
+    
         $producto = $_POST['producto'];
         $precio = $_POST['precio'];
-        $fecha = $_POST['fecha'];        
-        
-        $this->model->updateSale($id, $producto, $precio, $fecha);
+        $fecha = $_POST['fecha'];
     
-        $this->view->showMessageConfirm("Venta Editada");
+        $ok = $this->model->updateSale($id, $producto, $precio, $fecha);
+    
+        if (!$ok) {
+            return $this->view->showError('Error al actualizar la venta.');
+        }
+    
+        $this->view->showMessageConfirm('Venta editada correctamente.');
         header('Location: ' . BASE_URL);
-
     }
+    
 
     public function showFormUpdate($id, $request) {
+        // Solo admin puede acceder
+        if (!$request->user || $request->user->rol !== 'administrador') {
+            return $this->view->showError('Acceso denegado. Solo los administradores pueden editar ventas.');
+        }
+    
         $sale = $this->model->showSale($id);
+    
+        if (!$sale) {
+            return $this->view->showError('Venta no encontrada.');
+        }
+    
         $this->view->showEditSaleForm($sale);
     }
+    
     
 
     public function deleteSale($id, $request){
