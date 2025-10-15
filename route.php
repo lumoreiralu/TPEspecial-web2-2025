@@ -32,7 +32,6 @@ switch ($params[0]) {
         break;
 
     case 'vendedores':
-        $request = (new GuardMiddleware())->run($request);
         $controller = new SellerController();
         $controller->showSellers($request);
         break;

@@ -46,8 +46,10 @@
               <li>
                 <hr class="dropdown-divider">
               </li>
+              <!-- Agrego para que muestre login o logout dependiendo de si hay sesion iniciada -->
+              <?php if (!isset($user)): ?>
               <li><a class="dropdown-item" href="showLogin">Login</a></li>
-              <?php if ($user): ?>
+              <?php elseif (isset($user)): ?>
                 <li><a class="dropdown-item" href="logout">Logout</a></li>
               <?php endif; ?>
             </ul>
