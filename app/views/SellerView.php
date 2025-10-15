@@ -1,7 +1,7 @@
 <?php
 class SellerView
 {
-    public function showSellers($sellers)
+    public function showSellers($sellers, $user)
     {
         $count = count($sellers);
         require_once './templates/sellers-list.php';

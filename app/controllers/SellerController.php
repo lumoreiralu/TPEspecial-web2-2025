@@ -11,10 +11,10 @@ class SellerController{
         $this->view = new SellerView();
     }
 
-    function showSellers(){
+    function showSellers($request){
         $sellers = $this->model->showAll();
 
-        $this->view->showSellers($sellers);
+        $this->view->showSellers($sellers, $request->user);
     }
 
     function showSellerEditionMenu($sellerById) {

@@ -26,13 +26,15 @@ $request = (new SessionMiddleware())->run($request);
 switch ($params[0]) {
 
     case 'home':
+        $request = (new GuardMiddleware())->run($request);
         $controller = new SaleController();
-        $controller->showSales();
+        $controller->showSales($request);
         break;
 
     case 'vendedores':
+        $request = (new GuardMiddleware())->run($request);
         $controller = new SellerController();
-        $controller->showSellers();
+        $controller->showSellers($request);
         break;
 
     case 'vendedor':
@@ -44,13 +46,14 @@ switch ($params[0]) {
             echo '404 not found';
         break;
 
-    case 'venta': 
+    case 'venta':
+        $request = (new GuardMiddleware())->run($request);
         $controller = new SaleController();
         if (isset($params[1])) {
             $id = $params[1];
             $controller->showSale($id);
         } else {
-            $controller->showSales();
+            $controller->showSales($request);
         }
         break;
 
@@ -139,6 +142,12 @@ switch ($params[0]) {
     case 'login':
         $controller = new AuthController();
         $controller->login();
+        break;
+
+    case 'logout':
+        $request = (new GuardMiddleware())->run($request);
+        $controller = new AuthController();
+        $controller->logout($request);
         break;
 
     default:

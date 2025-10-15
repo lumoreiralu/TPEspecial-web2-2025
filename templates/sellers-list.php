@@ -57,6 +57,7 @@ else
               <td><?= htmlspecialchars($seller->telefono) ?></td>
               <td><?= htmlspecialchars($seller->email) ?></td>
               <td>
+                  <?php if ($user): ?>
                 <div class="btn-group">
                   <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id . $pagina ?>"
                     class="btn btn-outline-warning text-wrap" style="border:none;">✏️Editar</a>
@@ -65,7 +66,8 @@ else
                     onclick="return confirm(¿Seguro que quiere eliminar a <?= $seller->nombre ?>? Se eliminar consigo todas sus ventas');">
                     ❌Eliminar
                   </a>
-                </div>
+                </div> 
+                <?php endif; ?>                
               </td>
             </tr>
           <?php endforeach; ?>
