@@ -3,18 +3,15 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
 require_once './app/controllers/SaleController.php';
 require_once './app/controllers/SellerController.php';
 require_once './app/controllers/AuthController.php';
 require_once './app/middlewares/GuardMiddleware.php';
 require_once './app/middlewares/SessionMiddleware.php';
-
 session_start();
 
 define('BASE_URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']) . '/');
 
-// Acción por defecto
 $action = 'home';
 if (!empty($_GET['action'])) {
     $action = $_GET['action'];
@@ -34,17 +31,20 @@ switch ($params[0]) {
         break;
 
     case 'vendedores':
-        if (!empty($params[1])) {
-            $id = $params[1];
-            $controller = new SaleController();
-            $controller->showSalesByID($id);
-        } else {
-            $controller = new SellerController();
-            $controller->showSellers();
-        }
+        $controller = new SellerController();
+        $controller->showSellers();
         break;
 
-    case 'venta':
+    case 'vendedor':
+        $controller = new SaleController();
+        if (!empty($params[1])) {
+            $id = (int) $params[1];
+            $controller->showSalesById($id);
+        } else
+            echo '404 not found';
+        break;
+
+    case 'venta': 
         $controller = new SaleController();
         if (isset($params[1])) {
             $id = $params[1];
@@ -84,11 +84,10 @@ switch ($params[0]) {
         break;
 
     case 'deleteSale':
-        $request = (new GuardMiddleware())->run($request);
         if (!empty($params[1])) {
             $id = $params[1];
             $controller = new SaleController();
-            $controller->deleteSale($id, $request);
+            $controller->deleteSale($id);
         }
         break;
 
@@ -100,13 +99,18 @@ switch ($params[0]) {
         } else {
             $controller->showNewSellerForm($request);
         }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+            $controller->addSeller();
+        else
+            $controller->showNewSellerForm();
+
         break;
 
     case 'editarVendedor':
         $request = (new GuardMiddleware())->run($request);
         if (!empty($params[1])) {
             $controller = new SellerController();
-            $sellerId = (int)$params[1];
+            $sellerId = (int) $params[1];
             $controller->showSellerEditionMenu($sellerId, $request);
         }
         break;
@@ -114,15 +118,14 @@ switch ($params[0]) {
     case 'updateSeller':
         if (!empty($params[1])) {
             $controller = new SellerController();
-            $sellerId = (int)$params[1];
+            $sellerId = (int) $params[1];
             $controller->updateSeller($sellerId, $request);
         }
         break;
 
     case 'deleteSeller':
-        $request = (new GuardMiddleware())->run($request);
         if (!empty($params[1])) {
-            $id = (int)$params[1];
+            $id = (int) $params[1];
             $controller = new SellerController();
             $controller->deleteSeller($id, $request);
         }

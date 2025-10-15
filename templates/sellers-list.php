@@ -1,7 +1,8 @@
 <?php
 require_once 'templates/layout/header.php';
 // hace print del icono de empleado para facilitar la legibilidad
-function icon(){
+function icon()
+{
   echo '
   <svg 
   xmlns="http://www.w3.org/2000/svg"
@@ -23,9 +24,9 @@ if ($paginaActual > $totalPaginas)
 $inicio = ($paginaActual - 1) * $vendedoresPorPagina;
 $vendedoresPagina = array_slice($sellers, $inicio, $vendedoresPorPagina);
 
-if ($paginaActual>1)
+if ($paginaActual > 1)
   $pagina = "?page=" . "$paginaActual";
-else 
+else
   $pagina = "";
 ?>
 
@@ -49,13 +50,22 @@ else
             <tr>
               <td><?= $inicio + $index + 1 ?></td>
               <!-- Link para mostrar items (ventas) por categoria (vendedor) -->
-              <td><a href="<?= BASE_URL ?>vendedores/<?= $seller->id ?>" class="icon-link icon-link-hover fw-bolder text-capitalize"><?= icon(), htmlspecialchars($seller->nombre) ?></a></td>
+              <td><a href="<?= BASE_URL ?>vendedor/<?= $seller->id ?>"
+                  class="icon-link icon-link-hover fw-bolder text-capitalize"><?= icon(), htmlspecialchars($seller->nombre) ?></a>
+              </td>
 
               <td><?= htmlspecialchars($seller->telefono) ?></td>
               <td><?= htmlspecialchars($seller->email) ?></td>
               <td>
-                <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id . $pagina?>" class="link-warning text-wrap"> ✏️Editar</a>
-                <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="link-danger text-wrap"> ❌Eliminar</a>
+                <div class="btn-group">
+                  <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id . $pagina ?>"
+                    class="btn btn-outline-warning text-wrap" style="border:none;">✏️Editar</a>
+                  <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>"
+                    class="btn btn-outline-danger text-wrap" style="border:none;"
+                    onclick="return confirm(¿Seguro que quiere eliminar a <?= $seller->nombre ?>? Se eliminar consigo todas sus ventas');">
+                    ❌Eliminar
+                  </a>
+                </div>
               </td>
             </tr>
           <?php endforeach; ?>
