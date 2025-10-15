@@ -26,12 +26,12 @@ class SaleController {
     }
 
     // 🔹 Nuevo método para mostrar el formulario
-    public function showAddSaleForm() {
+    public function showAddSaleForm($request) {
         $sellers = $this->modelSeller->showAll();
         $this->view->showAddSaleForm($sellers);
     }
 
-    public function addSale() {
+    public function addSale($request) {
         if (!isset($_POST['producto']) || empty($_POST['producto'])) {
             return $this->view->showError('Error: falta completar el producto');
         }
@@ -65,7 +65,7 @@ class SaleController {
         $this->view->showSales($sales); // se reutiliza function showSales()
     }
 
-    public function updateSale($id){
+    public function updateSale($id, $request){
         $producto = $_POST['producto'];
         $precio = $_POST['precio'];
         $fecha = $_POST['fecha'];        
@@ -77,13 +77,13 @@ class SaleController {
 
     }
 
-    public function showFormUpdate($id) {
+    public function showFormUpdate($id, $request) {
         $sale = $this->model->showSale($id);
         $this->view->showEditSaleForm($sale);
     }
     
 
-    public function deleteSale($id){
+    public function deleteSale($id, $request){
         $this->model->deleteSale($id);
 
         header('Location: ' . BASE_URL);

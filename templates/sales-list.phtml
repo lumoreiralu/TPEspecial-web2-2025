@@ -52,11 +52,10 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
               <td><?= htmlspecialchars($sale->producto) ?></td>
               <td>$<?= number_format($sale->precio, 2, ',', '.') ?></td>
               <td>
-                <!-- Estabas poniendo $sale->id, es id_venta -->
                 <a href="<?= BASE_URL ?>editarVenta/<?= $sale->id_venta ?>" class="btn btn-warning btn-sm">Editar</a>
               </td>
               <td>
-                  <form action="deleteSale" method="POST" class="d-inline">
+                  <form action="deleteSale/<?= $sale->id_venta ?>" method="POST" class="d-inline">
                     <input type="hidden" name="action" value="eliminar">
                     <input type="hidden" name="id" value="<?= $sale->id_venta ?>">
                     <button type="submit" class="btn btn-danger btn-sm"
