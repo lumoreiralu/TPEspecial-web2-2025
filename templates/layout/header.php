@@ -31,7 +31,11 @@
 
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="venta">Ventas</a></li>
-            <li><a class="dropdown-item" href="addVenta">Nueva Venta</a></li>
+            <li>  <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'admin'): ?>
+                <a href="<?= BASE_URL ?>addVenta" class="btn btn-primary mb-3">Nueva venta</a>
+                <?php endif; ?>
+            </li>  
+
 
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="showLogin">Login</a></li>
