@@ -26,9 +26,8 @@ $request = (new SessionMiddleware())->run($request);
 switch ($params[0]) {
 
     case 'home':
-        $request = (new GuardMiddleware())->run($request);
         $controller = new SaleController();
-        $controller->showSales($request);
+        $controller->showSales();
         break;
 
     case 'vendedores':

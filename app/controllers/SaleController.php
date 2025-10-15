@@ -15,9 +15,9 @@ class SaleController {
         $this->modelSeller = new SellerModel();
     }
 
-    public function showSales($request) {
+    public function showSales() {
         $sales = $this->model->getAll();
-        $this->view->showSales($sales, $request->user);
+        $this->view->showSales($sales);
     }
 
     public function showSale($id) {
