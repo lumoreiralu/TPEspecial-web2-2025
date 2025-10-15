@@ -25,40 +25,39 @@ class SaleController {
         $this->view->showSale($sale);
     }
 
-    // 🔹 Nuevo método para mostrar el formulario
     public function showAddSaleForm($request) {
+        if (!isset($_SESSION['USER_ROLE']) || $_SESSION['USER_ROLE'] !== 'administrador') {
+            return $this->view->showError('Acceso denegado. Solo los administradores pueden agregar ventas.');
+        }
+    
         $sellers = $this->modelSeller->showAll();
         $this->view->showAddSaleForm($sellers);
     }
+    
 
     public function addSale($request) {
-        if (!isset($_POST['producto']) || empty($_POST['producto'])) {
-            return $this->view->showError('Error: falta completar el producto');
+        if (!isset($_SESSION['USER_ROLE']) || $_SESSION['USER_ROLE'] !== 'administrador') {
+            return $this->view->showError('Acceso denegado. Solo los administradores pueden agregar ventas.');
         }
-        if (!isset($_POST['precio']) || empty($_POST['precio'])) {
-            return $this->view->showError('Error: falta completar el precio');
+    
+        if (empty($_POST['producto']) || empty($_POST['precio']) || empty($_POST['vendedor']) || empty($_POST['fecha'])) {
+            return $this->view->showError('Error: faltan datos obligatorios');
         }
-        if (!isset($_POST['vendedor']) || empty($_POST['vendedor'])) {
-            return $this->view->showError('Error: falta completar el vendedor');
-        }
-        if (!isset($_POST['fecha']) || empty($_POST['fecha'])) {
-            return $this->view->showError('Error: falta completar la fecha');
-        }
-
+    
         $producto = $_POST['producto'];
         $precio = $_POST['precio'];
         $vendedor = $_POST['vendedor'];
         $fecha = $_POST['fecha'];
-
+    
         $id = $this->model->insert($producto, $precio, $vendedor, $fecha);
-
+    
         if (!$id) {
             return $this->view->showError('Error al generar la venta');
         }
-
-        // redirijo al home
-        header('Location: ' . BASE_URL);
+    
+        header('Location: ' . BASE_URL); 
     }
+    
 
     public function showSalesByID($sellerId) {
         $sales = $this->model->getSalesById($sellerId); // pido al modelo todas las ventas por id_vendedor

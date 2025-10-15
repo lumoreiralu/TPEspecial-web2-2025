@@ -31,12 +31,10 @@
 
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="venta">Ventas</a></li>
-            <li>  <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'admin'): ?>
-                <a href="<?= BASE_URL ?>addVenta" class="btn btn-primary mb-3">Nueva venta</a>
+            <li>  <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
+                <a href="<?= BASE_URL ?>addVenta" class="dropdown-item">Nueva venta</a>
                 <?php endif; ?>
             </li>  
-
-
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="showLogin">Login</a></li>
           </ul>

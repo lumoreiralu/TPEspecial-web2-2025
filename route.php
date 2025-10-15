@@ -63,7 +63,6 @@ switch ($params[0]) {
             $controller->showAddSaleForm($request);
         }
         break;
-
     case 'editarVenta':
         $request = (new GuardMiddleware())->run($request);
         $controller = new SaleController();
