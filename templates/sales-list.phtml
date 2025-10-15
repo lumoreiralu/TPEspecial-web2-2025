@@ -42,8 +42,12 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
           <th>#</th>
           <th>Producto</th>
           <th>Precio</th>
-          <th>Editar</th>
-          <th>Eliminar</th>
+
+          <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
+            <th>Editar</th>
+            <th>Eliminar</th>
+          <?php endif; ?>
+
         </tr>
       </thead>
       <tbody>
