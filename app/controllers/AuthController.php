@@ -18,26 +18,28 @@ class AuthController
     }
 
 
-    public function login()
-    {
+    public function login() {
         if (empty($_POST['user']) || empty($_POST['password'])) {
             return $this->view->showError("Faltan datos obligatorios");
         }
-
+    
         $user = $_POST['user'];
         $password = $_POST['password'];
-
+    
         $userFromDB = $this->model->getByUser($user);
-
+    
         if ($userFromDB && password_verify($password, $userFromDB->password)) {
             $_SESSION['USER_ID'] = $userFromDB->id_usuario;
             $_SESSION['USER_NAME'] = $userFromDB->user;
+            $_SESSION['USER_ROLE'] = $userFromDB->rol ?? 'user'; // 👈 acá guardamos el rol
+    
             header('Location: ' . BASE_URL);
             return;
         } else {
             return $this->view->showError("Usuario o contraseña incorrecta");
         }
     }
+    
 
     public function logout($request)
     {

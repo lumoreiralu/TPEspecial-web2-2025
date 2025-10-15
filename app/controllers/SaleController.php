@@ -25,62 +25,85 @@ class SaleController {
         $this->view->showSale($sale);
     }
 
-    // 🔹 Nuevo método para mostrar el formulario
     public function showAddSaleForm($request) {
+        if (!isset($_SESSION['USER_ROLE']) || $_SESSION['USER_ROLE'] !== 'administrador') {
+            return $this->view->showError('Acceso denegado. Solo los administradores pueden agregar ventas.');
+        }
+    
         $sellers = $this->modelSeller->showAll();
         $this->view->showAddSaleForm($sellers);
     }
+    
 
     public function addSale($request) {
-        if (!isset($_POST['producto']) || empty($_POST['producto'])) {
-            return $this->view->showError('Error: falta completar el producto');
+        if (!isset($_SESSION['USER_ROLE']) || $_SESSION['USER_ROLE'] !== 'administrador') {
+            return $this->view->showError('Acceso denegado. Solo los administradores pueden agregar ventas.');
         }
-        if (!isset($_POST['precio']) || empty($_POST['precio'])) {
-            return $this->view->showError('Error: falta completar el precio');
+    
+        if (empty($_POST['producto']) || empty($_POST['precio']) || empty($_POST['vendedor']) || empty($_POST['fecha'])) {
+            return $this->view->showError('Error: faltan datos obligatorios');
         }
-        if (!isset($_POST['vendedor']) || empty($_POST['vendedor'])) {
-            return $this->view->showError('Error: falta completar el vendedor');
-        }
-        if (!isset($_POST['fecha']) || empty($_POST['fecha'])) {
-            return $this->view->showError('Error: falta completar la fecha');
-        }
-
+    
         $producto = $_POST['producto'];
         $precio = $_POST['precio'];
         $vendedor = $_POST['vendedor'];
         $fecha = $_POST['fecha'];
-
+    
         $id = $this->model->insert($producto, $precio, $vendedor, $fecha);
-
+    
         if (!$id) {
             return $this->view->showError('Error al generar la venta');
         }
-
-        // redirijo al home
-        header('Location: ' . BASE_URL);
+    
+        header('Location: ' . BASE_URL); 
     }
+    
 
     public function showSalesByID($sellerId) {
         $sales = $this->model->getSalesById($sellerId); // pido al modelo todas las ventas por id_vendedor
         $this->view->showSales($sales, $sellerId); // se reutiliza function showSales()
     }
 
-    public function updateSale($id, $request){
+    public function updateSale($id, $request) {
+        // Solo admin puede actualizar
+        if (!$request->user || $request->user->rol !== 'administrador') {
+            return $this->view->showError('Acceso denegado. Solo los administradores pueden editar ventas.');
+        }
+    
+        if (empty($_POST['producto']) || empty($_POST['precio']) || empty($_POST['fecha'])) {
+            return $this->view->showError('Faltan datos obligatorios para editar la venta.');
+        }
+    
         $producto = $_POST['producto'];
         $precio = $_POST['precio'];
-        $fecha = $_POST['fecha'];        
-        
-        $this->model->updateSale($id, $producto, $precio, $fecha);
+        $fecha = $_POST['fecha'];
     
-        $this->view->showMessageConfirm("Venta Editada");
+        $ok = $this->model->updateSale($id, $producto, $precio, $fecha);
+    
+        if (!$ok) {
+            return $this->view->showError('Error al actualizar la venta.');
+        }
+    
+        $this->view->showMessageConfirm('Venta editada correctamente.');
         header('Location: ' . BASE_URL);
-
     }
+    
 
     public function showFormUpdate($id, $request) {
+        // Solo admin puede acceder
+        if (!$request->user || $request->user->rol !== 'administrador') {
+            return $this->view->showError('Acceso denegado. Solo los administradores pueden editar ventas.');
+        }
+    
         $sale = $this->model->showSale($id);
+    
+        if (!$sale) {
+            return $this->view->showError('Venta no encontrada.');
+        }
+    
         $this->view->showEditSaleForm($sale);
     }
+    
     
 
     public function deleteSale($id, $request){
