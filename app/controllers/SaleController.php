@@ -15,9 +15,9 @@ class SaleController {
         $this->modelSeller = new SellerModel();
     }
 
-    public function showSales() {
+    public function showSales($request) {
         $sales = $this->model->getAll();
-        $this->view->showSales($sales);
+        $this->view->showSales($sales, $request->user);
     }
 
     public function showSale($id) {
@@ -61,7 +61,7 @@ class SaleController {
 
     public function showSalesByID($sellerId, $request) {
         $sales = $this->model->getSalesById($sellerId); // pido al modelo todas las ventas por id_vendedor
-        $this->view->showSales($sales,$request->user, $sellerId); // se reutiliza function showSales()
+        $this->view->showSales($sales,$request->user); // se reutiliza function showSales()
     }
 
     public function updateSale($id, $request) {

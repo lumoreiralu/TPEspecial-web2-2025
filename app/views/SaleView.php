@@ -1,6 +1,6 @@
 <?php
 class SaleView{
-    public function showSales($sales){
+    public function showSales($sales, $user){
         $count = count($sales);
         require_once 'templates/layout/header.php';
         require_once './templates/sales-list.phtml';
