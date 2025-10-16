@@ -38,8 +38,10 @@
                 <hr class="dropdown-divider">
               </li>
               <li><a class="dropdown-item" href="vendedores">Vendedores</a></li>
-              <li><a class="dropdown-item" href="nuevoVendedor">Nuevo vendedor</a></li>
 
+              <?php if (isset($user)): ?>
+              <li><a class="dropdown-item" href="nuevoVendedor">Nuevo vendedor</a></li>
+              <?php endif; ?>
               <li>
                 <hr class="dropdown-divider">
               </li>

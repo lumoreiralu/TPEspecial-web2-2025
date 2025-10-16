@@ -59,9 +59,9 @@ class SaleController {
     }
     
 
-    public function showSalesByID($sellerId) {
+    public function showSalesByID($sellerId, $request) {
         $sales = $this->model->getSalesById($sellerId); // pido al modelo todas las ventas por id_vendedor
-        $this->view->showSales($sales, $sellerId); // se reutiliza function showSales()
+        $this->view->showSales($sales,$request->user, $sellerId); // se reutiliza function showSales()
     }
 
     public function updateSale($id, $request) {
