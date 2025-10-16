@@ -27,7 +27,7 @@ switch ($params[0]) {
 
     case 'home':
         $controller = new SaleController();
-        $controller->showSales();
+        $controller->showSales($request);
         break;
 
     case 'vendedores':
@@ -45,9 +45,9 @@ switch ($params[0]) {
         break;
 
     case 'venta':
-        $request = (new GuardMiddleware())->run($request);
         $controller = new SaleController();
         if (isset($params[1])) {
+            $request = (new GuardMiddleware())->run($request);
             $id = $params[1];
             $controller->showSale($id);
         } else {
@@ -97,9 +97,9 @@ switch ($params[0]) {
         $request = (new GuardMiddleware())->run($request);
         $controller = new SellerController();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller->addSeller($request);
+            $controller->addSeller();
         } else {
-            $controller->showNewSellerForm($request);
+            $controller->showNewSellerForm();
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST')
             $controller->addSeller();
@@ -109,27 +109,29 @@ switch ($params[0]) {
         break;
 
     case 'editarVendedor':
-        $request = (new GuardMiddleware())->run($request);
         if (!empty($params[1])) {
+            $request = (new GuardMiddleware())->run($request);
             $controller = new SellerController();
             $sellerId = (int) $params[1];
-            $controller->showSellerEditionMenu($sellerId, $request);
+            $controller->showSellerEditionMenu($sellerId);
         }
         break;
 
     case 'updateSeller':
         if (!empty($params[1])) {
+            $request = (new GuardMiddleware())->run($request);
             $controller = new SellerController();
             $sellerId = (int) $params[1];
-            $controller->updateSeller($sellerId, $request);
+            $controller->updateSeller($sellerId);
         }
         break;
 
     case 'deleteSeller':
         if (!empty($params[1])) {
             $id = (int) $params[1];
+            $request = (new GuardMiddleware())->run($request);
             $controller = new SellerController();
-            $controller->deleteSeller($id, $request);
+            $controller->deleteSeller($id);
         }
         break;
 
