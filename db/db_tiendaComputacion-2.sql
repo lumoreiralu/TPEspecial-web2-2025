@@ -63,7 +63,8 @@ CREATE TABLE `vendedor` (
 INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`) VALUES
 (1, 'Lucia M', 2494001, 'lucia@tienda.com'),
 (2, 'Manuel', 2494002, 'manuel@tienda.com'),
-(3, 'Carlos', 2494678, 'carlos@tienda.com');
+(3, 'Carlos', 2494678, 'carlos@tienda.com'),
+(4, 'Pepito', 1234321, 'pepito@tienda.com');
 
 -- --------------------------------------------------------
 
@@ -90,7 +91,9 @@ INSERT INTO `venta` (`id_venta`, `producto`, `precio`, `id_vendedor`, `fecha`) V
 (4, 'Mouse Inalámbrico Apple', 100900.00, 1, '2025-10-02'),
 (5, 'Impresora Epson Stylus 2000', 189000.00, 2, '2025-08-07'),
 (6, 'Microfono Influencer ', 89000.00, 1, '2025-10-03'),
-(7, 'Luz led para selfie ', 9000.00, 2, '2025-09-12');
+(7, 'Luz led para selfie ', 9000.00, 2, '2025-09-12'),
+(8, 'Modem Router Huawei HG8145V5', 84000.06, 3, '2025-09-15'),
+(9, 'Raspberry Pi SBC 8GB', 169000.26, 4, '2025-09-15');
 
 --
 -- Índices para tablas volcadas
@@ -146,7 +149,9 @@ ALTER TABLE `venta`
 -- Filtros para la tabla `venta`
 --
 ALTER TABLE `venta`
-  ADD CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id`);
+  ADD CONSTRAINT `venta_ibfk_1` 
+  FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id`)
+  ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
