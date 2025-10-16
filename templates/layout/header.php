@@ -39,8 +39,8 @@
               </li>
               <li><a class="dropdown-item" href="vendedores">Vendedores</a></li>
 
-              <?php if (isset($user)): ?>
-              <li><a class="dropdown-item" href="nuevoVendedor">Nuevo vendedor</a></li>
+             <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
+                <li><a class="dropdown-item" href="nuevoVendedor">Nuevo vendedor</a></li>
               <?php endif; ?>
               <li>
                 <hr class="dropdown-divider">
@@ -51,14 +51,6 @@
                   <a href="<?= BASE_URL ?>addVenta" class="dropdown-item">Nueva venta</a>
                 <?php endif; ?>
               </li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <?php if (!isset($user)): ?>
-                <li><a class="dropdown-item" href="showLogin">Login</a></li>
-              <?php elseif (isset($user)): ?>
-                <li><a class="dropdown-item" href="logout">Logout</a></li>
-              <?php endif; ?>
             </ul>
           </li>
         </ul>
@@ -76,6 +68,9 @@
             👋 Hola, <?= htmlspecialchars($_SESSION['USER_NAME']) ?>!
           </span>
           <a href="<?= BASE_URL ?>logout" class="btn btn-outline-danger btn-sm">Cerrar sesión</a>
+        <?php else: ?>
+          <a href="<?= BASE_URL ?>showLogin" class="btn btn-primary btn-sm">Iniciar sesión</a>
         <?php endif; ?>
+
       </div>
   </nav>
