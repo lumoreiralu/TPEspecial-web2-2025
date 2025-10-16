@@ -57,7 +57,7 @@ else
               <td><?= htmlspecialchars($seller->telefono) ?></td>
               <td><?= htmlspecialchars($seller->email) ?></td>
               <td>
-                  <?php if ($user): ?>
+             <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
                 <div class="btn-group">
                   <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id . $pagina ?>"
                     class="btn btn-outline-warning text-wrap" style="border:none;">✏️Editar</a>

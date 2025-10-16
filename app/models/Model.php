@@ -74,23 +74,48 @@ class Model
                 PRIMARY KEY (`id_venta`),
                 KEY `id_vendedor` (`id_vendedor`),
                 CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;",
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;"
         );
+
+        $this->db->exec(
+            "CREATE TABLE IF NOT EXISTS `usuario` (
+                `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
+                `user` varchar(300) NOT NULL,
+                `password` char(60) NOT NULL,
+                `rol` varchar(300) NOT NULL,
+                PRIMARY KEY (`id_usuario`),
+                KEY `user name` (`user`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;"
+        );
+
         // inserta datos a las tablas
         $this->db->exec(
             "INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`) VALUES
-            (1, 'lucia', '111511', 'lucia@tienda.com'),
-            (2, 'manuel', '24941511', 'manuel@tienda.com'),
-            (4, 'webadmin', '2494000001', 'web@admin.com');"
+            (1, 'Lucia M', 2494001, 'lucia@tienda.com'),
+            (2, 'Manuel', 2494002, 'manuel@tienda.com'),
+            (3, 'Carlos', 2494678, 'carlos@tienda.com'),
+            (4, 'Pepito', 1234321, 'pepito@tienda.com');
+            "
         );
         $this->db->exec(
             "INSERT INTO `venta` (`id_venta`, `producto`, `precio`, `id_vendedor`, `fecha`) VALUES
-            (1, 'mouse', 1499.99, 1, '2025-09-02'),
-            (2, 'teclado con luces', 2999.99, 2, '2025-08-13'),
-            (3, 'Notebook', 599999.99, 1, '2025-10-08'),
-            (4, 'Monitor', 357499.00, 2, '2025-10-08'),
-            (5, 'Webcam', 80000.00, 1, '2025-10-09'),
-            (6, 'CPU', 700000.00, 4, '2025-10-11');"
+            (1, 'Monitor Smart HD Samsung', 310900.00, 1, '2025-10-01'),
+            (2, 'Teclado Mecanico Logitech', 3900.00, 2, '2025-10-06'),
+            (3, 'Parlante JBL Autotune', 8900.00, 1, '2025-10-02'),
+            (4, 'Mouse Inalámbrico Apple', 100900.00, 1, '2025-10-02'),
+            (5, 'Impresora Epson Stylus 2000', 189000.00, 2, '2025-08-07'),
+            (6, 'Microfono Influencer ', 89000.00, 1, '2025-10-03'),
+            (7, 'Luz led para selfie ', 9000.00, 2, '2025-09-12'),
+            (8, 'Modem Router Huawei HG8145V5', 84000.06, 3, '2025-09-15'),
+            (9, 'Raspberry Pi SBC 8GB', 169000.26, 4, '2025-09-15');"
+
+        );
+
+        $this->db->exec(
+            'INSERT INTO `usuario` (`id_usuario`, `user`, `password`, `rol`) VALUES
+                (4, "admin", "$2y$10$4ab1m5wRaAHWYDklGBubxOW3XXEVss4BQjyN2/MQMpy72LiOlwh.6", "administrador"),
+                (5, "lucia", "$2y$10$.GU91NnRISEpi02K0FkKEe.r4nGmJ4zRdL9JONimGwe0sbOlUO2IW", "vendedor"),
+                (6, "manuel", "$2y$10$wK5d9MPmipOq.C3iWf/Xs.TA0IZabQT4nnJgW9oOi.z2VeouA8/1a", "vendedor");'
         );
     }
 }
