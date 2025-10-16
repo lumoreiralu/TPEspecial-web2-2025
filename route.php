@@ -96,16 +96,10 @@ switch ($params[0]) {
     case 'nuevoVendedor':
         $request = (new GuardMiddleware())->run($request);
         $controller = new SellerController();
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') 
             $controller->addSeller();
-        } else {
+         else 
             $controller->showNewSellerForm();
-        }
-        if ($_SERVER['REQUEST_METHOD'] === 'POST')
-            $controller->addSeller();
-        else
-            $controller->showNewSellerForm();
-
         break;
 
     case 'editarVendedor':
