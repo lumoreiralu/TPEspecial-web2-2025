@@ -2,12 +2,12 @@
 class SaleView{
     public function showSales($sales, $user){
         $count = count($sales);
-        require_once 'templates/layout/header.php';
+        require_once 'templates/layout/header.phtml';
         require_once './templates/sales-list.phtml';
     }
 
-    public function showSale($sale){
-        require_once './templates/sale-detail.php';
+    public function showSaleDetail($sale){
+        require_once './templates/sale-detail.phtml';
     }
 
     public function showError($msje) {

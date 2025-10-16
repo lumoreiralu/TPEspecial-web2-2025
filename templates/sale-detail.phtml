@@ -44,6 +44,7 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
           <th>Precio</th>
 
           <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
+            <th>Vendedor</th>
             <th>Editar</th>
             <th>Eliminar</th>
           <?php endif; ?>
@@ -58,6 +59,9 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
     <td><?= htmlspecialchars($sale->producto) ?></td>
     <td>$<?= number_format($sale->precio, 2, ',', '.') ?></td>
 
+    <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
+    <td><?= htmlspecialchars($sale->vendedor) ?></td>
+    <?php endif; ?>
     <td>
       <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
         <a href="<?= BASE_URL ?>editarVenta/<?= $sale->id_venta ?>" class="btn btn-warning btn-sm">Editar</a>

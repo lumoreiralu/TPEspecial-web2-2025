@@ -4,13 +4,13 @@ class SellerView
     public function showSellers($sellers, $user)
     {
         $count = count($sellers);
-        require_once './templates/sellers-list.php';
+        require_once './templates/sellers-list.phtml';
     }
 
     public function showEditMenu($sellerToEdit, $sellers)
     {
         $count = count($sellers);
-        require_once './templates/sellers-edit-menu.php';
+        require_once './templates/sellers-edit-menu.phtml';
     }
 
     public function showFormAddSeller()

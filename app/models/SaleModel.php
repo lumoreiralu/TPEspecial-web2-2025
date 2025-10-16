@@ -29,6 +29,18 @@ class SaleModel extends Model{
         return $sale;
     }
 
+    // Trae el detalle de UNA venta
+    public function getSaleDetail($id) {
+        $query = $this->db->prepare("
+            SELECT v.*, ven.nombre AS vendedor
+            FROM venta v
+            JOIN vendedor ven ON v.id_vendedor = ven.id_vendedor
+            WHERE v.id_venta = ?
+        ");
+        $query->execute([$id]);
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+
     public function insert($producto, $precio, $vendedor, $fecha){
         $query = $this->db->prepare('INSERT INTO venta(producto, precio, id_vendedor, fecha) VALUES (?,?,?,?)');
         $query->execute([$producto, $precio, $vendedor, $fecha]);

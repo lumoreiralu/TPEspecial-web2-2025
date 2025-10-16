@@ -64,6 +64,11 @@ class SaleController {
         $this->view->showSales($sales,$request->user); // se reutiliza function showSales()
     }
 
+    public function showSaleDetail($id){
+        $sale = $this->model->getSaleDetail($id);
+        $this->view->showSaleDetail($sale);
+    }
+
     public function updateSale($id, $request) {
         // Solo admin puede actualizar
         if (!$request->user || $request->user->rol !== 'administrador') {
