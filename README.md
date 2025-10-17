@@ -17,5 +17,16 @@
 
 <img width="636" height="339" alt="Diagrama Entidad-Relacion" src="./DER tienda.jpg" />
 
+TPE - Parte 2: Sitio Web Dinámico
 
+Este proyecto en un sitio web dinámico que permite la visualización y administración de ventas y vendedores. Los usuarios pueden acceder a un listado de ellos sin necesidad de iniciar sesión, mientras que solo el administrador tiene acceso a una sección restringida que puede modificar, editar o eliminar un item.
+
+usuario:admin HASH: $2y$10$.GU91NnRISEpi02K0FkKEe.r4nGmJ4zRdL9JONimGwe0sbOlUO2IW Contraseña: webadmin
+
+En el home para usuario no logueados, o logueados sin ser rol=administrador se muestran las ventas con su producto y valor, en la seccion de vendedores, su nombre, mail y telefono. Hay una seccion para buscar una venta por nombre del producto.
+
+
+Cuando el administrador ingresa con el usuario admin y la contraseña webadmin puede agregar, editar y eliminar ítems, ya que vera los botones para realizar dichas acciones.
+
+Se uso Apache, Base de Datos: MySQL, Estructura de Archivos: MVC y plantillas en phtml para la generación de vistas. URLs Semánticas: Todas las rutas son semánticas para mejorar la usabilidad y SEO.
 
