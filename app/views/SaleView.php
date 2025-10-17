@@ -27,6 +27,9 @@ class SaleView{
             </div>
         </div>';
     }
+    public function showSaleDetail($sale){
+        require_once 'templates/sale-detail.phtml';
+    }
     
 
     public function showAddSaleForm($sellers) {

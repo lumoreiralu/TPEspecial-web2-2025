@@ -56,7 +56,13 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
           <?php foreach ($ventasPagina as $index => $sale): ?>
   <tr>
     <td><?= $inicio + $index + 1 ?></td>
-    <td><?= htmlspecialchars($sale->producto) ?></td>
+    <td>
+      <a href="<?= BASE_URL ?>detalleVenta/<?= $sale->id_venta ?>" class="text-decoration-none text-reset">
+      <?= htmlspecialchars($sale->producto) ?>
+    </a>
+
+    </td>
+
     <td>$<?= number_format($sale->precio, 2, ',', '.') ?></td>
  
     <td>

@@ -43,7 +43,14 @@ switch ($params[0]) {
         } else
             echo '404 not found';
         break;
-
+    case "detalleVenta":
+        $controller = new SaleController();
+        if (!empty($params[1])) {
+            $id = $params[1];
+            $controller->showSaleDetail($id);
+        } else
+             echo '404 not found';
+        break;
     case 'venta':
         $controller = new SaleController();
         if (isset($params[1])) {

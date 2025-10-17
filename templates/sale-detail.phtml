@@ -1,0 +1,16 @@
+<?php require 'templates/layout/header.phtml'; ?>
+
+<div class="container mt-4">
+  <h2>Detalle de la venta #<?= htmlspecialchars($sale->id_venta) ?></h2>
+
+  <ul class="list-group">
+    <li class="list-group-item"><strong>Producto:</strong> <?= htmlspecialchars($sale->producto) ?></li>
+    <li class="list-group-item"><strong>Precio:</strong> $<?= htmlspecialchars($sale->precio) ?></li>
+    <li class="list-group-item"><strong>Fecha:</strong> <?= htmlspecialchars($sale->fecha) ?></li>
+    <li class="list-group-item"><strong>Vendedor:</strong> <?= htmlspecialchars($sale->nombre) ?></li>
+  </ul>
+
+  <a href="home" class="btn btn-secondary mt-3">Volver</a>
+</div>
+
+<?php require 'templates/layout/footer.phtml'; ?>

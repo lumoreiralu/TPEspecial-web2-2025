@@ -19,6 +19,16 @@ class SaleController {
         $sales = $this->model->getAll();
         $this->view->showSales($sales, $request->user);
     }
+    public function showSaleDetail($id) {
+        $sale = $this->model->getSaleById($id);
+    
+        if ($sale) {
+            $this->view->showSaleDetail($sale);
+        } else {
+            $this->view->showError("No se encontró la venta con ID $id");
+        }
+    }
+    
 
     public function showSale($id) {
         $sale = $this->model->showSale($id);

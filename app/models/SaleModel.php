@@ -21,6 +21,18 @@ class SaleModel extends Model{
         return $sales;
     }
 
+    public function getSaleById($idVenta) {
+        $query = $this->db->prepare('
+            SELECT v.*, s.nombre AS nombre
+            FROM venta v
+            INNER JOIN vendedor s ON v.id_vendedor = s.id
+            WHERE v.id_venta = ?
+        ');
+        $query->execute([(int)$idVenta]);
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+    
+    
     public function showSale($id){
         $query = $this->db->prepare('SELECT * FROM venta WHERE `id_venta` = ?'); 
         $query->execute([$id]);
