@@ -6,10 +6,6 @@ class SaleView{
         require_once './templates/sales-list.phtml';
     }
 
-    public function showSaleDetail($sale){
-        require_once './templates/sale-detail.phtml';
-    }
-
     public function showError($msje) {
         echo '
         <div class="container mt-4">

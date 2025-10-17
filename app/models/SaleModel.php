@@ -1,13 +1,14 @@
 <?php
 require_once 'Model.php';
 class SaleModel extends Model{ 
-    public function getAll(){
-        $query = $this->db->prepare('SELECT * FROM venta');
+    public function getAll() {
+        $query = $this->db->prepare('
+            SELECT v.*, ve.nombre AS vendedor
+            FROM venta v
+            JOIN vendedor ve ON v.id_vendedor = ve.id
+        ');
         $query->execute();
-
-        $sales = $query->fetchAll(PDO::FETCH_OBJ);
-
-        return $sales;
+        return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
     // devuelve array de ventas por vendedor
@@ -29,17 +30,6 @@ class SaleModel extends Model{
         return $sale;
     }
 
-    // Trae el detalle de UNA venta
-    public function getSaleDetail($id) {
-        $query = $this->db->prepare("
-            SELECT v.*, ven.nombre AS vendedor
-            FROM venta v
-            JOIN vendedor ven ON v.id_vendedor = ven.id_vendedor
-            WHERE v.id_venta = ?
-        ");
-        $query->execute([$id]);
-        return $query->fetch(PDO::FETCH_OBJ);
-    }
 
     public function insert($producto, $precio, $vendedor, $fecha){
         $query = $this->db->prepare('INSERT INTO venta(producto, precio, id_vendedor, fecha) VALUES (?,?,?,?)');

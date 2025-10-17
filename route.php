@@ -54,17 +54,6 @@ switch ($params[0]) {
             $controller->showSales($request);
         }
         break;
-    case 'detalleVenta':
-        $controller = new SaleController();
-        if (isset($params[1])) {
-            $request = (new GuardMiddleware())->run($request);
-            $id = $params[1];
-            $controller->showSaleDetail($id);
-        } else {
-            $controller->showSales($request);
-        }
-        break;
-
     case 'addVenta':
         $request = (new GuardMiddleware())->run($request);
         $controller = new SaleController();
