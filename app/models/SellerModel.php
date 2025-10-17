@@ -32,7 +32,8 @@ class SellerModel extends Model{
 
         if ($img)
             $path = $this->uploadImg($img);
-
+        else
+            $path = 'img/default-user-img.jpg';
         $query = $this->db->prepare("INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`, `imagen` ) VALUES (NULL, ?, ?, ?, ?)");
         $query->execute([$nombre, $telefono, $email, $path]);
     }

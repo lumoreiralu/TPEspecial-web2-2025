@@ -37,21 +37,11 @@ if ($seller):
             <div class="d-flex">
 
               <!-- Si hay imagen la muestra -->
-              <?php if ($seller->imagen): ?>
 
                 <div class="flex-shrink-0">
                   <img src="http:<?= BASE_URL . $seller->imagen ?>" alt="imagen vendedor" class="img-fluid"
                     style="width: 180px; border-radius: 10px;">
                 </div>
-
-              <?php else: ?>
-
-                <div class="flex-shrink-0">
-                  <img src="http:<?= BASE_URL?>bc8f29c4183345bcc63bd4a161e88c71.jpg" alt="imagen vendedor" class="img-fluid"
-                    style="width: 180px; border-radius: 10px;">
-                </div>
-
-              <?php endif; ?>
 
               <div class="flex-grow-1 ms-3">
                 <h5 class="mb-1"><?= $seller->nombre ?></h5>
