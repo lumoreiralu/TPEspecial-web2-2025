@@ -62,16 +62,12 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
     <td>
       <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE']=== 'administrador'):?>
       <?= htmlspecialchars($sale->vendedor)?>
-      <?php endif; ?>
     </td>
     <td>
-      <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
         <a href="<?= BASE_URL ?>editarVenta/<?= $sale->id_venta ?>" class="btn btn-warning btn-sm">Editar</a>
-      <?php endif; ?>
     </td>
 
     <td>
-      <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
         <form action="deleteSale/<?= $sale->id_venta ?>" method="POST" class="d-inline">
           <input type="hidden" name="id" value="<?= $sale->id_venta ?>">
           <button type="submit" class="btn btn-danger btn-sm"
