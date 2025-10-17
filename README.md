@@ -21,7 +21,7 @@ TPE - Parte 2: Sitio Web Dinámico
 
 Este proyecto en un sitio web dinámico que permite la visualización y administración de ventas y vendedores. Los usuarios pueden acceder a un listado de ellos sin necesidad de iniciar sesión, mientras que solo el administrador tiene acceso a una sección restringida que puede modificar, editar o eliminar un item.
 
-usuario:admin HASH: $2y$10$.GU91NnRISEpi02K0FkKEe.r4nGmJ4zRdL9JONimGwe0sbOlUO2IW Contraseña: webadmin
+usuario:admin HASH: $2y$10$4ab1m5wRaAHWYDklGBubxOW3XXEVss4BQjyN2/MQMpy72LiOlwh.6 Contraseña: webadmin
 
 En el home para usuario no logueados, o logueados sin ser rol=administrador se muestran las ventas con su producto y valor, en la seccion de vendedores, su nombre, mail y telefono. Hay una seccion para buscar una venta por nombre del producto.
 
