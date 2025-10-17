@@ -27,8 +27,19 @@ class SellerModel extends Model{
         $query->execute([$id]);
     }
 
-    public function insert($nombre, $telefono, $email) {
-        $query = $this->db->prepare("INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`) VALUES (NULL, ?, ?, ?)");
-        $query->execute([$nombre, $telefono, $email]);
+    public function insert($nombre, $telefono, $email, $img = null) {
+        $path = null;
+
+        if ($img)
+            $path = $this->uploadImg($img);
+
+        $query = $this->db->prepare("INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`, `imagen` ) VALUES (NULL, ?, ?, ?, ?)");
+        $query->execute([$nombre, $telefono, $email, $path]);
+    }
+
+    public function uploadImg ($img) {
+        $target = "img/" . uniqid() . "." . strtolower(pathinfo($img['name'], PATHINFO_EXTENSION));  
+        move_uploaded_file($img['tmp_name'], $target);
+        return $target;
     }
 }

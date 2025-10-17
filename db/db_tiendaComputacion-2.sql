@@ -53,7 +53,8 @@ CREATE TABLE `vendedor` (
   `id` int(11) NOT NULL,
   `nombre` varchar(300) NOT NULL,
   `telefono` int(11) NOT NULL,
-  `email` varchar(300) NOT NULL
+  `email` varchar(300) NOT NULL,
+  `imagen` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -62,7 +63,7 @@ CREATE TABLE `vendedor` (
 
 INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`) VALUES
 (1, 'Lucia M', 2494001, 'lucia@tienda.com'),
-(2, 'Manuel', 2494002, 'manuel@tienda.com'),
+(2, 'Manuel', 2494002, 'manuel@tienda.com', 'img/68f2920fb3b78.png'),
 (3, 'Carlos', 2494678, 'carlos@tienda.com'),
 (4, 'Pepito', 1234321, 'pepito@tienda.com');
 

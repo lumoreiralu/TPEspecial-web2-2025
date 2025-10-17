@@ -3,7 +3,7 @@ require_once __DIR__ . '/../config/config.php';
 class Model
 {
     // variable de conexion compartida
-    protected static $pdo; 
+    protected static $pdo;
 
     // variable usada por las instancias
     protected $db;
@@ -37,7 +37,7 @@ class Model
         // le asigna a la variable de instancia la conexion existente
         $this->db = self::$pdo;
 
-    } 
+    }
     // (solucionado) Nota: cada vez que se instancia un controlador se ejecuta una nueva conexion -> revisar mas adelante este comportamiento
     // update: solucionado con la implementacion de static $pdo
 
@@ -92,7 +92,7 @@ class Model
         $this->db->exec(
             "INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`) VALUES
             (1, 'Lucia M', 2494001, 'lucia@tienda.com'),
-            (2, 'Manuel', 2494002, 'manuel@tienda.com'),
+            (2, 'Manuel', 2494002, 'manuel@tienda.com', 'img/68f2920fb3b78.png'),
             (3, 'Carlos', 2494678, 'carlos@tienda.com'),
             (4, 'Pepito', 1234321, 'pepito@tienda.com');
             "

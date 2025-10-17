@@ -18,4 +18,6 @@ class SellerView
         require_once './templates/form-addSeller.phtml';
     }
 
+    // funcion para mostrar datos vendedor & imagen subida a la db
+
 }

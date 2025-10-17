@@ -45,11 +45,19 @@ class SellerController{
     function addSeller() {
         $nombre = $_POST['nombre'];
         $telefono = $_POST['telefono'];
-        $email = $_POST['email']; 
+        $email = $_POST['email'];
 
-        $this->model->insert($nombre, $telefono, $email);
+        if($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png" )
+            $this->model->insert($nombre, $telefono, $email, $_FILES['imagen']);                
+        else
+            $this->model->insert($nombre, $telefono, $email);
+                
         header("Location: " . BASE_URL . "vendedores");
+            
+
+
     }
+
 
 
 }

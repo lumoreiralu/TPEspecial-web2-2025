@@ -23,7 +23,66 @@ if ($paginaActual > $totalPaginas)
 
 $inicio = ($paginaActual - 1) * $ventasPorPagina;
 $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
+
+
+if ($seller):
+  
 ?>
+
+  <section class="w-100 px-4 py-5" style="background-color: #9de2ff; border-radius: .5rem .5rem 0 0;">
+    <div class="row d-flex justify-content-center">
+      <div class="col col-md-9 col-lg-7 col-xl-6">
+        <div class="card" style="border-radius: 15px;">
+          <div class="card-body p-4">
+            <div class="d-flex">
+
+              <!-- Si hay imagen la muestra -->
+              <?php if ($seller->imagen): ?>
+
+                <div class="flex-shrink-0">
+                  <img src="http:<?= BASE_URL . $seller->imagen ?>" alt="imagen vendedor" class="img-fluid"
+                    style="width: 180px; border-radius: 10px;">
+                </div>
+
+              <?php else: ?>
+
+                <div class="flex-shrink-0">
+                  <img src="http:<?= BASE_URL?>bc8f29c4183345bcc63bd4a161e88c71.jpg" alt="imagen vendedor" class="img-fluid"
+                    style="width: 180px; border-radius: 10px;">
+                </div>
+
+              <?php endif; ?>
+
+              <div class="flex-grow-1 ms-3">
+                <h5 class="mb-1"><?= $seller->nombre ?></h5>
+                <p class="mb-2 pb-1"><?= $seller->email ?></p>
+                <div class="d-flex justify-content-start rounded-3 p-2 mb-2 bg-body-tertiary">
+                  <div>
+                    <p class="small text-muted mb-1">Total ventas:</p>
+                    <p class="mb-0"><?= $totalVentas ?></p>
+                  </div>
+                  <div class="px-3">
+                    <p class="small text-muted mb-1">Telefono</p>
+                    <p class="mb-0"><?= $seller->telefono ?></p>
+                  </div>
+                  <div>
+                    <p class="small text-muted mb-1">ID</p>
+                    <p class="mb-0"><?= $seller->id ?></p>
+                  </div>
+                </div>
+                <div class="col">
+                  <a href="<?= BASE_URL ?>vendedores" type="button" class="btn btn-primary flex-grow-1">Ver más
+                    vendedores</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<?php endif; ?>
 
 <div class="container my-5">
   <h2 class="mb-4 text-center">📦 Lista de Ventas</h2>
@@ -53,30 +112,30 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
       <tbody>
         <?php if (!empty($ventasPagina)): ?>
           <?php foreach ($ventasPagina as $index => $sale): ?>
-  <tr>
-    <td><?= $inicio + $index + 1 ?></td>
-    <td><?= htmlspecialchars($sale->producto) ?></td>
-    <td>$<?= number_format($sale->precio, 2, ',', '.') ?></td>
+            <tr>
+              <td><?= $inicio + $index + 1 ?></td>
+              <td><?= htmlspecialchars($sale->producto) ?></td>
+              <td>$<?= number_format($sale->precio, 2, ',', '.') ?></td>
 
-    <td>
-      <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
-        <a href="<?= BASE_URL ?>editarVenta/<?= $sale->id_venta ?>" class="btn btn-warning btn-sm">Editar</a>
-      <?php endif; ?>
-    </td>
+              <td>
+                <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
+                  <a href="<?= BASE_URL ?>editarVenta/<?= $sale->id_venta ?>" class="btn btn-warning btn-sm">Editar</a>
+                <?php endif; ?>
+              </td>
 
-    <td>
-      <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
-        <form action="deleteSale/<?= $sale->id_venta ?>" method="POST" class="d-inline">
-          <input type="hidden" name="id" value="<?= $sale->id_venta ?>">
-          <button type="submit" class="btn btn-danger btn-sm"
-            onclick="return confirm('¿Seguro que querés eliminar esta venta?');">
-            Eliminar
-          </button>
-        </form>
-      <?php endif; ?>
-    </td>
-  </tr>
-<?php endforeach; ?>
+              <td>
+                <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
+                  <form action="deleteSale/<?= $sale->id_venta ?>" method="POST" class="d-inline">
+                    <input type="hidden" name="id" value="<?= $sale->id_venta ?>">
+                    <button type="submit" class="btn btn-danger btn-sm"
+                      onclick="return confirm('¿Seguro que querés eliminar esta venta?');">
+                      Eliminar
+                    </button>
+                  </form>
+                <?php endif; ?>
+              </td>
+            </tr>
+          <?php endforeach; ?>
 
         <?php else: ?>
           <tr>
@@ -93,7 +152,7 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
     $url = 'vendedor/' . $id;
   else
     $url = "";
-  
+
   if ($totalPaginas > 1):
 
     ?>
@@ -101,7 +160,7 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
       <ul class="pagination justify-content-center">
         <!-- Botón Anterior -->
         <li class="page-item <?= ($paginaActual <= 1) ? 'disabled' : '' ?>">
-          <a class="page-link" href="<?=$url?>?page=<?= $paginaActual - 1 ?>&search=<?= urlencode($search) ?>"
+          <a class="page-link" href="<?= $url ?>?page=<?= $paginaActual - 1 ?>&search=<?= urlencode($search) ?>"
             aria-label="Anterior">
             <span aria-hidden="true">&laquo;</span>
           </a>
@@ -110,7 +169,7 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
         <!-- Números de página -->
         <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
           <li class="page-item <?= ($paginaActual == $i) ? 'active' : '' ?>">
-            <a class="page-link" href="<?=$url?>?page=<?= $i ?>&search=<?= urlencode($search) ?>">
+            <a class="page-link" href="<?= $url ?>?page=<?= $i ?>&search=<?= urlencode($search) ?>">
               <?= $i ?>
             </a>
           </li>
@@ -118,7 +177,7 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
 
         <!-- Botón Siguiente -->
         <li class="page-item <?= ($paginaActual >= $totalPaginas) ? 'disabled' : '' ?>">
-          <a class="page-link" href="<?=$url?>?page=<?= $paginaActual + 1 ?>&search=<?= urlencode($search) ?>"
+          <a class="page-link" href="<?= $url ?>?page=<?= $paginaActual + 1 ?>&search=<?= urlencode($search) ?>"
             aria-label="Siguiente">
             <span aria-hidden="true">&raquo;</span>
           </a>
