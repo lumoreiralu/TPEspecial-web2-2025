@@ -92,11 +92,10 @@ class Model
         // inserta datos a las tablas
         $this->db->exec(
             "INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`, `imagen`) VALUES
-            (1, 'Lucia M', 2494001, 'lucia@tienda.com', 'img/default-user-img.jpg'),
+            (1, 'Lucia', 2494001, 'lucia@tienda.com', 'img/default-user-img.jpg'),
             (2, 'Manuel', 2494002, 'manuel@tienda.com', 'img/68f2920fb3b78.png'),
             (3, 'Carlos', 2494678, 'carlos@tienda.com', 'img/default-user-img.jpg'),
-            (4, 'Pepito', 1234321, 'pepito@tienda.com', 'img/default-user-img.jpg');
-            "
+            (4, 'Pepito', 1234321, 'pepito@tienda.com', 'img/default-user-img.jpg');"
         );
         $this->db->exec(
             "INSERT INTO `venta` (`id_venta`, `producto`, `precio`, `id_vendedor`, `fecha`) VALUES
@@ -108,8 +107,9 @@ class Model
             (6, 'Microfono Influencer ', 89000.00, 1, '2025-10-03'),
             (7, 'Luz led para selfie ', 9000.00, 2, '2025-09-12'),
             (8, 'Modem Router Huawei HG8145V5', 84000.06, 3, '2025-09-15'),
-            (9, 'Raspberry Pi SBC 8GB', 169000.26, 4, '2025-09-15');"
-
+            (9, 'Raspberry Pi SBC 8GB', 169000.26, 4, '2025-09-15'),
+            (10,'Joystick Playstation 5', 120000.00, 1, '2025-10-15'),
+            (11,'Focusrite Scarlett Solo', 299999.99, 1, '2025-10-12');"
         );
 
         $this->db->exec(
