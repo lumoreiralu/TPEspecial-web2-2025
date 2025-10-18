@@ -68,10 +68,11 @@ class SaleController {
         header('Location: ' . BASE_URL); 
     }
     
-
+    // esta funcion deberia ir ser de SellerController
     public function showSalesByID($sellerId, $request) {
         $sales = $this->model->getSalesById($sellerId); // pido al modelo todas las ventas por id_vendedor
-        $this->view->showSales($sales,$request->user); // se reutiliza function showSales()
+        $seller = $this->model->getSeller($sellerId);
+        $this->view->showSales($sales,$request->user, $seller); // se reutiliza function showSales()
     }
 
     public function updateSale($id, $request) {

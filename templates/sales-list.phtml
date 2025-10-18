@@ -23,6 +23,10 @@ if ($paginaActual > $totalPaginas)
 
 $inicio = ($paginaActual - 1) * $ventasPorPagina;
 $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
+
+
+if ($seller)
+  require_once 'templates/seller-card.phtml';
 ?>
 
 <div class="container my-5">
@@ -101,7 +105,7 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
     $url = 'vendedor/' . $id;
   else
     $url = "";
-  
+
   if ($totalPaginas > 1):
 
     ?>
@@ -109,7 +113,7 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
       <ul class="pagination justify-content-center">
         <!-- Botón Anterior -->
         <li class="page-item <?= ($paginaActual <= 1) ? 'disabled' : '' ?>">
-          <a class="page-link" href="<?=$url?>?page=<?= $paginaActual - 1 ?>&search=<?= urlencode($search) ?>"
+          <a class="page-link" href="<?= $url ?>?page=<?= $paginaActual - 1 ?>&search=<?= urlencode($search) ?>"
             aria-label="Anterior">
             <span aria-hidden="true">&laquo;</span>
           </a>
@@ -118,7 +122,7 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
         <!-- Números de página -->
         <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
           <li class="page-item <?= ($paginaActual == $i) ? 'active' : '' ?>">
-            <a class="page-link" href="<?=$url?>?page=<?= $i ?>&search=<?= urlencode($search) ?>">
+            <a class="page-link" href="<?= $url ?>?page=<?= $i ?>&search=<?= urlencode($search) ?>">
               <?= $i ?>
             </a>
           </li>
@@ -126,7 +130,7 @@ $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
 
         <!-- Botón Siguiente -->
         <li class="page-item <?= ($paginaActual >= $totalPaginas) ? 'disabled' : '' ?>">
-          <a class="page-link" href="<?=$url?>?page=<?= $paginaActual + 1 ?>&search=<?= urlencode($search) ?>"
+          <a class="page-link" href="<?= $url ?>?page=<?= $paginaActual + 1 ?>&search=<?= urlencode($search) ?>"
             aria-label="Siguiente">
             <span aria-hidden="true">&raquo;</span>
           </a>

@@ -11,6 +11,12 @@ class SaleModel extends Model{
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function getSeller($sellerId){
+        $query = $this->db->prepare('SELECT * FROM vendedor WHERE id = ?');
+        $query->execute([(int)$sellerId]);
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+
     // devuelve array de ventas por vendedor
     public function getSalesById($sellerId){
         $query = $this->db->prepare('SELECT * FROM `venta` WHERE `id_vendedor` = ? ORDER BY `id_venta` ASC');
@@ -59,7 +65,6 @@ class SaleModel extends Model{
     public function deleteSale($id){
         $query = $this->db->prepare('DELETE FROM `venta` WHERE `id_venta` = ?');
         $query->execute([$id]);
-
     }
 
 }
