@@ -69,8 +69,8 @@ if ($seller)
 
     <td>$<?= number_format($sale->precio, 2, ',', '.') ?></td>
  
+    <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE']=== 'administrador'): // El if estaba despues de abrir <td> por lo que se creaban celdas fantasmas desde la vista publica?>
     <td>
-      <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE']=== 'administrador'):?>
       <?= htmlspecialchars($sale->vendedor)?>
     </td>
     <td>
@@ -85,8 +85,8 @@ if ($seller)
             Eliminar
           </button>
         </form>
-      <?php endif; ?>
-    </td>
+      </td>
+      <?php endif; // y el if se cerraba despues de cerrar con </td>?>
   </tr>
 <?php endforeach; ?>
 
