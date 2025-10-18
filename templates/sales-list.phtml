@@ -24,7 +24,7 @@ if ($paginaActual > $totalPaginas)
 $inicio = ($paginaActual - 1) * $ventasPorPagina;
 $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
 
-
+// si existe $seller es porque se esta viendo el perfil de un vendedor
 if ($seller)
   require_once 'templates/seller-card.phtml';
 ?>
@@ -47,8 +47,8 @@ if ($seller)
           <th>Producto</th>
           <th>Precio</th>
 
+          <th>Vendedor</th>
           <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
-            <th>Vendedor</th>
             <th>Editar</th>
             <th>Eliminar</th>
           <?php endif; ?>
@@ -68,11 +68,21 @@ if ($seller)
     </td>
 
     <td>$<?= number_format($sale->precio, 2, ',', '.') ?></td>
- 
-    <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE']=== 'administrador'): // El if estaba despues de abrir <td> por lo que se creaban celdas fantasmas desde la vista publica?>
+    <?php 
+    // si existe $seller es porque se esta llamando al template
+    // desde SellerController
+    if ($seller): ?>
+    <td>
+      <?= htmlspecialchars($seller->nombre);?>
+    </td>
+    <?php 
+    // sino, es porque se esta llamando desde el SaleController
+    else: ?>
     <td>
       <?= htmlspecialchars($sale->vendedor)?>
     </td>
+    <?php endif;?>
+    <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE']=== 'administrador'): // El if estaba despues de abrir <td> por lo que se creaban celdas fantasmas desde la vista publica?>
     <td>
         <a href="<?= BASE_URL ?>editarVenta/<?= $sale->id_venta ?>" class="btn btn-warning btn-sm">Editar</a>
     </td>
@@ -103,6 +113,8 @@ if ($seller)
   <?php
   if (isset($id))
     $url = 'vendedor/' . $id;
+  elseif ($seller)
+    $url = 'vendedor/' . $seller->id;
   else
     $url = "";
 
