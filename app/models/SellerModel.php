@@ -21,6 +21,16 @@ class SellerModel extends Model{
         return $query->execute([$nombre, $telefono, $email, $id]);
     } 
 
+    public function updateImg($id, $img){
+        $path = 'img/default-user-img.jpg';
+        if ($img)
+            $path = $this->uploadImg($img);
+
+        $query = $this->db->prepare('UPDATE vendedor SET imagen = ? WHERE vendedor . id = ?');
+        $query->execute([$path, $id]);
+
+    }
+
 
     public function delete($id) {
         $query = $this->db->prepare("DELETE FROM vendedor WHERE `vendedor`.`id` = ?");

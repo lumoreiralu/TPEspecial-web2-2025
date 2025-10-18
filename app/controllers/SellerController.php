@@ -23,13 +23,14 @@ class SellerController{
     }
 
     function updateSeller($id) {
-        
-        $nombre = $_POST['nombre'];
-        $telefono = $_POST['telefono'];
-        $email = $_POST['email'];        
-        
-        $this->model->update($id, $nombre, $telefono, $email);
-    
+        if($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png" ){
+            header("Location: " . BASE_URL . "vendedor/" . $id);
+            return $this->model->updateImg($id, $_FILES['imagen']);
+        }
+            $nombre = $_POST['nombre'];
+            $telefono = $_POST['telefono'];
+            $email = $_POST['email'];        
+            $this->model->update($id, $nombre, $telefono, $email);
         header("Location: " . BASE_URL . "vendedores");
     }
 
