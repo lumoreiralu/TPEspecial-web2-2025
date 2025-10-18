@@ -25,54 +25,9 @@ $inicio = ($paginaActual - 1) * $ventasPorPagina;
 $ventasPagina = array_slice($sales, $inicio, $ventasPorPagina);
 
 
-if ($seller):
-  
+if ($seller)
+  require_once 'templates/seller-card.phtml';
 ?>
-
-  <section class="w-100 px-4 py-5" style="background-color: #9de2ff; border-radius: .5rem .5rem 0 0;">
-    <div class="row d-flex justify-content-center">
-      <div class="col col-md-9 col-lg-7 col-xl-6">
-        <div class="card" style="border-radius: 15px;">
-          <div class="card-body p-4">
-            <div class="d-flex">
-
-              <!-- Si hay imagen la muestra -->
-
-                <div class="flex-shrink-0">
-                  <img src="http:<?= BASE_URL . $seller->imagen ?>" alt="imagen vendedor" class="img-fluid"
-                    style="width: 180px; border-radius: 10px;">
-                </div>
-
-              <div class="flex-grow-1 ms-3">
-                <h5 class="mb-1"><?= $seller->nombre ?></h5>
-                <p class="mb-2 pb-1"><?= $seller->email ?></p>
-                <div class="d-flex justify-content-start rounded-3 p-2 mb-2 bg-body-tertiary">
-                  <div>
-                    <p class="small text-muted mb-1">Total ventas:</p>
-                    <p class="mb-0"><?= $totalVentas ?></p>
-                  </div>
-                  <div class="px-3">
-                    <p class="small text-muted mb-1">Telefono</p>
-                    <p class="mb-0"><?= $seller->telefono ?></p>
-                  </div>
-                  <div>
-                    <p class="small text-muted mb-1">ID</p>
-                    <p class="mb-0"><?= $seller->id ?></p>
-                  </div>
-                </div>
-                <div class="col">
-                  <a href="<?= BASE_URL ?>vendedores" type="button" class="btn btn-primary flex-grow-1">Ver más
-                    vendedores</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-<?php endif; ?>
 
 <div class="container my-5">
   <h2 class="mb-4 text-center">📦 Lista de Ventas</h2>
