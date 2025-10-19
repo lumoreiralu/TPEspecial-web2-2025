@@ -2,59 +2,96 @@
 require_once 'app/models/SellerModel.php';
 require_once 'app/views/SellerView.php';
 
-class SellerController{
-    private $model;
-    private $view;
+class SellerController
+{
+    private $sellerModel, $saleModel;
+    private $saleView, $sellerView;
 
-    function __construct(){
-        $this->model = new SellerModel();
-        $this->view = new SellerView();
+    function __construct()
+    {
+        $this->sellerModel = new SellerModel();
+        $this->saleModel = new SaleModel();
+        $this->sellerView = new SellerView();
+        $this->saleView = new SaleView();
     }
 
-    function showSellers($request){
-        $sellers = $this->model->showAll();
+    function showSellers($request)
+    {
+        $sellers = $this->sellerModel->showAll();
 
-        $this->view->showSellers($sellers, $request->user);
+        $this->sellerView->showSellers($sellers, $request->user);
     }
 
-    function showSellerEditionMenu($sellerById) {
-        $sellers = $this->model->showAll();
-        $this->view->showEditMenu( $sellerById, $sellers);
+    function showSellerEditView($request, $sellerId)
+    {
+        if ($request->user):
+            $sellers = $this->sellerModel->showAll();
+            $this->sellerView->showEditMenu($sellerId, $sellers, $request->user);
+        else:
+            $this->sellerView->showErrorMsg();
+        endif;
     }
 
-    function updateSeller($id) {
-        if($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png" ){
-            header("Location: " . BASE_URL . "vendedor/" . $id);
-            return $this->model->updateImg($id, $_FILES['imagen']);
+    function redirect($request){
+        echo 'hola';
+        var_dump($_POST);
+        header("Location: " . BASE_URL . "vendedores/editar");
+    }
+
+    // esta funcion deberia ir ser de SellerController
+    public function showSellerProfile($sellerId, $request) {
+        if ($sellerId){
+        $sales = $this->saleModel->getSalesById($sellerId); // pido al modelo todas las ventas por id_vendedor
+        $seller = $this->saleModel->getSeller($sellerId);
+        $this->saleView->showSales($sales,$request->user, $seller); // se reutiliza function showSales()
         }
-            $nombre = $_POST['nombre'];
-            $telefono = $_POST['telefono'];
-            $email = $_POST['email'];        
-            $this->model->update($id, $nombre, $telefono, $email);
+        else {
+            $this->sellerView->showErrorMsg();
+        }
+    }
+
+    public function errorMsg(){
+            $this->sellerView->showErrorMsg();
+        
+    }
+
+    function updateSeller($id)
+    {
+        if ($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png") {
+            header("Location: " . BASE_URL . "vendedor/" . $id);
+            return $this->sellerModel->updateImg($id, $_FILES['imagen']);
+        }
+        $nombre = $_POST['nombre'];
+        $telefono = $_POST['telefono'];
+        $email = $_POST['email'];
+        $this->sellerModel->update($id, $nombre, $telefono, $email);
         header("Location: " . BASE_URL . "vendedores");
     }
 
-    function deleteSeller($id){
-        $this->model->delete($id);
+    function deleteSeller($id)
+    {
+        $this->sellerModel->delete($id);
         header("Location: " . BASE_URL . "vendedores");
     }
 
-    function showNewSellerForm(){
-        $this->view->showFormAddSeller();
+    function showNewSellerForm()
+    {
+        $this->sellerView->showFormAddSeller();
     }
-    
-    function addSeller() {
+
+    function addSeller()
+    {
         $nombre = $_POST['nombre'];
         $telefono = $_POST['telefono'];
         $email = $_POST['email'];
 
-        if($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png" )
-            $this->model->insert($nombre, $telefono, $email, $_FILES['imagen']);                
+        if ($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png")
+            $this->sellerModel->insert($nombre, $telefono, $email, $_FILES['imagen']);
         else
-            $this->model->insert($nombre, $telefono, $email);
-                
+            $this->sellerModel->insert($nombre, $telefono, $email);
+
         header("Location: " . BASE_URL . "vendedores");
-            
+
 
 
     }

@@ -62,13 +62,10 @@ else
               <?php if ($user): // muestro dashboard solo a usuarios logeados ?>
                 <td>
                   <div class="btn-group">
-                    <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id . $pagina ?>"
-                      class="btn btn-outline-warning text-wrap" style="border:none;">✏️Editar</a>
+                    <a href="<?= BASE_URL ?>vendedores/editar/<?=$seller->id?>" class="btn btn-outline-warning text-wrap" style="border:none;">✏️Editar</a>
+                    <input type="number" name="id" value="<?= $seller->id . $pagina ?>" hidden>
                     <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="btn btn-outline-danger text-wrap"
-                      style="border:none;"
-                      onclick="return confirm(¿Seguro que quiere eliminar a <?= $seller->nombre ?>? Se eliminar consigo todas sus ventas');">
-                      ❌Eliminar
-                    </a>
+                      style="border:none;">❌Eliminar</a>
                   </div>
                 </td>
               <?php endif; ?>
