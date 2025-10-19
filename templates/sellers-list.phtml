@@ -41,7 +41,9 @@ else
           <th>Nombre</th>
           <th>Teléfono</th>
           <th>Correo Electronico</th>
-          <th></th>
+          <?php if ($user): // muestro dashboard solo a usuarios logeados ?>
+            <th>Dashboard</th>
+          <?php endif; ?>
         </tr>
       </thead>
       <tbody>
@@ -56,19 +58,21 @@ else
 
               <td><?= htmlspecialchars($seller->telefono) ?></td>
               <td><?= htmlspecialchars($seller->email) ?></td>
-              <td>
-             <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
-                <div class="btn-group">
-                  <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id . $pagina ?>"
-                    class="btn btn-outline-warning text-wrap" style="border:none;">✏️Editar</a>
-                  <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>"
-                    class="btn btn-outline-danger text-wrap" style="border:none;"
-                    onclick="return confirm(¿Seguro que quiere eliminar a <?= $seller->nombre ?>? Se eliminar consigo todas sus ventas');">
-                    ❌Eliminar
-                  </a>
-                </div> 
-                <?php endif; ?>                
-              </td>
+
+              <?php if ($user): // muestro dashboard solo a usuarios logeados ?>
+                <td>
+                  <div class="btn-group">
+                    <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id . $pagina ?>"
+                      class="btn btn-outline-warning text-wrap" style="border:none;">✏️Editar</a>
+                    <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="btn btn-outline-danger text-wrap"
+                      style="border:none;"
+                      onclick="return confirm(¿Seguro que quiere eliminar a <?= $seller->nombre ?>? Se eliminar consigo todas sus ventas');">
+                      ❌Eliminar
+                    </a>
+                  </div>
+                </td>
+              <?php endif; ?>
+
             </tr>
           <?php endforeach; ?>
         <?php else: ?>

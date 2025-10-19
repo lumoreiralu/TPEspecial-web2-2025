@@ -39,7 +39,7 @@
               </li>
               <li><a class="dropdown-item" href="vendedores">Vendedores</a></li>
 
-             <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
+             <?php if ($user): ?>
                 <li><a class="dropdown-item" href="nuevoVendedor">Nuevo vendedor</a></li>
               <?php endif; ?>
               <li>
