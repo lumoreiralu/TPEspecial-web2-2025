@@ -1,6 +1,35 @@
 <?php
 require_once 'Model.php';
 class SellerModel extends Model{
+    
+    protected function createTable()
+    {
+        $this->db->exec(
+            "CREATE TABLE IF NOT EXISTS `vendedor` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `nombre` varchar(100) NOT NULL,
+                `telefono` varchar(20) NOT NULL,
+                `email` varchar(200) NOT NULL,
+                `imagen` varchar(50) NOT NULL,
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;"
+        );
+    }
+
+    // carga la tabla con los datos predefinidos en config.php
+    function preloadTable()
+    {
+        foreach (VENDEDORES as $vendedor)
+            $this->insert(...$vendedor);
+    }
+
+    // Verifica si la base de datos tiene tablas
+    protected function tableExists()
+    {
+        $query = $this->db->query('SHOW TABLES LIKE "venta"');
+        return count($query->fetchAll()) > 0;
+    }
+    
     public function showAll(){
         $query = $this->db->prepare('SELECT * FROM vendedor');
         $query->execute();

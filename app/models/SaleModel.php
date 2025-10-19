@@ -1,6 +1,39 @@
 <?php
 require_once 'Model.php';
 class SaleModel extends Model{ 
+
+    public function createTable()
+    {
+        $this->db->exec(
+            "CREATE TABLE IF NOT EXISTS `venta` (
+                `id_venta` int(11) NOT NULL AUTO_INCREMENT,
+                `producto` varchar(200) NOT NULL,
+                `precio` decimal(10,2) NOT NULL,
+                `id_vendedor` int(11) NOT NULL,
+                `fecha` date NOT NULL,
+                PRIMARY KEY (`id_venta`),
+                KEY `id_vendedor` (`id_vendedor`),
+                CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_vendedor`) REFERENCES `vendedor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;"
+        );
+    }
+
+    // carga la tabla con los datos predefinidos en config.php
+    public function preloadTable()
+    {
+        // VENTAS: array de ventas
+        foreach (VENTAS as $venta) {
+            $this->insert(...$venta); // '...' separa elems de $venta para pasarlos como params
+        }
+    }
+
+    // Verifica si la base de datos tiene tablas
+    public function tableExists()
+    {
+        $query = $this->db->query('SHOW TABLES LIKE "venta"');
+        return count($query->fetchAll()) > 0;
+    }
+    
     public function getAll() {
         $query = $this->db->prepare('
             SELECT v.*, ve.nombre AS vendedor

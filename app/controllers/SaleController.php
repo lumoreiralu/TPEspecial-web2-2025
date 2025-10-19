@@ -10,9 +10,10 @@ class SaleController {
     private $modelSeller;
 
     function __construct() {
+        // instanciar categoria primero, luego item (contrario: rompe autodeploy por la dependencia de tablas)
+        $this->modelSeller = new SellerModel(); 
         $this->model = new SaleModel();
         $this->view = new SaleView();
-        $this->modelSeller = new SellerModel();
     }
 
     public function showSales($request) {
