@@ -32,14 +32,14 @@ abstract class Model
                     MYSQL_PASS
                 );
 
-                // llama a funcion para crear y cargar tablas
-                $this->deploy();
+
 
             } catch (\PDOException $e) {
                 die("Error en la conexión o creación de DB: " . $e->getMessage());
             }
         }
-
+        // llama a funcion para crear y cargar tablas
+        $this->deploy();
         // le asigna la conexion existente para las hijas
         $this->db = self::$pdo;
 
