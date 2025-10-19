@@ -8,8 +8,6 @@ const MYSQL_HOST = 'localhost';
 const VENTAS = [
     ['Monitor Smart HD Samsung', 310900.00, 1, '2025-10-01'],
     ['Teclado Mecanico Logitech', 3900.00, 2, '2025-10-06'],
-    ['Monitor Smart HD Samsung', 310900.00, 1, '2025-10-01'],
-    ['Teclado Mecanico Logitech', 3900.00, 2, '2025-10-06'],
     ['Parlante JBL Autotune', 8900.00, 1, '2025-10-02'],
     ['Mouse Inalámbrico Apple', 100900.00, 1, '2025-10-02'],
     ['Impresora Epson Stylus 2000', 189000.00, 2, '2025-08-07'],
