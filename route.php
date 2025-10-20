@@ -170,6 +170,7 @@ try {
             break;
     }
 } catch (Exception $e) {
-    require_once './templates/error-conexion.phtml';
+    require_once './templates/alert-exception.phtml';
+
     die();
 }
