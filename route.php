@@ -101,14 +101,14 @@ try {
             elseif (!empty($params[1]) && !empty($params[2])) {
                 // esta validacion deberia hacerla el controller
                 if ($params[1] != 'editar') {
-                    $controller->error();
+                    $controller->showError();
                     break;
                 }
                 // vendedores/editar/actualizar-datos
                 if (!empty($params[3]) && $params[3] == "actualizar-datos") {
                     $request = (new GuardMiddleware())->run($request);
                     $sellerId = (int) $params[2];
-                    $controller->update($sellerId, $request);
+                    $controller->update($sellerId);
                     break;
                 }
                 // vendedores/editar/:id
@@ -117,7 +117,7 @@ try {
                 break;
 
             } else
-                $controller->error();
+                $controller->showError();
             break;
 
         case 'vendedor':
@@ -126,7 +126,7 @@ try {
                 $id = (int) $params[1];
                 $controller->showSellerCard($id, $request);
             } else
-                $controller->error();
+                $controller->showError();
             break;
 
         case 'nuevo-vendedor':

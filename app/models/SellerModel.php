@@ -26,11 +26,11 @@ class SellerModel extends Model{
     // Verifica si la base de datos tiene tablas
     protected function tableExists()
     {
-        $query = $this->db->query('SHOW TABLES LIKE "venta"');
+        $query = $this->db->query('SHOW TABLES LIKE "vendedor"');
         return count($query->fetchAll()) > 0;
     }
     
-    public function showAll(){
+    public function getSellers(){
         $query = $this->db->prepare('SELECT * FROM vendedor');
         $query->execute();
 
@@ -40,14 +40,15 @@ class SellerModel extends Model{
     }
 
     public function getSellerById($id) {
-        $query  = $this->db->prepare('SELECT * FROM vendedor WHERE id_vendedor = ?');
+        $query  = $this->db->prepare('SELECT * FROM vendedor WHERE id = ?');
         $query->execute([(int)$id]);
         return $query->fetch(PDO::FETCH_OBJ);
     }
 
     public function update($id, $nombre, $telefono, $email) {
-        $query = $this->db->prepare("UPDATE `vendedor` SET `nombre` = ?, `telefono` = ? , `email` = ? WHERE `vendedor`.`id` = ?");
-        return $query->execute([$nombre, $telefono, $email, $id]);
+        $query = $this->db->prepare("UPDATE `vendedor` SET `nombre` = ?, `telefono` = ? , `email` = ? WHERE id = ?");
+        $query->execute([$nombre, $telefono, $email, $id]);
+        return $query->rowCount()>0;
     } 
 
     public function updateImg($id, $img){
@@ -55,15 +56,16 @@ class SellerModel extends Model{
         if ($img)
             $path = $this->uploadImg($img);
 
-        $query = $this->db->prepare('UPDATE vendedor SET imagen = ? WHERE vendedor . id = ?');
-        $query->execute([$path, $id]);
+        $query = $this->db->prepare('UPDATE vendedor SET imagen = ? WHERE id = ?');
+        return $query->execute([$path, $id]);
 
     }
 
 
     public function delete($id) {
-        $query = $this->db->prepare("DELETE FROM vendedor WHERE `vendedor`.`id` = ?");
+        $query = $this->db->prepare("DELETE FROM vendedor WHERE id = ?");        
         $query->execute([$id]);
+        return $query->rowCount() > 0;
     }
 
     public function insert($nombre, $telefono, $email, $img = null) {

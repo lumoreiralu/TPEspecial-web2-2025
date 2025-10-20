@@ -47,7 +47,7 @@ class SaleController {
             return $this->view->showError('Acceso denegado. Solo los administradores pueden agregar ventas.');
         }
     
-        $sellers = $this->modelSeller->showAll();
+        $sellers = $this->modelSeller->getSellers();
         $this->view->showAddSaleForm($sellers);
     }//se usa 
     
@@ -74,13 +74,7 @@ class SaleController {
     
         header('Location: ' . BASE_URL); 
     }//se usa
-    
-    // esta funcion deberia ir ser de SellerController // llevala, creo que no la uso yo
-    public function showSalesByID($sellerId, $request) {
-        $sales = $this->model->getSalesById($sellerId); // pido al modelo todas las ventas por id_vendedor
-        $seller = $this->model->getSeller($sellerId);
-        $this->view->showSales($sales,$request->user, $seller); // se reutiliza function showSales()
-    }
+
 
     public function updateSale($id, $request) {
         // Solo admin puede actualizar
