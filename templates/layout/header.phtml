@@ -50,7 +50,7 @@
               <li><a class="dropdown-item" href="venta">Ventas</a></li>
               <li>
                 <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE'] === 'administrador'): ?>
-                  <a href="<?= BASE_URL ?>addVenta" class="dropdown-item">Nueva venta</a>
+                  <a href="<?= BASE_URL ?>addSale" class="dropdown-item">Nueva venta</a>
                 <?php endif; ?>
               </li>
             </ul>

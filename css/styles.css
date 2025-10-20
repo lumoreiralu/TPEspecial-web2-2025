@@ -46,7 +46,3 @@
     background: rgba(255, 255, 255, 0.3);
     color: white;
 }
-
-#form-edit-menu tr td > .input-edit-menu {
-    field-sizing: content !important;
-}
