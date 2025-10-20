@@ -11,6 +11,7 @@ function icon()
     <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
     </svg>';
 }
+
 $vendedoresPorPagina = 5;
 $totalVendedores = count($sellers);
 $totalPaginas = ceil($totalVendedores / $vendedoresPorPagina);
@@ -24,14 +25,23 @@ if ($paginaActual > $totalPaginas)
 $inicio = ($paginaActual - 1) * $vendedoresPorPagina;
 $vendedoresPagina = array_slice($sellers, $inicio, $vendedoresPorPagina);
 
-if ($paginaActual > 1)
-  $pagina = "?page=" . "$paginaActual";
-else
+if ($paginaActual > 1) {
+  $pagina = "?page=" . $paginaActual;
+  $from = "?from=" . $paginaActual;
+} else {
   $pagina = "";
+  $from = ""; // $from permite al usuario volver a la pagina desde la que accedió al link
+}
+
 ?>
+
+
 
 <div class="container my-5">
   <h2 class="mb-4 text-center">🧑‍💼 Lista de Vendedores</h2>
+
+
+
 
   <div class="table-responsive shadow-sm rounded">
     <table class="table table-striped table-hover align-middle text-center">
@@ -49,11 +59,16 @@ else
       <tbody>
         <?php if (!empty($vendedoresPagina)): ?>
           <?php foreach ($vendedoresPagina as $index => $seller): ?>
+
+
             <tr>
               <td><?= $inicio + $index + 1 ?></td>
-              <!-- link para mostrar items (ventas) por categoria (vendedor) -->
-              <td><a href="<?= BASE_URL ?>vendedor/<?= $seller->id ?>"
-                  class="icon-link icon-link-hover fw-bolder text-capitalize"><?= icon(), htmlspecialchars($seller->nombre) ?></a>
+              <?php // Link para mostrar items (ventas) por categoria (vendedor) ?>
+              <td>
+                <a href="<?= BASE_URL ?>vendedor/<?= $seller->id . $from ?>"
+                  class="icon-link icon-link-hover fw-bolder text-capitalize">
+                  <?= icon(), htmlspecialchars($seller->nombre) ?>
+                </a>
               </td>
 
               <td><?= htmlspecialchars($seller->telefono) ?></td>
@@ -61,17 +76,24 @@ else
 
               <?php if ($user): // muestro dashboard solo a usuarios logeados ?>
                 <td>
-                  <div class="btn-group">
-                    <a href="<?= BASE_URL ?>vendedores/editar/<?=$seller->id?>" class="btn btn-outline-warning text-wrap" style="border:none;">✏️Editar</a>
-                    <input type="number" name="id" value="<?= $seller->id . $pagina ?>" hidden>
-                    <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="btn btn-outline-danger text-wrap"
-                      style="border:none;">❌Eliminar</a>
+                  <div class="btn-group btn-group-sm">
+                    <a href="<?= BASE_URL ?>vendedores/editar/<?= $seller->id . $pagina ?>"
+                      class="btn btn-outline-warning text-wrap" style="border:none;">
+                      ✏️Editar
+                    </a>
+                    <button class="btn btn-outline-danger border-0" data-bs-toggle="modal"
+                      data-bs-target="#deleteModal<?= $seller->id ?>"><?php $id = $seller->id ?>
+                      ❌Eliminar
+                    </button>
                   </div>
                 </td>
               <?php endif; ?>
 
             </tr>
+            <?php if ($user)
+              require 'templates/deletion-confirm-msg.phtml'; ?>
           <?php endforeach; ?>
+
         <?php else: ?>
           <tr>
             <td colspan="3" class="text-muted">No hay vendedores registrados.</td>
@@ -80,7 +102,6 @@ else
       </tbody>
     </table>
   </div>
-
 
   <?php if ($totalPaginas > 1): ?>
     <nav aria-label="Page navigation" class="mt-4">
@@ -105,7 +126,8 @@ else
         </li>
       </ul>
     </nav>
-  <?php endif; ?>
-</div>
-
-<?php require_once 'templates/layout/footer.phtml'; ?>
+  <?php
+  endif;
+  if ($msg)
+    require_once './templates/alert-message.phtml';
+  require_once 'templates/layout/footer.phtml'; ?>

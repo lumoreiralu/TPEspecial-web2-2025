@@ -6,7 +6,7 @@
                     <div class="d-flex">
 
                         <div class="flex-shrink-0">
-                            <!-- Foto de perfil vendedor -->
+                            <?php // Foto de perfil vendedor ?>
                             <img src="http:<?= BASE_URL . $seller->imagen ?>" alt="imagen vendedor"
                                 class="img-fluid mb-1" style="width: 180px; border-radius: 10px;">
 
@@ -14,7 +14,7 @@
                                 method="post" class="d-flex col justify-content-end" enctype="multipart/form-data">
                                 <?php if ($user): ?>
                                     <div class="btn-group">
-                                        <a href="vendedores/editar/<?= $seller->id ?>" class="btn btn-warning">Editar</a>
+                                        <a href="vendedores/editar/<?= $seller->id . $page ?>" class="btn btn-warning">Editar</a>
                                         <label for="imagen" class="btn btn-success">Cambiar foto</label>
                                     </div>
                                 <?php endif; ?>
