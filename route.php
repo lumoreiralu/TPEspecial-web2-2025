@@ -32,18 +32,32 @@ switch ($params[0]) {
 
     case 'vendedores':
         $controller = new SellerController();
-        $controller->showSellers($request);
+        if (empty($params[1]))
+            $controller->showSellers($request);
+        elseif (!empty($params[1]) && !empty($params[2])) {
+            if ($params[1] != 'editar'){
+                $controller->errorMsg();
+                break;
+            }
+            $id = (int) $params[2];
+            $controller->showSellerEditView( $request, $id);
+            break;
+        }
+        else
+            $controller->errorMsg();
         break;
 
     case 'vendedor':
-        $controller = new SaleController();
-        if (!empty($params[1])) {
+        $controller = new SellerController();
+        if (!empty($params[1]) && empty($params[2])) {
             $id = (int) $params[1];
-            $controller->showSalesById($id, $request);
-        } else
-            echo '404 not found';
+            $controller->showSellerProfile($id, $request);
+        }
+        else
+            $controller->errorMsg();        
         break;
-    case "detalleVenta":
+        
+    case "detalleVenta": //muestra la venta para todos
         $controller = new SaleController();
         if (!empty($params[1])) {
             $id = $params[1];
@@ -51,7 +65,7 @@ switch ($params[0]) {
         } else
              echo '404 not found';
         break;
-    case 'venta':
+    case 'venta': //usa segurida para mostrar la venta con sus botones ocultos
         $controller = new SaleController();
         if (isset($params[1])) {
             $request = (new GuardMiddleware())->run($request);
@@ -70,7 +84,7 @@ switch ($params[0]) {
             $controller->showAddSaleForm($request);
         }
         break;
-    case 'editarVenta':
+    case 'editarVenta': //muestra el formulario 
         $request = (new GuardMiddleware())->run($request);
         $controller = new SaleController();
         
@@ -78,10 +92,11 @@ switch ($params[0]) {
             $id = $params[1];
             $controller->showFormUpdate($id, $request);
         } else {
-            echo "ID no especificado";
+            $view = new SaleView();
+            $view->showError("Debes indicar qué venta deseas editar.");
         }
         break;
-    case 'updateSale':
+    case 'updateSale': //toma el valor del formulario y se los da al modelo para actualizar en la db
         $request = (new GuardMiddleware())->run($request);
         $controller = new SaleController();
         
@@ -108,14 +123,8 @@ switch ($params[0]) {
             $controller->showNewSellerForm();
         break;
 
-    case 'editarVendedor':
-        if (!empty($params[1])) {
-            $request = (new GuardMiddleware())->run($request);
-            $controller = new SellerController();
-            $sellerId = (int) $params[1];
-            $controller->showSellerEditionMenu($sellerId);
-        }
-        break;
+    // case 'editarVendedor':
+
 
     case 'updateSeller':
         if (!empty($params[1])) {
@@ -152,6 +161,7 @@ switch ($params[0]) {
         break;
 
     default:
-        echo 'Error!';
+        $controller = new SellerView();
+        $controller->showErrorMsg();
         break;
 }

@@ -30,3 +30,11 @@ Cuando el administrador ingresa con el usuario admin y la contraseña webadmin p
 
 Se uso Apache, Base de Datos: MySQL, Estructura de Archivos: MVC y plantillas en phtml para la generación de vistas. URLs Semánticas: Todas las rutas son semánticas para mejorar la usabilidad y SEO.
 
+Instrucciones para importar la base de datos en PHPMyAdmin
+
+- Abre phpMyAdmin en tu navegador.
+- Crea una nueva base de datos llamada db_tiendaComputacion.
+- Selecciona la base de datos db_tiendComputacion.
+- Haz clic en la pestaña Importar.
+- Haz clic en Seleccionar archivo y elige el archivo database/db_tiendaComputacion.sql de este proyecto.
+Presiona Continuar para importar las tablas y datos.

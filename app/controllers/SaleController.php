@@ -10,15 +10,18 @@ class SaleController {
     private $modelSeller;
 
     function __construct() {
+        // instanciar categoria primero, luego item (contrario: rompe autodeploy por la dependencia de tablas)
+        $this->modelSeller = new SellerModel(); 
         $this->model = new SaleModel();
         $this->view = new SaleView();
-        $this->modelSeller = new SellerModel();
     }
 
     public function showSales($request) {
         $sales = $this->model->getAll();
         $this->view->showSales($sales, $request->user);
-    }
+    } // se usa
+
+
     public function showSaleDetail($id) {
         $sale = $this->model->getSaleById($id);
     
@@ -27,13 +30,17 @@ class SaleController {
         } else {
             $this->view->showError("No se encontró la venta con ID $id");
         }
-    }
+    } //se usa 
     
 
     public function showSale($id) {
         $sale = $this->model->showSale($id);
-        $this->view->showSale($sale);
-    }
+        if (!$sale) {
+            $this->view->showError("No se encontró la venta con ID $id");
+            return;
+        }
+        $this->view->showSaleDetail($sale);
+    }//se usa
 
     public function showAddSaleForm($request) {
         if (!isset($_SESSION['USER_ROLE']) || $_SESSION['USER_ROLE'] !== 'administrador') {
@@ -42,12 +49,12 @@ class SaleController {
     
         $sellers = $this->modelSeller->showAll();
         $this->view->showAddSaleForm($sellers);
-    }
+    }//se usa 
     
 
     public function addSale($request) {
         if (!isset($_SESSION['USER_ROLE']) || $_SESSION['USER_ROLE'] !== 'administrador') {
-            return $this->view->showError('Acceso denegado. Solo los administradores pueden agregar ventas.');
+            return $this->view->showError('Acceso denegado. Solo los usuarios registrados pueden agregar ventas.');
         }
     
         if (empty($_POST['producto']) || empty($_POST['precio']) || empty($_POST['vendedor']) || empty($_POST['fecha'])) {
@@ -66,12 +73,13 @@ class SaleController {
         }
     
         header('Location: ' . BASE_URL); 
-    }
+    }//se usa
     
-
+    // esta funcion deberia ir ser de SellerController // llevala, creo que no la uso yo
     public function showSalesByID($sellerId, $request) {
         $sales = $this->model->getSalesById($sellerId); // pido al modelo todas las ventas por id_vendedor
-        $this->view->showSales($sales,$request->user); // se reutiliza function showSales()
+        $seller = $this->model->getSeller($sellerId);
+        $this->view->showSales($sales,$request->user, $seller); // se reutiliza function showSales()
     }
 
     public function updateSale($id, $request) {
@@ -96,7 +104,7 @@ class SaleController {
     
         $this->view->showMessageConfirm('Venta editada correctamente.');
         header('Location: ' . BASE_URL);
-    }
+    }//se usa
     
 
     public function showFormUpdate($id, $request) {
@@ -112,14 +120,15 @@ class SaleController {
         }
     
         $this->view->showEditSaleForm($sale);
-    }
+    }//se usa 
     
     
 
     public function deleteSale($id, $request){
         $this->model->deleteSale($id);
+        $this->view->showMessageConfirm("Venta eliminada!");
 
-        header('Location: ' . BASE_URL);
-    }
+        
+    }//se usa
 
 }

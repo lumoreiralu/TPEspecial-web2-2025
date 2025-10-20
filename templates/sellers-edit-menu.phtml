@@ -41,30 +41,28 @@ else
           <th>Nombre</th>
           <th>Teléfono</th>
           <th>Correo Electronico</th>
-          <th></th>
+          <th>Dashboard</th>
         </tr>
       </thead>
       <tbody>
         <?php if (!empty($vendedoresPagina)): ?>
           <?php
           foreach ($vendedoresPagina as $index => $seller):
+
             // SI EL ID DEL VENDEDOR QUE SE VA A MOSTRAR EN LA TABLA ES EL QUE SE ELIGIO PARA EDITAR, MUESTRO INPUTS PARA EDITAR DATOS
             if ($seller->id == $sellerToEdit) { ?>
-              <!-- Genero un form para hacer el update -->
-              <form action="<?= BASE_URL ?>updateSeller/<?= htmlspecialchars($sellerToEdit) ?>" method="post">
+              <form action="<?= BASE_URL ?>updateSeller/<?= htmlspecialchars($sellerToEdit) ?>" method="post" id="form-edit-menu">
                 <tr>
                   <td><?= $inicio + $index + 1 ?></td>
-                  <td><input type="text" name="nombre" value="<?= htmlspecialchars($seller->nombre) ?>" required></td>
-                  <td><input type="text" name="telefono" value="<?= htmlspecialchars($seller->telefono) ?>" pattern="\d*"
+                  <td><input type="text" class="input-edit-menu" name="nombre" value="<?= htmlspecialchars($seller->nombre) ?>" required></td>
+                  <td><input type="text" class="input-edit-menu" name="telefono" value="<?= htmlspecialchars($seller->telefono) ?>" pattern="\d*"
                       required></td>
-                  <td><input type="email" name="email" value="<?= htmlspecialchars($seller->email) ?>" required></td>
+                  <td><input type="email" class="input-edit-menu" name="email" value="<?= htmlspecialchars($seller->email) ?>" required></td>
                   <td>
                     <div class="btn-group">
                       <button style="border:none;" class="btn btn-outline-success">💾Guardar</button>
-                      <button style="border:none;" class="btn btn-outline-danger"
-                        onclick="return confirm('¿Seguro que quiere eliminar a <?= $seller->nombre ?>? Se eliminar consigo todas sus ventas');">
-                        <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="link-danger text-wrap"> ❌Eliminar</a>
-                      </button>
+                      <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="btn btn-outline-danger text-wrap"
+                        style="border:none;">❌Eliminar</a>
                     </div>
                   </td>
                 </tr>
@@ -81,20 +79,18 @@ else
                 <td><?= htmlspecialchars($seller->telefono) ?></td>
                 <td><?= htmlspecialchars($seller->email) ?></td>
                 <td>
+                  
                   <div class="btn-group">
-                    <a href="<?= BASE_URL ?>editarVendedor/<?= $seller->id . $pagina ?>"
-                      class="btn btn-outline-warning text-wrap" style="border:none;">✏️Editar</a>
+                    <a href="<?= BASE_URL ?>vendedores/editar/<?=$seller->id  ?>" class="btn btn-outline-warning text-wrap" style="border:none;">✏️Editar</a>
+                    <input type="number" name="id" value="<?= $seller->id . $pagina ?>" hidden>
                     <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="btn btn-outline-danger text-wrap"
-                      style="border:none;"
-                      onclick="return confirm(¿Seguro que quiere eliminar a <?= $seller->nombre ?>? Se eliminar consigo todas sus ventas');">
-                      ❌Eliminar
-                    </a>
+                      style="border:none;">❌Eliminar</a>
                   </div>
+
                 </td>
               </tr>
-
             <?php } ?>
-
+            
           <?php endforeach; ?>
 
         <?php else: ?>

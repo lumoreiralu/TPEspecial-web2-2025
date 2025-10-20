@@ -12,7 +12,12 @@
     <?php endif ?>
   </ul>
 
-  <a href="home" class="btn btn-secondary mt-3">Volver</a>
+  <!--  
+    Modifico el href del link para retroceder en el historial y no enviar siempre al home
+    De esta manera, que toque el boton volver, vuelve a donde estaba: si accedio desde home, 
+    vuelve al home; si accedio desde el perfil de un vendedor, vuelve al mismo perfil and so on 
+  -->
+  <a href="javascript:history.back()" class="btn btn-secondary mt-3">Volver</a>
 </div>
 
 <?php require 'templates/layout/footer.phtml'; ?>
