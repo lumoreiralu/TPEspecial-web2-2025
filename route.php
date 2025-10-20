@@ -1,8 +1,4 @@
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 require_once './app/controllers/SaleController.php';
 require_once './app/controllers/SellerController.php';
 require_once './app/controllers/AuthController.php';
@@ -65,7 +61,7 @@ switch ($params[0]) {
         } else
              echo '404 not found';
         break;
-    case 'venta': //usa segurida para mostrar la venta con sus botones ocultos
+    case 'venta': //usa seguridad para mostrar la venta con sus botones ocultos
         $controller = new SaleController();
         if (isset($params[1])) {
             $request = (new GuardMiddleware())->run($request);
@@ -75,7 +71,7 @@ switch ($params[0]) {
             $controller->showSales($request);
         }
         break;
-    case 'addVenta':
+    case 'addSale':
         $request = (new GuardMiddleware())->run($request);
         $controller = new SaleController();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
