@@ -59,7 +59,8 @@ switch ($params[0]) {
             $id = $params[1];
             $controller->showSaleDetail($id);
         } else
-             echo '404 not found';
+            $view = new SaleView();
+            $viw->showErrorMsg("Detalle no encontrado");
         break;
     case 'venta': //usa seguridad para mostrar la venta con sus botones ocultos
         $controller = new SaleController();
