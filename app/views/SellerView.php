@@ -8,7 +8,7 @@ class SellerView
     }
 
     // funcion para mostrar datos vendedor & imagen subida a la db
-    public function showCard($seller, $user, $sales, $from = null)
+    public function showCard($seller, $user, $sales, $msg = null, $from = null)
     {
         if (!$from || $from <= 1)
             $page = "";

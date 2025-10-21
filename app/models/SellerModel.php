@@ -45,22 +45,17 @@ class SellerModel extends Model{
         return $query->fetch(PDO::FETCH_OBJ);
     }
 
-    public function update($id, $nombre, $telefono, $email) {
-        $query = $this->db->prepare("UPDATE `vendedor` SET `nombre` = ?, `telefono` = ? , `email` = ? WHERE id = ?");
-        $query->execute([$nombre, $telefono, $email, $id]);
-        return $query->rowCount()>0;
+    public function update($id, $nombre, $telefono, $email, $img = null) {        
+        if ($img):
+            $query = $this->db->prepare('UPDATE vendedor SET imagen = ? WHERE id = ?');
+            $query->execute([$img, $id]);
+            return $query->rowCount()>0;                    
+        else:
+            $query = $this->db->prepare("UPDATE `vendedor` SET `nombre` = ?, `telefono` = ? , `email` = ? WHERE id = ?");
+            $query->execute([$nombre, $telefono, $email, $id]);
+            return $query->rowCount()>0;
+        endif;
     } 
-
-    public function updateImg($id, $img){
-        $path = 'img/default-user-img.jpg';
-        if ($img)
-            $path = $this->uploadImg($img);
-
-        $query = $this->db->prepare('UPDATE vendedor SET imagen = ? WHERE id = ?');
-        return $query->execute([$path, $id]);
-
-    }
-
 
     public function delete($id) {
         $query = $this->db->prepare("DELETE FROM vendedor WHERE id = ?");        
@@ -69,19 +64,15 @@ class SellerModel extends Model{
     }
 
     public function insert($nombre, $telefono, $email, $img = null) {
-        $path = null;
 
         if ($img)
-            $path = $this->uploadImg($img);
+            $path = $img;
         else
             $path = 'img/default-user-img.jpg';
         $query = $this->db->prepare("INSERT INTO `vendedor` (`id`, `nombre`, `telefono`, `email`, `imagen` ) VALUES (NULL, ?, ?, ?, ?)");
         $query->execute([$nombre, $telefono, $email, $path]);
+        return $query->rowCount() > 0;
     }
 
-    public function uploadImg ($img) {
-        $target = "img/" . uniqid() . "." . strtolower(pathinfo($img['name'], PATHINFO_EXTENSION));  
-        move_uploaded_file($img['tmp_name'], $target);
-        return $target;
-    }
+
 }

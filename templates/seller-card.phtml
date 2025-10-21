@@ -10,16 +10,19 @@
                             <img src="http:<?= BASE_URL . $seller->imagen ?>" alt="imagen vendedor"
                                 class="img-fluid mb-1" style="width: 180px; border-radius: 10px;">
 
-                            <form action="<?= BASE_URL ?>updateSeller/<?= htmlspecialchars($seller->id) ?>"
+                            <!-- <form action="<?= BASE_URL ?>vendedor/<?= htmlspecialchars($seller->id) ?>/actualizar-imagen" -->
+                            <form action="<?= BASE_URL ?>vendedores/editar/<?=htmlspecialchars($seller->id) ?>/actualizar-datos"
                                 method="post" class="d-flex col justify-content-end" enctype="multipart/form-data">
                                 <?php if ($user): ?>
                                     <div class="btn-group">
                                         <a href="vendedores/editar/<?= $seller->id . $page ?>" class="btn btn-warning">Editar</a>
                                         <label for="imagen" class="btn btn-success">Cambiar foto</label>
                                     </div>
-                                <?php endif; ?>
-                                <input type="file" class="btn" id="imagen" name="imagen" accept="image/*"
-                                    onchange="this.form.submit();" hidden>
+                                    <?php endif; ?>
+                                    <input type="text" class="input-edit-menu" name="nombre" value="<?= htmlspecialchars($seller->nombre) ?>" hidden>
+                                    <input type="text" class="input-edit-menu" name="telefono" value="<?= htmlspecialchars($seller->telefono) ?>" pattern="\d*" hidden>
+                                    <input type="email" class="input-edit-menu" name="email" value="<?= htmlspecialchars($seller->email) ?>" hidden>
+                                    <input type="file" class="btn" id="imagen" name="imagen" accept="image/*" onchange="this.form.submit();" hidden>
                             </form>
 
                         </div>
@@ -53,3 +56,4 @@
             </div>
         </div>
 </section>
+<?php if ($msg) require_once './templates/alert-message.phtml'; ?>
