@@ -24,15 +24,23 @@ if ($paginaActual > $totalPaginas)
 $inicio = ($paginaActual - 1) * $vendedoresPorPagina;
 $vendedoresPagina = array_slice($sellers, $inicio, $vendedoresPorPagina);
 
-if ($paginaActual > 1)
-  $pagina = "?page=" . "$paginaActual";
-else
+if ($paginaActual > 1) {
+  $pagina = "?page=" . $paginaActual;
+  $from = "?from=" . $paginaActual;
+} else {
   $pagina = "";
+  $from = "";
+}
 ?>
 
 <div class="container my-5">
-  <h2 class="mb-4 text-center">🧑‍💼 Lista de Vendedores</h2>
-
+  <h2 class="mb-0 text-center">🧑‍💼 Lista de Vendedores</h2>
+  <div class="container">
+  <div class="container">
+      <div class="d-flex justify-content-end my-1">
+      </div>
+    </div>
+  </div>
   <div class="table-responsive shadow-sm rounded">
     <table class="table table-striped table-hover align-middle text-center">
       <thead class="table-dark">
@@ -45,88 +53,91 @@ else
         </tr>
       </thead>
       <tbody>
-        <?php if (!empty($vendedoresPagina)): ?>
+        <?php
+        if (!empty($vendedoresPagina)): ?>
           <?php
           foreach ($vendedoresPagina as $index => $seller):
 
-            // SI EL ID DEL VENDEDOR QUE SE VA A MOSTRAR EN LA TABLA ES EL QUE SE ELIGIO PARA EDITAR, MUESTRO INPUTS PARA EDITAR DATOS
-            if ($seller->id == $sellerToEdit) { ?>
-              <form action="<?= BASE_URL ?>updateSeller/<?= htmlspecialchars($sellerToEdit) ?>" method="post" id="form-edit-menu">
+            // selectedId es el ID del vendedor seleccionado para editar
+            if ($seller->id == $selectedId): ?>
+              <form action="<?= BASE_URL ?>vendedores/editar/<?= htmlspecialchars($selectedId) ?>/actualizar-datos" method="post" id="form-edit-menu">
                 <tr>
                   <td><?= $inicio + $index + 1 ?></td>
-                  <td><input type="text" class="input-edit-menu" name="nombre" value="<?= htmlspecialchars($seller->nombre) ?>" required></td>
-                  <td><input type="text" class="input-edit-menu" name="telefono" value="<?= htmlspecialchars($seller->telefono) ?>" pattern="\d*"
-                      required></td>
-                  <td><input type="email" class="input-edit-menu" name="email" value="<?= htmlspecialchars($seller->email) ?>" required></td>
+                  <td><input type="text" class="input-edit-menu" name="nombre" value="<?= htmlspecialchars($seller->nombre) ?>"></td>
+                  <td><input type="text" class="input-edit-menu" name="telefono" value="<?= htmlspecialchars($seller->telefono) ?>" pattern="\d*"></td>
+                  <td><input type="email" class="input-edit-menu" name="email" value="<?= htmlspecialchars($seller->email) ?>"></td>
                   <td>
-                    <div class="btn-group">
-                      <button style="border:none;" class="btn btn-outline-success">💾Guardar</button>
-                      <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="btn btn-outline-danger text-wrap"
-                        style="border:none;">❌Eliminar</a>
+                    <div class="btn-group btn-group-sm">
+                      <button class="btn btn-success border-0">Guardar</button>
+                      <a href="<?= BASE_URL ?>vendedores<?=$pagina?>" class="btn btn-secondary border-0">Cancelar</a>
                     </div>
+
                   </td>
                 </tr>
               </form>
 
-            <?php } else { ?>
-              <tr>
-                <td><?= $inicio + $index + 1 ?></td>
-                <!-- Link para mostrar items (ventas) por categoria (vendedor) -->
-                <td><a href="<?= BASE_URL ?>vendedores/<?= $seller->id ?>"
-                    class="icon-link icon-link-hover fw-bolder text-capitalize"><?= icon(), htmlspecialchars($seller->nombre) ?></a>
+            <?php else: ?>
+              <tr>                
+                <td>
+                  <?= $inicio + $index + 1 ?>
                 </td>
-
+                <td>
+                  <?php // Link para mostrar items (ventas) por categoria (vendedor) ?>
+                  <a href="<?= BASE_URL ?>vendedor/<?= $seller->id . $from ?>" class="icon-link icon-link-hover fw-bolder text-capitalize"><?= icon(), htmlspecialchars($seller->nombre) ?></a>
+                </td>
                 <td><?= htmlspecialchars($seller->telefono) ?></td>
                 <td><?= htmlspecialchars($seller->email) ?></td>
                 <td>
-                  
-                  <div class="btn-group">
-                    <a href="<?= BASE_URL ?>vendedores/editar/<?=$seller->id  ?>" class="btn btn-outline-warning text-wrap" style="border:none;">✏️Editar</a>
-                    <input type="number" name="id" value="<?= $seller->id . $pagina ?>" hidden>
-                    <a href="<?= BASE_URL ?>deleteSeller/<?= $seller->id ?>" class="btn btn-outline-danger text-wrap"
-                      style="border:none;">❌Eliminar</a>
-                  </div>
-
+                    <a href="<?= BASE_URL ?>vendedores/editar/<?= $seller->id . $pagina ?>" class="btn btn-warning btn-sm border-0">✏️Editar</a>
                 </td>
               </tr>
-            <?php } ?>
-            
-          <?php endforeach; ?>
+            <?php endif; ?>
 
+          <?php endforeach; ?>
+        
         <?php else: ?>
           <tr>
             <td colspan="3" class="text-muted">No hay vendedores registrados.</td>
           </tr>
         <?php endif; ?>
-      </tbody>
+
+      </tbody>            
     </table>
-  </div>
+    
 
-
-  <?php if ($totalPaginas > 1): ?>
-    <nav aria-label="Page navigation" class="mt-4">
-      <ul class="pagination justify-content-center">
-
-        <li class="page-item <?= ($paginaActual <= 1) ? 'disabled' : '' ?>">
-          <a class="page-link" href="<?= BASE_URL ?>vendedores/?page=<?= $paginaActual - 1 ?>" aria-label="Anterior">
+    
+    <?php if ($totalPaginas > 1): ?>
+      <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+          
+          <li class="page-item <?= ($paginaActual <= 1) ? 'disabled' : '' ?>">
+            <a class="page-link" href="<?= BASE_URL ?>vendedores/editar/<?= $selectedId ?> ?page= <?= $paginaActual - 1 ?>"
+            aria-label="Anterior">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-
+        
         <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
           <li class="page-item <?= ($paginaActual == $i) ? 'active' : '' ?>">
-            <a class="page-link" href="<?= BASE_URL ?>vendedores/?page=<?= $i ?>"><?= $i ?></a>
+            <a class="page-link" href="<?= BASE_URL ?>vendedores/editar/<?= $selectedId ?>?page=<?= $i ?>"><?= $i ?></a>
           </li>
-        <?php endfor; ?>
-
-        <li class="page-item <?= ($paginaActual >= $totalPaginas) ? 'disabled' : '' ?>">
-          <a class="page-link" href="<?= BASE_URL ?>vendedores/?page=<?= $paginaActual + 1 ?>" aria-label="Siguiente">
+          <?php endfor; ?>
+          
+          <li class="page-item <?= ($paginaActual >= $totalPaginas) ? 'disabled' : '' ?>">
+            <a class="page-link" href="<?= BASE_URL ?>vendedores/editar/<?= $selectedId ?> ?page <?= $paginaActual + 1 ?>"
+            aria-label="Siguiente">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
       </ul>
     </nav>
-  <?php endif; ?>
+    <?php endif; ?>
+    
+  </div>
 </div>
 
-<?php require_once 'templates/layout/footer.phtml'; ?>
+
+<?php 
+if ($msg)
+  require_once './templates/alert-message.phtml';
+require_once 'templates/layout/footer.phtml'; ?>

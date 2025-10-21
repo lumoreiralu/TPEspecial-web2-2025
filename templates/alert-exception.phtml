@@ -1,0 +1,15 @@
+<?= require_once 'templates/layout/header.phtml'; ?>
+<div class="container d-flex justify-content-center">
+  <div class="alert alert-danger d-flex align-items-center" role="alert">
+    <div>
+      <strong>
+        <i class="bi bi-x-octagon-fill me-2"></i>
+        Error: El servidor no responde, asegurate de estar corriendo mysql con XAMPP
+      </strong>
+      <hr>
+      <p>Información del error:</p>
+      <p><?= $e ?></p>
+    </div>
+  </div>
+</div>
+<?= require_once 'templates/layout/footer.phtml'; ?>

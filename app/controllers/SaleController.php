@@ -19,7 +19,7 @@ class SaleController {
     public function showSales($request) {
         $sales = $this->model->getAll();
         $this->view->showSales($sales, $request->user);
-    } // se usa
+    } 
 
 
     public function showSaleDetail($id) {
@@ -30,7 +30,7 @@ class SaleController {
         } else {
             $this->view->showError("No se encontró la venta con ID $id");
         }
-    } //se usa 
+    } 
     
 
     public function showSale($id) {
@@ -40,16 +40,16 @@ class SaleController {
             return;
         }
         $this->view->showSaleDetail($sale);
-    }//se usa
+    }
 
     public function showAddSaleForm($request) {
         if (!isset($_SESSION['USER_ROLE']) || $_SESSION['USER_ROLE'] !== 'administrador') {
             return $this->view->showError('Acceso denegado. Solo los administradores pueden agregar ventas.');
         }
     
-        $sellers = $this->modelSeller->showAll();
+        $sellers = $this->modelSeller->getSellers();
         $this->view->showAddSaleForm($sellers);
-    }//se usa 
+    }
     
 
     public function addSale($request) {
@@ -73,14 +73,8 @@ class SaleController {
         }
     
         header('Location: ' . BASE_URL); 
-    }//se usa
-    
-    // esta funcion deberia ir ser de SellerController // llevala, creo que no la uso yo
-    public function showSalesByID($sellerId, $request) {
-        $sales = $this->model->getSalesById($sellerId); // pido al modelo todas las ventas por id_vendedor
-        $seller = $this->model->getSeller($sellerId);
-        $this->view->showSales($sales,$request->user, $seller); // se reutiliza function showSales()
     }
+
 
     public function updateSale($id, $request) {
         // Solo admin puede actualizar
@@ -104,7 +98,7 @@ class SaleController {
     
         $this->view->showMessageConfirm('Venta editada correctamente.');
         header('Location: ' . BASE_URL);
-    }//se usa
+    }
     
 
     public function showFormUpdate($id, $request) {
@@ -120,7 +114,7 @@ class SaleController {
         }
     
         $this->view->showEditSaleForm($sale);
-    }//se usa 
+    }
     
     
 
@@ -129,6 +123,6 @@ class SaleController {
         $this->view->showMessageConfirm("Venta eliminada!");
 
         
-    }//se usa
+    }
 
 }

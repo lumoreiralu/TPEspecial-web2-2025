@@ -3,27 +3,34 @@
 <div class="container my-5">
   <div class="card shadow-sm rounded p-4">
     <h2 class="mb-4 text-center">📩 Registrar Nuevo Vendedor</h2>
-
-    <form action="nuevoVendedor" method="POST" enctype="multipart/form-data">
+      
+    <?php if($error): ?>
+      <div class="d-flex justify-content-center">
+        <div class="text-danger">
+          <p><?=$error?></p>
+        </div>
+      </div>
+      <?php endif; ?>
+    <form action="nuevo-vendedor/registrar" method="POST" enctype="multipart/form-data">
       <!-- Producto -->
       <div class="mb-3">
         <label for="name" class="form-label">Nombre</label>
         <input type="name" class="form-control form-control-lg" id="name" name="nombre" placeholder="Ingrese nombre..."
-          required>
+          >
       </div>
 
       <!-- Precio -->
       <div class="mb-3">
         <label for="telefono" class="form-label">Telefono ($)</label>
         <input type="text" step="0.01" class="form-control" id="telefono" name="telefono" placeholder="249 111 1111 "
-          pattern="\d*" required>
+          pattern="\d*" >
       </div>
 
       <!-- Vendedor -->
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
         <input type="email" step="0.01" class="form-control" id="email" name="email" placeholder="user@mail.com"
-          required>
+          >
       </div>
 
       <!-- imagen -->
@@ -31,6 +38,7 @@
         <label for="imagen" class="form-label">Ajuntar foto</label>
         <input type="file" class="form-control form-control-sm" id="imagen" name="imagen" accept="image/*">
       </div>
+
 
       <!-- Botón -->
       <div class="text-center">

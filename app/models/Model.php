@@ -35,7 +35,7 @@ abstract class Model
 
 
             } catch (\PDOException $e) {
-                die("Error en la conexión o creación de DB: " . $e->getMessage());
+                throw new Exception ("Error en la conexión o creación de DB: " . $e->getMessage());
             }
         }
         // llama a funcion para crear y cargar tablas
