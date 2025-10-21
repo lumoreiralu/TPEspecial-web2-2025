@@ -48,7 +48,7 @@ class SaleController {
         }
     
         $sellers = $this->modelSeller->getSellers();
-        $this->view->showAddSaleForm($sellers);
+        $this->view->showAddSaleForm($sellers, $request->user);
     }//se usa 
     
 

@@ -36,7 +36,7 @@ class SaleView{
     }//se usa
     
 
-    public function showAddSaleForm($sellers) {
+    public function showAddSaleForm($sellers, $user) {
         require 'templates/form-addSale.phtml';
     }
 
