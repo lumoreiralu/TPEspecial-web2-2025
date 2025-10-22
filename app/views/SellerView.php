@@ -1,13 +1,14 @@
-<?php
+git<?php
 class SellerView
 {
+    // tabla de vendedores -> vendedores/
     public function showSellers($sellers, $user = null, $msg = null)
     {
         $count = count($sellers);
         require_once './templates/sellers-list.phtml';
     }
 
-    // funcion para mostrar datos vendedor & imagen subida a la db
+    // perfil del vendedor -> vendedor/:id
     public function showCard($seller, $user, $sales, $msg = null, $from = null)
     {
         if (!$from || $from <= 1)
@@ -17,24 +18,27 @@ class SellerView
         require_once './templates/sales-list.phtml';
     }
 
+    // modo editar vendedor tabla de vendedores -> vendedores/editar/1
     public function showEditMenu($selectedId, $sellers, $user, $msg = null)
     {        
         $count = count($sellers);
         require_once './templates/sellers-edit-menu.phtml';
     }
 
-    public function showFormAddSeller($error = null)
+    // formulario registrar vendedor -> vendedor/nuevo
+    public function showFormAddSeller($msg = null, $user)
     {
         require_once './templates/form-addSeller.phtml';
     }
 
+    // pantalla de error -> url invalida
     public function showErrorMsg()
     {
         require_once './templates/error-msg.phtml';
     }
 
-    public function showSuccessMsg($message, $action)
-    {
-        require_once './templates/alert-message.phtml';
+    // pantalla de error -> no responde la db
+    public function showExceptionError($e){
+        require_once './templates/alert-exception.phtml';
     }
 }

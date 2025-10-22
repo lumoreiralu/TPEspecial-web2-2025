@@ -64,7 +64,6 @@ class SellerModel extends Model{
     }
 
     public function insert($nombre, $telefono, $email, $img = null) {
-
         if ($img)
             $path = $img;
         else
@@ -73,6 +72,4 @@ class SellerModel extends Model{
         $query->execute([$nombre, $telefono, $email, $path]);
         return $query->rowCount() > 0;
     }
-
-
 }

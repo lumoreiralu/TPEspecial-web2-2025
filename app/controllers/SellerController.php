@@ -4,18 +4,154 @@ require_once 'app/views/SellerView.php';
 
 class SellerController
 {
-    private $sellerModel, $saleModel;
-    private $saleView, $sellerView;
+    public $sellerModel;
+    public $sellerView;
+    private const MAX_SIZE = 4000 * 1024 * 1024; // tamaño maximo de la imagen = 4 MB
+
 
     function __construct()
     {
         $this->sellerModel = new SellerModel();
-        $this->saleModel = new SaleModel();
         $this->sellerView = new SellerView();
-        $this->saleView = new SaleView();
     }
 
-    function showSellers($request)
+    // Valida que los datos del POST no esten vacíos
+    private function validarPost($urlRedirect)
+    {
+        // seteo los flash messagges
+        if ($urlRedirect == BASE_URL . "vendedor/nuevo"):
+            $flashSize = "El tamaño maximo admitido es de 4mb";
+            $flashRequired = "Faltan datos obligatorios";
+            $flashEmail = "Ingrese un email válido";
+        else:
+            $flashSize = ["danger", "bi bi-x-circle-fill me-2", "No se pudo procesar", "El archivo no es compatible"];
+            $flashRequired = ["warning", "bi bi-exclamation-triangle-fill me-2", "No se pudo completar", "Faltan completar datos obligatorios"];
+            $flashEmail = ["warning", "bi bi-exclamation-triangle-fill me-2", "No se pudo completar", "Formato de email inválido"];
+        endif;
+
+        // si se intenta agregar un nuevo vendedor sin datos
+        if (empty($_POST) && empty($_FILES)) {
+            $_SESSION['flash'] = $flashSize;
+            header("Location: " . $urlRedirect);
+            die();
+        }
+        // Si algun campo está vacio 
+        if (empty($_POST['nombre']) || empty($_POST['telefono']) || empty($_POST['email'])) {
+            $_SESSION['flash'] = $flashRequired;
+            header("Location: " . $urlRedirect);
+            die();
+        }
+        // Valida el formato de email
+        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['flash'] = $flashEmail;
+            header("Location: " . $urlRedirect);
+            die();
+        }
+        return true;
+    }
+
+    private function validarImagen($urlRedirect)
+    {
+        if ($urlRedirect == BASE_URL . "vendedor/nuevo"):
+            $flashWarningPng = "Solo se permiten archivo de imagen en formato .png, .jpg o .jpeg";
+            $flashWarningSize = "El archivo de imagen debe pesar menos de 4 megabytes";
+        else:
+            $flashWarningPng = ["warning", "bi bi-exclamation-triangle-fill me-2", "No se pudo completar", "Solo se permiten imágenes .jpeg, .jpg o .png menores a 4 MB"];
+            $flashWarningSize = ["warning", "bi bi-exclamation-triangle-fill me-2", "No se pudo completar", "El archivo de imagen debe pesar menos de 4 megabytes"];
+        endif;
+
+        if (empty($_FILES['imagen']['tmp_name']) || $_FILES['imagen']['error'] != UPLOAD_ERR_OK) {
+            // si no hay imagen
+            return false;
+        }
+        $mime = mime_content_type($_FILES['imagen']['tmp_name']);
+        if (!in_array($mime, ['image/jpeg', 'image/png'])) {
+            $_SESSION['flash'] = $flashWarningPng;
+            header("Location: " . $urlRedirect);
+            die();
+        }
+        if ($_FILES['imagen']['size'] > self::MAX_SIZE) {
+            $_SESSION['flash'] = $flashWarningSize;
+            header("Location: " . $urlRedirect);
+            die();
+        }
+        return true;
+    }
+
+    public function insert($request)
+    {
+        // hardcodeo el form que manda submit, pero se podria obtener su id de $_POST asignando un hidden input
+        $url = BASE_URL . 'vendedor/nuevo';
+
+        if ($this->validarPost($url)) {
+            $nombre = $_POST['nombre'];
+            $telefono = $_POST['telefono'];
+            $email = $_POST['email'];
+            $imgToUpload = $this->validarImagen($url);
+            $img = null;
+
+            if ($imgToUpload)
+                $img = $this->uploadImg($_FILES['imagen']);
+            
+            $success = $this->sellerModel->insert($nombre, $telefono, $email, $img);
+            if ($success)
+                $_SESSION['flash'] = ["success", "bi bi-patch-check-fill me-2", "Operación completada", "El vendedor ha sido registrado correctamente"];
+            header("Location: " . BASE_URL . "vendedores");
+            die();
+        }
+    }
+
+    public function update($id)
+    {
+        $url = BASE_URL . "vendedores/editar/$id";
+        if (!empty($_GET['from']))
+            $url = BASE_URL . "vendedor/$id?from=" . $_GET['from'];
+        if ($this->validarPost($url)) {
+            $nombre = $_POST['nombre'];
+            $telefono = $_POST['telefono'];
+            $email = $_POST['email'];
+            $imgToUpload = $this->validarImagen($url);
+            $img = null;
+
+            if ($imgToUpload)
+                $img = $this->uploadImg($_FILES['imagen']);
+        }
+        $result = $this->sellerModel->update($id, $nombre, $telefono, $email, $img);
+
+        if ($result)
+            $_SESSION['flash'] = ["success", "bi bi-check-circle-fill me-2", "Operación completada", "Los datos del vendedor se actualizaron correctamente"];
+
+        if (empty($_GET['from']))
+            $url = BASE_URL . "vendedores";
+        else
+            $url = BASE_URL . "vendedor/$id";
+        header("Location: " . $url);
+        die();
+    }
+
+    function delete($id)
+    {
+        $success = $this->sellerModel->delete($id);
+        if ($success):
+            header("Location: " . BASE_URL . "vendedores");
+            $_SESSION['flash'] = ["success", "bi bi-patch-check-fill me-2", "Operación completada", "El vendedor se ha eliminado correctamente"];
+
+        else:
+            header("Location: " . BASE_URL . "vendedores");
+            $_SESSION['flash'] = ["danger", "bi bi-x-octagon-fill me-2", "Oops! Algo falló", "El vendedor no se pudo eliminar"];
+        endif;
+    }
+
+    // sube la img al servidor y devuelve la ruta
+    private function uploadImg($img)
+    {
+        $target = "img/" . uniqid() . "." . strtolower(pathinfo($img['name'], PATHINFO_EXTENSION));
+        move_uploaded_file($img['tmp_name'], $target);
+        return $target;
+    }
+
+
+    public function showSellers($request)
     {
         $sellers = $this->sellerModel->getSellers();
         if (isset($_SESSION['flash'])) {
@@ -27,12 +163,17 @@ class SellerController
         $this->sellerView->showSellers($sellers, $request->user);
     }
 
-    function showNewSellerForm()
+    public function showNewSellerForm($error = null, $request)
     {
-        $this->sellerView->showFormAddSeller();
+        $msg = null;
+        if (isset($_SESSION['flash'])) {
+            $msg = $_SESSION['flash'];
+            unset($_SESSION['flash']);
+        }
+        $this->sellerView->showFormAddSeller($msg, $request->user);
     }
 
-    function showSellerEditMenu($request, $sellerId)
+    public function showSellerEditMenu($request, $sellerId)
     {
         $sellers = $this->sellerModel->getSellers();
         if (isset($_SESSION['flash'])) {
@@ -58,7 +199,9 @@ class SellerController
         endif;
         // verifico que exista el vendedor
         if ($seller) {
-            $sales = $this->saleModel->getSalesById($sellerId);
+            // instancio el modelo de ventas para obtener la lista de vendedores
+            $saleModel = new SaleModel();
+            $sales = $saleModel->getSalesById($sellerId);
             if (isset($_GET['from'])):
                 $fromPage = $_GET['from'];
                 $this->sellerView->showCard($seller, $request->user, $sales, $msg, $fromPage);
@@ -69,119 +212,15 @@ class SellerController
             $this->sellerView->showErrorMsg();
         }
     }
-    function update($id)
-    {
-        if (empty($_POST) && empty($_FILES)) {
-            $_SESSION['flash'] = ["danger", "bi bi-x-circle-fill me-2", "Error procesar", "El archivo no es compatible"];
-            header("Location: " . BASE_URL . "vendedor/" . $id);
-            die();
-        }
-        // Valido que ningún campo esté vacío
-        if (!empty($_POST['nombre']) && !empty($_POST['telefono']) && !empty($_POST['email'])) {
-            $nombre = $_POST['nombre'];
-            $telefono = $_POST['telefono'];
-            $email = $_POST['email'];
-        } else {
-            $_SESSION['flash'] = ["warning", "bi bi-exclamation-triangle-fill me-2", "No se pudo completar", "Faltan completar datos obligatorios"];
-            header("Location: " . BASE_URL . "vendedores/editar/$id");
-            return;
-        }
 
-        // Valido el formato del email
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION['flash'] = ["warning", "bi bi-exclamation-triangle-fill me-2", "No se pudo completar", "Formato de email inválido"];
-            header("Location: " . BASE_URL . "vendedores/editar/$id");
-            return;
-        }
-        $srcImage = null;
-        // Verifico si mando una imagen
-        if ($_FILES['imagen']['tmp_name'] && $_FILES['imagen']['error'] === UPLOAD_ERR_OK){
-            // si la mandó, la valido
-            $mime = mime_content_type($_FILES['imagen']['tmp_name']);
-            $maxSize = 4 * 1024 * 1024; // maximo = 4 MB            
-            // si es valida la subo al servidor
-            if (in_array($mime, ['image/jpeg', 'image/png']) && $_FILES['imagen']['size'] <= $maxSize)
-                $srcImage = $this->uploadImg($_FILES['imagen']);
-            else {
-                $_SESSION['flash'] = ["warning", "bi bi-exclamation-triangle-fill me-2", "No se pudo completar", "Solo se permiten imágenes .jpeg, .jpeg o .png y que pesen menos de 4 megabytes"];
-                header("Location: " . BASE_URL . "vendedor/" . $id);
-                return;
-            }
-            $this->sellerModel->update($id, $nombre, $telefono, $email, $srcImage);
-            header("Location: " . BASE_URL . "vendedor/" . $id);
-            return;
 
-        }
-        else
-            $result = $this->sellerModel->update($id, $nombre, $telefono, $email);
-        if ($result)
-            $_SESSION['flash'] = ["success", "bi bi-check-circle-fill me-2", "Operación completada", "Los datos del vendedor se actualizaron correctamente"];
-        header("Location: " . BASE_URL . "vendedores");
-    }
-
-    function delete($id)
-    {
-        $success = $this->sellerModel->delete($id);
-        if ($success):
-
-            header("Location: " . BASE_URL . "vendedores");
-            $_SESSION['flash'] = ["success", "bi bi-patch-check-fill me-2", "Operación completada", "El vendedor se ha eliminado correctamente"];
-
-        else:
-            header("Location: " . BASE_URL . "vendedores");
-            $_SESSION['flash'] = ["danger", "bi bi-x-octagon-fill me-2", "Oops! Algo falló", "El vendedor no se pudo eliminar"];
-        endif;
-    }
-    public function uploadImg($img)
-    {
-        $target = "img/" . uniqid() . "." . strtolower(pathinfo($img['name'], PATHINFO_EXTENSION));
-        move_uploaded_file($img['tmp_name'], $target);
-        return $target;
-    }
-
-    function insert()
-    {
-        if (!empty($_POST['nombre']) && !empty($_POST['telefono']) && !empty($_POST['email'])):
-            $nombre = $_POST['nombre'];
-            $telefono = $_POST['telefono'];
-            $email = $_POST['email'];
-        else:
-            $error = "Faltan datos obligatorios";
-            $this->sellerView->showFormAddSeller($error);
-            return;
-        endif;
-
-        // Valido el formato de email
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)):
-            $error = "Ingrese un email válido";
-            $this->sellerView->showFormAddSeller($error);
-            return;
-        endif;
-
-        $imgToUpload = null;
-
-        if (!empty($_FILES['imagen']['tmp_name']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK):
-            $mime = mime_content_type($_FILES['imagen']['tmp_name']);
-            $maxSize = 4000 * 1024 * 1024; // maximo = 4 MB
-
-            if (in_array($mime, ['image/jpeg', 'image/png']) && $_FILES['imagen']['size'] <= $maxSize)
-                $imgToUpload = $this->uploadImg($_FILES['imagen']);
-            else {
-                $error = "La imagen es demasiado grande";
-                $this->sellerView->showFormAddSeller($error);
-                return;
-            }
-        endif;
-
-        $success = $this->sellerModel->insert($nombre, $telefono, $email, $imgToUpload);
-        if ($success)
-            $_SESSION['flash'] = ["success", "bi bi-patch-check-fill me-2", "Operación completada", "El vendedor ha sido registrado completadamente"];
-
-        header("Location: " . BASE_URL . "vendedores");
-    }
-
-    function showError()
+    public function showError()
     {
         $this->sellerView->showErrorMsg();
+    }
+
+    public function showExceptionError($e)
+    {
+        $this->sellerView->showExceptionError($e);
     }
 }
