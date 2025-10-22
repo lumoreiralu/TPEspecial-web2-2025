@@ -31,7 +31,7 @@ class AuthController
         if ($userFromDB && password_verify($password, $userFromDB->password)) {
             $_SESSION['USER_ID'] = $userFromDB->id_usuario;
             $_SESSION['USER_NAME'] = $userFromDB->user;
-            $_SESSION['USER_ROLE'] = $userFromDB->rol ?? 'user'; // guardamos el rol
+            $_SESSION['USER_ROLE'] = $userFromDB->rol; // guardamos el rol  
     
             header('Location: ' . BASE_URL);
             return;

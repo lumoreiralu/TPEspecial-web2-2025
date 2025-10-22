@@ -42,7 +42,7 @@ class SaleModel extends Model{
         ');
         $query->execute();
         return $query->fetchAll(PDO::FETCH_OBJ);
-    }//se usa
+    }
 
     // devuelve array de ventas por vendedor
     public function getSalesById($sellerId){
@@ -64,7 +64,7 @@ class SaleModel extends Model{
         ');
         $query->execute([(int)$idVenta]);
         return $query->fetch(PDO::FETCH_OBJ);
-    }//se usa
+    }
     
     
     public function showSale($id){
@@ -74,7 +74,7 @@ class SaleModel extends Model{
         $sale = $query->fetch(PDO::FETCH_OBJ);
 
         return $sale;
-    }//se usa 2 veces
+    }
 
 
     public function insert($producto, $precio, $vendedor, $fecha){
@@ -82,7 +82,7 @@ class SaleModel extends Model{
         $query->execute([$producto, $precio, $vendedor, $fecha]);
 
         return $this->db->lastInsertId();
-    }//se usa
+    }
 
     public function updateSale($id, $producto, $precio, $fecha) {
         $query = $this->db->prepare('UPDATE venta SET producto = ?, precio = ?, fecha = ? WHERE id_venta = ?');

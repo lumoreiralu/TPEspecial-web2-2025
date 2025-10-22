@@ -1,0 +1,13 @@
+<?php require_once 'templates/layout/header.phtml';
+        echo '
+        <div class="container mt-4">
+            <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <strong>Éxito:</strong> ' . htmlspecialchars($msje) . '
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>'; ?>
+        <a href="home" class="btn btn-outline-danger mt-3">
+            <i class="bi bi-arrow-left-circle me-1"></i> Volver
+        </a>
+        <?php require_once 'templates/layout/footer.phtml';
