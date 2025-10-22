@@ -13,10 +13,12 @@
 - Este proyecto en un sitio web dinámico que permite la visualización y administración de ventas y vendedores. Los usuarios pueden acceder a un listado de ellos sin necesidad de iniciar sesión, mientras que solo los usuarios autenticados tiene acceso a una sección restringida que puede modificar, editar o eliminar un item.
 
  ##### la tabla vendedor tiene:
- - un id, un nombre, un telefono y un email
+ - un id, un nombre, un telefono, un email y una imagen
  ##### la tabla venta tiene:
  - un id, un producto, un precio, una fecha de venta, y el id del vendedor que realizo la venta
 
+##### el sitio permite adjuntar imagenes al momento de registrar un nuevo vendedor, si no se adjunta una se le asigna una imagen predefinida.
+###### - tambien se puede editar la imagen de cada vendedor existente. 
 
 
 En el home para usuario no logueados, o logueados sin ser rol=administrador se muestran las ventas con su producto y valor, en la seccion de vendedores, su nombre, mail y telefono. Hay una seccion para buscar una venta por nombre del producto.
