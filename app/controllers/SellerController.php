@@ -92,7 +92,7 @@ class SellerController
 
             if ($imgToUpload)
                 $img = $this->uploadImg($_FILES['imagen']);
-            
+
             $success = $this->sellerModel->insert($nombre, $telefono, $email, $img);
             if ($success)
                 $_SESSION['flash'] = ["success", "bi bi-patch-check-fill me-2", "Operación completada", "El vendedor ha sido registrado correctamente"];
@@ -150,17 +150,71 @@ class SellerController
         return $target;
     }
 
+    private function paginar($sellers)
+    {
+
+        $vendedoresPorPagina = 5;
+
+
+        if (is_array($sellers)) {
+            $totalItems = count($sellers);
+            $items = $sellers;
+        } elseif (is_object($sellers)) { // o un objeto
+            $saleModel = new SaleModel();
+            $items = $saleModel->getSalesById($sellers->id);
+            $totalItems = count($items);
+        } else {
+            $items = [];
+            $totalItems = 0;
+        }
+
+        // Paginación
+        $totalPaginas = ceil($totalItems / $vendedoresPorPagina);
+        $paginaActual = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+        if ($paginaActual < 1)
+            $paginaActual = 1;
+        if ($paginaActual > $totalPaginas)
+            $paginaActual = $totalPaginas;
+
+        // Obtener los items de la página actual
+        $inicio = ($paginaActual - 1) * $vendedoresPorPagina;
+        $vendedoresPagina = array_slice($items, $inicio, $vendedoresPorPagina);
+
+
+
+
+
+        if ($paginaActual > 1) {
+            $pagina = "?page=" . $paginaActual;
+            $from = "?from=" . $paginaActual;
+
+        } else {
+            $pagina = "";
+            $from = ""; // $from permite al usuario volver a la pagina desde la que accedió al link
+        }
+
+        return [
+            'vendedoresPagina' => $vendedoresPagina,
+            'paginaActual' => $paginaActual,
+            'totalPaginas' => $totalPaginas,
+            'pagina' => $pagina,
+            'inicio' => $inicio,
+            'from' => $from
+        ];
+    }
+
 
     public function showSellers($request)
     {
         $sellers = $this->sellerModel->getSellers();
+        $paginacion = $this->paginar($sellers);
         if (isset($_SESSION['flash'])) {
             $msg = $_SESSION['flash'];
             unset($_SESSION['flash']);
-            $this->sellerView->showSellers($sellers, $request->user, $msg);
+            $this->sellerView->showSellers($sellers, $request->user, $paginacion, $msg);
             return;
         }
-        $this->sellerView->showSellers($sellers, $request->user);
+        $this->sellerView->showSellers($sellers, $request->user, $paginacion);
     }
 
     public function showNewSellerForm($error = null, $request)
@@ -176,14 +230,16 @@ class SellerController
     public function showSellerEditMenu($request, $sellerId)
     {
         $sellers = $this->sellerModel->getSellers();
+        $paginacion = $this->paginar($sellers);
+
         if (isset($_SESSION['flash'])) {
             $msg = $_SESSION['flash'];
             unset($_SESSION['flash']);
-            $this->sellerView->showEditMenu($sellerId, $sellers, $request->user, $msg);
+            $this->sellerView->showEditMenu($sellerId, $sellers, $request->user, $paginacion,$msg);
             return;
         }
         if ($request->user):
-            $this->sellerView->showEditMenu($sellerId, $sellers, $request->user);
+            $this->sellerView->showEditMenu($sellerId, $sellers, $request->user, $paginacion);
         else:
             $this->sellerView->showErrorMsg();
         endif;
@@ -192,6 +248,8 @@ class SellerController
     public function showSellerCard($sellerId, $request)
     {
         $seller = $this->sellerModel->getSellerById($sellerId);
+        $paginacion = $this->paginar($seller);
+
         $msg = null;
         if (isset($_SESSION['flash'])):
             $msg = $_SESSION['flash'];
@@ -204,9 +262,9 @@ class SellerController
             $sales = $saleModel->getSalesById($sellerId);
             if (isset($_GET['from'])):
                 $fromPage = $_GET['from'];
-                $this->sellerView->showCard($seller, $request->user, $sales, $msg, $fromPage);
+                $this->sellerView->showCard($seller, $request->user, $sales, $paginacion, $msg, $fromPage);
             else:
-                $this->sellerView->showCard($seller, $request->user, $sales, $msg);
+                $this->sellerView->showCard($seller, $request->user, $sales, $paginacion, $msg);
             endif;
         } else {
             $this->sellerView->showErrorMsg();

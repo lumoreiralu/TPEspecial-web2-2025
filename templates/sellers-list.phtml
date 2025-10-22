@@ -12,30 +12,7 @@ function icon()
     </svg>';
 }
 
-$vendedoresPorPagina = 5;
-$totalVendedores = count($sellers);
-$totalPaginas = ceil($totalVendedores / $vendedoresPorPagina);
-
-$paginaActual = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-if ($paginaActual < 1)
-  $paginaActual = 1;
-if ($paginaActual > $totalPaginas)
-  $paginaActual = $totalPaginas;
-
-$inicio = ($paginaActual - 1) * $vendedoresPorPagina;
-$vendedoresPagina = array_slice($sellers, $inicio, $vendedoresPorPagina);
-
-if ($paginaActual > 1) {
-  $pagina = "?page=" . $paginaActual;
-  $from = "?from=" . $paginaActual;
-} else {
-  $pagina = "";
-  $from = ""; // $from permite al usuario volver a la pagina desde la que accedió al link
-}
-
 ?>
-
-
 
 <div class="container my-5">
   <h2 class="mb-4 text-center">🧑‍💼 Lista de Vendedores</h2>
