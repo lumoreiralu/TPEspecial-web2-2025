@@ -11,7 +11,7 @@
                                 class="img-fluid mb-1" style="width: 180px; border-radius: 10px;">
 
                             <!-- <form action="<?= BASE_URL ?>vendedor/<?= htmlspecialchars($seller->id) ?>/actualizar-imagen" -->
-                            <form action="<?= BASE_URL ?>vendedores/editar/<?=htmlspecialchars($seller->id) ?>/actualizar-datos"
+                            <form action="<?= BASE_URL ?>vendedores/editar/<?=htmlspecialchars($seller->id) ?>/actualizar-datos?from=<?=$seller->id?>"
                                 method="post" class="d-flex col justify-content-end" enctype="multipart/form-data">
                                 <?php if ($user): ?>
                                     <div class="btn-group">

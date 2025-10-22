@@ -4,6 +4,8 @@ require_once './app/controllers/SellerController.php';
 require_once './app/controllers/AuthController.php';
 require_once './app/middlewares/GuardMiddleware.php';
 require_once './app/middlewares/SessionMiddleware.php';
+
+
 session_start();
 
 define('BASE_URL', '//' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']) . '/');
@@ -27,7 +29,7 @@ try {
             $controller->showSales($request);
             break;
 
-        /* -- ITEMS -> VENTA -- */
+        /* -- Items -- */
         case "detalleVenta": //muestra la venta para todos
             $controller = new SaleController();
             if (!empty($params[1])) {
@@ -90,7 +92,7 @@ try {
             break;
 
 
-        /* -- CATEGORIA -> VENDEDOR -- */
+        /* -- Categoria -- */
         case 'vendedores':
             $controller = new SellerController();
             if (empty($params[1])) {
@@ -122,6 +124,14 @@ try {
 
         case 'vendedor':
             $controller = new SellerController();
+            if (!empty($params[1]) && $params[1] === 'nuevo'){
+                $controller->showNewSellerForm('', $request);
+                break;
+            }
+            elseif (!empty($params[1]) && $params[1] == 'registrar'){
+                $controller->insert($request);
+                break;
+            }                
             if (!empty($params[1]) && empty($params[2])) {
                 $id = (int) $params[1];
                 $controller->showSellerCard($id, $request);
@@ -132,10 +142,10 @@ try {
         case 'nuevo-vendedor':
             $request = (new GuardMiddleware())->run($request);
             $controller = new SellerController();
-            if ($_SERVER['REQUEST_METHOD'] === 'POST')
-                $controller->insert();
+            if (!empty($params[1]) && $params[1] == 'registrar')
+                $controller->insert($request);
             else
-                $controller->showNewSellerForm();
+                $controller->showNewSellerForm('', $request);
             break;
 
         case 'eliminar':
@@ -147,7 +157,7 @@ try {
             }
             break;
 
-        /* -- LOGIN/LOGOUT -- */
+        /* -- Login/Logout -- */
         case 'showLogin':
             $controller = new AuthController();
             $controller->showLogin();
@@ -170,7 +180,8 @@ try {
             break;
     }
 } catch (Exception $e) {
+    // si no responde el servidor
+    session_destroy();
     require_once './templates/alert-exception.phtml';
-
     die();
 }

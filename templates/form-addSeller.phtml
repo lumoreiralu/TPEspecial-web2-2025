@@ -1,17 +1,17 @@
-<?php require_once 'templates/layout/header.phtml'; ?>
+<?php require_once './templates/layout/header.phtml'; ?>
 
 <div class="container my-5">
   <div class="card shadow-sm rounded p-4">
     <h2 class="mb-4 text-center">📩 Registrar Nuevo Vendedor</h2>
       
-    <?php if($error): ?>
+    <?php if($msg): ?>
       <div class="d-flex justify-content-center">
         <div class="text-danger">
-          <p><?=$error?></p>
+          <p><?=$msg?></p>
         </div>
       </div>
       <?php endif; ?>
-    <form action="nuevo-vendedor/registrar" method="POST" enctype="multipart/form-data">
+    <form action="vendedor/registrar" method="POST" enctype="multipart/form-data">
       <!-- Producto -->
       <div class="mb-3">
         <label for="name" class="form-label">Nombre</label>
@@ -21,7 +21,7 @@
 
       <!-- Precio -->
       <div class="mb-3">
-        <label for="telefono" class="form-label">Telefono ($)</label>
+        <label for="telefono" class="form-label">Telefono</label>
         <input type="text" step="0.01" class="form-control" id="telefono" name="telefono" placeholder="249 111 1111 "
           pattern="\d*" >
       </div>
