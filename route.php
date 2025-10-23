@@ -125,6 +125,7 @@ try {
         case 'vendedor':
             $controller = new SellerController();
             if (!empty($params[1]) && $params[1] === 'nuevo'){
+                $request = (new GuardMiddleware())->run($request);
                 $controller->showNewSellerForm('', $request);
                 break;
             }
