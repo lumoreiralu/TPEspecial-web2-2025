@@ -21,7 +21,7 @@
 ###### - tambien se puede editar la imagen de cada vendedor existente. 
 
 
-En el home para usuario no logueados, o logueados sin ser rol=administrador se muestran las ventas con su producto y valor, en la seccion de vendedores, su nombre, mail y telefono. Hay una seccion para buscar una venta por nombre del producto.
+En el home para usuario no logueados, o logueados sin ser rol=administrador se muestran las ventas con su producto y valor, en la seccion de vendedores, su nombre, mail y telefono.
 
 
 Cuando el administrador ingresa con el usuario admin y la contraseña webadmin puede agregar, editar y eliminar ítems, ya que vera los botones para realizar dichas acciones.
