@@ -7,9 +7,7 @@
     <li class="list-group-item"><strong>Producto:</strong> <?= htmlspecialchars($sale->producto) ?></li>
     <li class="list-group-item"><strong>Precio:</strong> $<?= htmlspecialchars($sale->precio) ?></li>
     <li class="list-group-item"><strong>Fecha:</strong> <?= htmlspecialchars($sale->fecha) ?></li>
-    <?php if (isset($_SESSION['USER_ROLE']) && $_SESSION['USER_ROLE']=== 'administrador'):?>
     <li class="list-group-item"><strong>Vendedor:</strong> <?= htmlspecialchars($sale->nombre) ?></li>
-    <?php endif ?>
   </ul>
 
   <!--  
