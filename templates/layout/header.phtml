@@ -57,11 +57,11 @@
         </ul>
 
         <!-- 🔎 Buscador -->
-        <form class="d-flex me-3" role="search" action="venta" method="GET">
-          <input class="form-control me-2" type="search" name="search" placeholder="Buscar venta..."
+        <!-- <form class="d-flex me-3" role="search" action=" " method="GET">
+          <input class="form-control me-2" type="search" name="search" placeholder="Buscar ..."
             value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>" aria-label="Buscar">
           <button class="btn btn-outline-success" type="submit">Buscar</button>
-        </form>
+        </form> --> 
 
         <!-- 👋 Saludo del usuario -->
         <?php if (isset($_SESSION['USER_NAME'])): ?>

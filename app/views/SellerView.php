@@ -28,7 +28,7 @@ class SellerView
         else
             $page = "?page=" . $from;
 
-        require_once './templates/sales-list.phtml';
+        require_once './templates/sale-templates/sales-list.phtml';
     }
 
     // modo editar vendedor tabla de vendedores -> vendedores/editar/1

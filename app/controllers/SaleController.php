@@ -125,8 +125,4 @@ class SaleController {
         
     }
 
-    public function paginar(){
-        // no llegue a hacerlo para sales 
-    }
-
 }

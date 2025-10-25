@@ -36,7 +36,8 @@ try {
                 $id = $params[1];
                 $controller->showSaleDetail($id);
             } else
-                echo '404 not found';
+                $view = new SaleView();
+                $view->showError("No se encontro la venta indicada");
             break;
 
         case 'venta': //usa seguridad para mostrar la venta con sus botones ocultos
