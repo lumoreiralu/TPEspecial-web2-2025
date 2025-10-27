@@ -15,7 +15,7 @@ class SellerView
     }
 
     // perfil del vendedor -> vendedor/:id
-    public function showCard($seller, $user, $sales, $paginacion, $msg = null, $from = null)
+    public function showCard($seller, $user, $sales, $totalVentas, $paginacion, $msg = null, $from = null)
     {
         $vendedoresPagina = $paginacion['vendedoresPagina'];
         $paginaActual = $paginacion['paginaActual'];

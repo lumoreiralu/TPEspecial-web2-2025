@@ -257,14 +257,16 @@ class SellerController
         endif;
         // verifico que exista el vendedor
         if ($seller) {
-            // instancio el modelo de ventas para obtener la lista de vendedores
+            // instancio el modelo de ventas para obtener las ventas del vendedor
             $saleModel = new SaleModel();
             $sales = $saleModel->getSalesById($sellerId);
+            $totalVentas = count($sales);
+
             if (isset($_GET['from'])):
                 $fromPage = $_GET['from'];
-                $this->sellerView->showCard($seller, $request->user, $sales, $paginacion, $msg, $fromPage);
+                $this->sellerView->showCard($seller, $request->user, $sales, $totalVentas, $paginacion, $msg, $fromPage);
             else:
-                $this->sellerView->showCard($seller, $request->user, $sales, $paginacion, $msg);
+                $this->sellerView->showCard($seller, $request->user, $sales, $totalVentas, $paginacion, $msg);
             endif;
         } else {
             $this->sellerView->showErrorMsg();
